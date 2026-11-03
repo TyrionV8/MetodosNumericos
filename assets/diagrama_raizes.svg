@@ -1,0 +1,306 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bg-grad-rz" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070a14"/>
+      <stop offset="50%" stop-color="#0b1329"/>
+      <stop offset="100%" stop-color="#050811"/>
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="card-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.88"/>
+    </linearGradient>
+
+    <filter id="shadow-card" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+
+    <pattern id="card-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#334155" stroke-width="0.5" stroke-opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <style>
+    .font-sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  </style>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="700" fill="url(#bg-grad-rz)"/>
+
+  <!-- Top Title Header -->
+  <g transform="translate(60, 40)">
+    <rect x="0" y="0" width="130" height="24" rx="12" fill="#0284c7" fill-opacity="0.25" stroke="#38bdf8" stroke-width="1"/>
+    <text x="12" y="16" fill="#38bdf8" font-size="11" font-weight="700" class="font-mono">MÉTODOS NUMÉRICOS</text>
+
+    <text x="0" y="55" fill="#f8fafc" font-size="28" font-weight="800" class="font-sans">
+      Determinação de Raízes Reais — f(x) = 0
+    </text>
+    <text x="0" y="80" fill="#94a3b8" font-size="14" class="font-sans">
+      Comparativo visual da geometria, formulação e dinâmica de convergência dos principais algoritmos de cálculo numérico
+    </text>
+  </g>
+
+  <!-- ================= CARD 1: BISSEÇÃO ================= -->
+  <g transform="translate(60, 140)" filter="url(#shadow-card)">
+    <rect width="345" height="420" rx="14" fill="url(#card-bg)" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.6"/>
+    <rect width="345" height="420" rx="14" fill="url(#card-grid)"/>
+
+    <!-- Header Pill -->
+    <rect x="16" y="16" width="100" height="22" rx="6" fill="#0369a1" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1"/>
+    <text x="24" y="31" fill="#38bdf8" font-size="10.5" font-weight="700" class="font-mono">INTERVALAR</text>
+    
+    <text x="16" y="62" fill="#ffffff" font-size="18" font-weight="700" class="font-sans">Método da Bisseção</text>
+    <text x="16" y="80" fill="#94a3b8" font-size="12" class="font-sans">Teorema de Bolzano &amp; Divisão Binária</text>
+
+    <!-- Mini Canvas / Plot -->
+    <g transform="translate(16, 95)">
+      <rect width="313" height="150" rx="8" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
+      
+      <!-- Coordinate Axis -->
+      <line x1="20" y1="95" x2="295" y2="95" stroke="#475569" stroke-width="1.2"/>
+      <line x1="40" y1="15" x2="40" y2="135" stroke="#334155" stroke-width="1"/>
+      <text x="290" y="110" fill="#64748b" font-size="10" class="font-mono">x</text>
+
+      <!-- Function Curve f(x) -->
+      <path d="M 35 130 C 90 120, 150 80, 280 20" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+
+      <!-- Interval a and b -->
+      <!-- Point a -->
+      <line x1="70" y1="95" x2="70" y2="118" stroke="#f43f5e" stroke-dasharray="2,2" stroke-width="1"/>
+      <circle cx="70" cy="95" r="3.5" fill="#f43f5e"/>
+      <circle cx="70" cy="118" r="3" fill="#f43f5e"/>
+      <text x="66" y="88" fill="#f43f5e" font-size="11" font-weight="700" class="font-mono">a</text>
+      <text x="50" y="132" fill="#f43f5e" font-size="9" class="font-mono">f(a)&lt;0</text>
+
+      <!-- Point b -->
+      <line x1="260" y1="95" x2="260" y2="28" stroke="#10b981" stroke-dasharray="2,2" stroke-width="1"/>
+      <circle cx="260" cy="95" r="3.5" fill="#10b981"/>
+      <circle cx="260" cy="28" r="3" fill="#10b981"/>
+      <text x="256" y="110" fill="#10b981" font-size="11" font-weight="700" class="font-mono">b</text>
+      <text x="240" y="22" fill="#10b981" font-size="9" class="font-mono">f(b)&gt;0</text>
+
+      <!-- Midpoint m1 = (a+b)/2 -->
+      <line x1="165" y1="95" x2="165" y2="72" stroke="#eab308" stroke-dasharray="2,2" stroke-width="1.2"/>
+      <circle cx="165" cy="95" r="4" fill="#eab308"/>
+      <circle cx="165" cy="72" r="3" fill="#eab308"/>
+      <text x="160" y="110" fill="#eab308" font-size="11" font-weight="700" class="font-mono">m1</text>
+
+      <!-- Next midpoint m2 -->
+      <circle cx="117" cy="95" r="3.5" fill="#f59e0b"/>
+      <text x="113" y="110" fill="#f59e0b" font-size="10" font-weight="600" class="font-mono">m2</text>
+
+      <!-- Real Root x* -->
+      <circle cx="140" cy="95" r="4.5" fill="#a855f7"/>
+      <text x="135" y="86" fill="#a855f7" font-size="10" font-weight="700" class="font-mono">x*</text>
+
+      <!-- Discarded region hatch indicator -->
+      <rect x="165" y="90" width="95" height="10" fill="#ef4444" fill-opacity="0.2"/>
+      <text x="180" y="98" fill="#f87171" font-size="8" font-weight="700" class="font-mono">DESCARTADO</text>
+    </g>
+
+    <!-- Formula Box -->
+    <g transform="translate(16, 260)">
+      <rect width="313" height="42" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="12" y="26" fill="#38bdf8" font-size="13" font-weight="600" class="font-mono">
+        x_k = (a_k + b_k) / 2
+      </text>
+    </g>
+
+    <!-- Convergence Properties (Explicit Coordinates, NO tspan overlapping) -->
+    <g transform="translate(16, 316)">
+      <text x="0" y="14" fill="#94a3b8" font-size="11" class="font-mono">ORDEM: Linear (r = 1.0)</text>
+      <text x="0" y="30" fill="#94a3b8" font-size="11" class="font-mono">CRITÉRIO: f(a) · f(b) &lt; 0</text>
+      <text x="0" y="46" fill="#94a3b8" font-size="11" class="font-mono">ERRO MÁX: (b - a) / 2^k</text>
+      
+      <!-- Pros / Cons -->
+      <rect x="0" y="58" width="313" height="34" rx="6" fill="#14532d" fill-opacity="0.25" stroke="#16a34a" stroke-width="0.8"/>
+      <text x="10" y="73" fill="#4ade80" font-size="10.5" font-weight="600" class="font-sans">
+        ✓ Convergência incondicional garantida
+      </text>
+      <text x="10" y="86" fill="#94a3b8" font-size="10" class="font-sans">
+        ⚠ Lento: requer muitas iterações
+      </text>
+    </g>
+  </g>
+
+  <!-- ================= CARD 2: NEWTON-RAPHSON ================= -->
+  <g transform="translate(428, 140)" filter="url(#shadow-card)">
+    <rect width="345" height="420" rx="14" fill="url(#card-bg)" stroke="#818cf8" stroke-width="1.5" stroke-opacity="0.8"/>
+    <rect width="345" height="420" rx="14" fill="url(#card-grid)"/>
+
+    <!-- Header Pill -->
+    <rect x="16" y="16" width="106" height="22" rx="6" fill="#4338ca" fill-opacity="0.4" stroke="#818cf8" stroke-width="1"/>
+    <text x="24" y="31" fill="#818cf8" font-size="10.5" font-weight="700" class="font-mono">TANGENCIAL</text>
+    
+    <text x="16" y="62" fill="#ffffff" font-size="18" font-weight="700" class="font-sans">Newton-Raphson</text>
+    <text x="16" y="80" fill="#94a3b8" font-size="12" class="font-sans">Série de Taylor &amp; Máxima Velocidade</text>
+
+    <!-- Mini Canvas / Plot -->
+    <g transform="translate(16, 95)">
+      <rect width="313" height="150" rx="8" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
+      
+      <!-- Coordinate Axis -->
+      <line x1="20" y1="110" x2="295" y2="110" stroke="#475569" stroke-width="1.2"/>
+      <line x1="40" y1="15" x2="40" y2="135" stroke="#334155" stroke-width="1"/>
+      <text x="290" y="125" fill="#64748b" font-size="10" class="font-mono">x</text>
+
+      <!-- Function Curve f(x) -->
+      <path d="M 45 135 C 100 125, 170 85, 275 15" fill="none" stroke="#818cf8" stroke-width="2.5"/>
+
+      <!-- Root x* -->
+      <circle cx="125" cy="110" r="4.5" fill="#a855f7"/>
+      <text x="115" y="126" fill="#a855f7" font-size="10" font-weight="700" class="font-mono">x*</text>
+
+      <!-- Initial guess x0 -->
+      <line x1="250" y1="110" x2="250" y2="28" stroke="#f43f5e" stroke-dasharray="2,2" stroke-width="1"/>
+      <circle cx="250" cy="110" r="3.5" fill="#f43f5e"/>
+      <circle cx="250" cy="28" r="4" fill="#f43f5e"/>
+      <text x="246" y="125" fill="#f43f5e" font-size="11" font-weight="700" class="font-mono">x0</text>
+
+      <!-- Tangent Line 1 from (x0, f(x0)) to axis -->
+      <line x1="250" y1="28" x2="162" y2="110" stroke="#f43f5e" stroke-width="1.6"/>
+
+      <!-- Next point x1 -->
+      <line x1="162" y1="110" x2="162" y2="85" stroke="#38bdf8" stroke-dasharray="2,2" stroke-width="1"/>
+      <circle cx="162" cy="110" r="3.5" fill="#38bdf8"/>
+      <circle cx="162" cy="85" r="3.5" fill="#38bdf8"/>
+      <text x="158" y="125" fill="#38bdf8" font-size="11" font-weight="700" class="font-mono">x1</text>
+
+      <!-- Tangent Line 2 from (x1, f(x1)) to axis -->
+      <line x1="162" y1="85" x2="130" y2="110" stroke="#38bdf8" stroke-width="1.4"/>
+      <circle cx="130" cy="110" r="3" fill="#34d399"/>
+      <text x="132" y="103" fill="#34d399" font-size="10" font-weight="700" class="font-mono">x2</text>
+    </g>
+
+    <!-- Formula Box -->
+    <g transform="translate(16, 260)">
+      <rect width="313" height="42" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="12" y="26" fill="#818cf8" font-size="13" font-weight="600" class="font-mono">
+        x_k+1 = x_k - f(x_k) / f'(x_k)
+      </text>
+    </g>
+
+    <!-- Convergence Properties -->
+    <g transform="translate(16, 316)">
+      <text x="0" y="14" fill="#94a3b8" font-size="11" class="font-mono">ORDEM: Quadrática (r = 2.0)</text>
+      <text x="0" y="30" fill="#94a3b8" font-size="11" class="font-mono">CONDIÇÃO: f'(x) ≠ 0 perto da raiz</text>
+      <text x="0" y="46" fill="#94a3b8" font-size="11" class="font-mono">PRECISÃO: Dobra dígitos por passo</text>
+      
+      <!-- Pros / Cons -->
+      <rect x="0" y="58" width="313" height="34" rx="6" fill="#3730a3" fill-opacity="0.25" stroke="#6366f1" stroke-width="0.8"/>
+      <text x="10" y="73" fill="#a5b4fc" font-size="10.5" font-weight="600" class="font-sans">
+        ✓ Convergência extremamente rápida
+      </text>
+      <text x="10" y="86" fill="#94a3b8" font-size="10" class="font-sans">
+        ⚠ Requer a derivada analítica f'(x)
+      </text>
+    </g>
+  </g>
+
+  <!-- ================= CARD 3: SECANTE ================= -->
+  <g transform="translate(795, 140)" filter="url(#shadow-card)">
+    <rect width="345" height="420" rx="14" fill="url(#card-bg)" stroke="#34d399" stroke-width="1.2" stroke-opacity="0.6"/>
+    <rect width="345" height="420" rx="14" fill="url(#card-grid)"/>
+
+    <!-- Header Pill -->
+    <rect x="16" y="16" width="112" height="22" rx="6" fill="#065f46" fill-opacity="0.4" stroke="#34d399" stroke-width="1"/>
+    <text x="24" y="31" fill="#34d399" font-size="10.5" font-weight="700" class="font-mono">QUASE-NEWTON</text>
+    
+    <text x="16" y="62" fill="#ffffff" font-size="18" font-weight="700" class="font-sans">Método da Secante</text>
+    <text x="16" y="80" fill="#94a3b8" font-size="12" class="font-sans">Diferença Finita &amp; Sem Derivada Analítica</text>
+
+    <!-- Mini Canvas / Plot -->
+    <g transform="translate(16, 95)">
+      <rect width="313" height="150" rx="8" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
+      
+      <!-- Coordinate Axis -->
+      <line x1="20" y1="105" x2="295" y2="105" stroke="#475569" stroke-width="1.2"/>
+      <line x1="40" y1="15" x2="40" y2="135" stroke="#334155" stroke-width="1"/>
+      <text x="290" y="120" fill="#64748b" font-size="10" class="font-mono">x</text>
+
+      <!-- Function Curve f(x) -->
+      <path d="M 45 135 C 100 120, 160 85, 275 18" fill="none" stroke="#34d399" stroke-width="2.5"/>
+
+      <!-- Root x* -->
+      <circle cx="120" cy="105" r="4.5" fill="#a855f7"/>
+      <text x="110" y="120" fill="#a855f7" font-size="10" font-weight="700" class="font-mono">x*</text>
+
+      <!-- Chute x0 -->
+      <circle cx="260" cy="105" r="3.5" fill="#f43f5e"/>
+      <circle cx="260" cy="25" r="3.5" fill="#f43f5e"/>
+      <line x1="260" y1="105" x2="260" y2="25" stroke="#f43f5e" stroke-dasharray="2,2" stroke-width="1"/>
+      <text x="256" y="120" fill="#f43f5e" font-size="11" font-weight="700" class="font-mono">x0</text>
+
+      <!-- Chute x1 -->
+      <circle cx="200" cy="105" r="3.5" fill="#38bdf8"/>
+      <circle cx="200" cy="62" r="3.5" fill="#38bdf8"/>
+      <line x1="200" y1="105" x2="200" y2="62" stroke="#38bdf8" stroke-dasharray="2,2" stroke-width="1"/>
+      <text x="196" y="120" fill="#38bdf8" font-size="11" font-weight="700" class="font-mono">x1</text>
+
+      <!-- Secant line passing through (x0, f0) and (x1, f1) -->
+      <line x1="275" y1="15" x2="140" y2="105" stroke="#fbbf24" stroke-width="1.8"/>
+
+      <!-- Intercept x2 -->
+      <circle cx="140" cy="105" r="4" fill="#fbbf24"/>
+      <circle cx="140" cy="95" r="3" fill="#fbbf24"/>
+      <line x1="140" y1="105" x2="140" y2="95" stroke="#fbbf24" stroke-dasharray="2,2" stroke-width="1"/>
+      <text x="136" y="120" fill="#fbbf24" font-size="11" font-weight="700" class="font-mono">x2</text>
+
+      <!-- Next Secant chord from (x1, f1) to (x2, f2) -->
+      <line x1="210" y1="56" x2="124" y2="105" stroke="#34d399" stroke-width="1.4" stroke-dasharray="3,2"/>
+    </g>
+
+    <!-- Formula Box -->
+    <g transform="translate(16, 260)">
+      <rect width="313" height="42" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="6" y="26" fill="#34d399" font-size="11" font-weight="600" class="font-mono">
+        x_k+1 = x_k - f_k·(x_k - x_k-1)/(f_k - f_k-1)
+      </text>
+    </g>
+
+    <!-- Convergence Properties -->
+    <g transform="translate(16, 316)">
+      <text x="0" y="14" fill="#94a3b8" font-size="11" class="font-mono">ORDEM: Superlinear (r ≈ 1.618)</text>
+      <text x="0" y="30" fill="#94a3b8" font-size="11" class="font-mono">AVALIAÇÕES: 1 por passo (após x0, x1)</text>
+      <text x="0" y="46" fill="#94a3b8" font-size="11" class="font-mono">DERIVADA: Não requer f'(x)</text>
+      
+      <!-- Pros / Cons -->
+      <rect x="0" y="58" width="313" height="34" rx="6" fill="#064e3b" fill-opacity="0.3" stroke="#059669" stroke-width="0.8"/>
+      <text x="10" y="73" fill="#6ee7b7" font-size="10.5" font-weight="600" class="font-sans">
+        ✓ Quase tão rápido quanto Newton, sem f'
+      </text>
+      <text x="10" y="86" fill="#94a3b8" font-size="10" class="font-sans">
+        ⚠ Requer 2 chutes; pode divergir se mal posto
+      </text>
+    </g>
+  </g>
+
+  <!-- ================= BOTTOM SUMMARY COMPARISON BAR ================= -->
+  <g transform="translate(60, 582)">
+    <rect width="1080" height="82" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.2"/>
+
+    <!-- Column Headers -->
+    <text x="24" y="28" fill="#64748b" font-size="10.5" font-weight="700" class="font-mono">MÉTODO</text>
+    <text x="240" y="28" fill="#64748b" font-size="10.5" font-weight="700" class="font-mono">ENTRADA / CHUTES</text>
+    <text x="450" y="28" fill="#64748b" font-size="10.5" font-weight="700" class="font-mono">TAXA CONVERGÊNCIA</text>
+    <text x="680" y="28" fill="#64748b" font-size="10.5" font-weight="700" class="font-mono">ROBUSTEZ GLOBAL</text>
+    <text x="900" y="28" fill="#64748b" font-size="10.5" font-weight="700" class="font-mono">SCRIPT NO REPO</text>
+
+    <!-- Row 1: Bisseção -->
+    <text x="24" y="48" fill="#38bdf8" font-size="11.5" font-weight="600" class="font-sans">Bisseção</text>
+    <text x="240" y="48" fill="#cbd5e1" font-size="11" class="font-mono">[a, b] com f(a)·f(b) &lt; 0</text>
+    <text x="450" y="48" fill="#cbd5e1" font-size="11" class="font-mono">Linear (r = 1.0)</text>
+    <text x="680" y="48" fill="#34d399" font-size="11" font-weight="600" class="font-sans">★★★★★ (100% garantido)</text>
+    <text x="900" y="48" fill="#93c5fd" font-size="11" class="font-mono">Raizes Reais/Bissecao.m</text>
+
+    <!-- Row 2: Newton -->
+    <text x="24" y="68" fill="#818cf8" font-size="11.5" font-weight="600" class="font-sans">Newton-Raphson</text>
+    <text x="240" y="68" fill="#cbd5e1" font-size="11" class="font-mono">x0 + derivada f'(x)</text>
+    <text x="450" y="68" fill="#818cf8" font-size="11" font-weight="700" class="font-mono">Quadrática (r = 2.0)</text>
+    <text x="680" y="68" fill="#fbbf24" font-size="11" font-weight="600" class="font-sans">★★★☆☆ (local / sensível)</text>
+    <text x="900" y="68" fill="#93c5fd" font-size="11" class="font-mono">Raizes Reais/Newton.m</text>
+  </g>
+</svg>

@@ -1,0 +1,251 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-int" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070a14"/>
+      <stop offset="50%" stop-color="#0b1329"/>
+      <stop offset="100%" stop-color="#050811"/>
+    </linearGradient>
+
+    <linearGradient id="card-bg-int" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.88"/>
+    </linearGradient>
+
+    <!-- Fill Gradients for Strips -->
+    <linearGradient id="trap-fill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.05"/>
+    </linearGradient>
+
+    <linearGradient id="simp-fill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.05"/>
+    </linearGradient>
+
+    <filter id="shadow-int" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+
+    <pattern id="grid-int" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#334155" stroke-width="0.5" stroke-opacity="0.25"/>
+    </pattern>
+  </defs>
+
+  <style>
+    .font-sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  </style>
+
+  <!-- Background -->
+  <rect width="1200" height="700" fill="url(#bg-grad-int)"/>
+
+  <!-- Top Title Header -->
+  <g transform="translate(60, 40)">
+    <rect x="0" y="0" width="162" height="24" rx="12" fill="#065f46" fill-opacity="0.3" stroke="#34d399" stroke-width="1"/>
+    <text x="12" y="16" fill="#34d399" font-size="11" font-weight="700" class="font-mono">QUADRATURA NUMÉRICA</text>
+
+    <text x="0" y="55" fill="#f8fafc" font-size="28" font-weight="800" class="font-sans">
+      Integração Numérica — Integral de f(x) dx
+    </text>
+    <text x="0" y="80" fill="#94a3b8" font-size="14" class="font-sans">
+      Da aproximação linear da Regra do Trapézio à quadratura parabólica de alta ordem da Regra de Simpson
+    </text>
+  </g>
+
+  <!-- ================= LEFT PANEL: REGRA DO TRAPÉZIO ================= -->
+  <g transform="translate(60, 130)" filter="url(#shadow-int)">
+    <rect width="525" height="425" rx="14" fill="url(#card-bg-int)" stroke="#38bdf8" stroke-width="1.3" stroke-opacity="0.7"/>
+    <rect width="525" height="425" rx="14" fill="url(#grid-int)"/>
+
+    <!-- Badge -->
+    <rect x="20" y="16" width="145" height="22" rx="6" fill="#0369a1" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1"/>
+    <text x="28" y="31" fill="#7dd3fc" font-size="10" font-weight="700" class="font-mono">INTERPOLAÇÃO LINEAR</text>
+
+    <text x="20" y="60" fill="#ffffff" font-size="18" font-weight="700" class="font-sans">
+      Regra do Trapézio Composta
+    </text>
+    <text x="20" y="78" fill="#94a3b8" font-size="12" class="font-sans">
+      Aproxima a função f(x) por segmentos de reta P1(x) em cada subintervalo
+    </text>
+
+    <!-- Graphical Canvas -->
+    <g transform="translate(20, 95)">
+      <rect width="485" height="175" rx="8" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
+      
+      <!-- Axis -->
+      <line x1="30" y1="145" x2="465" y2="145" stroke="#475569" stroke-width="1.2"/>
+      <line x1="45" y1="20" x2="45" y2="155" stroke="#334155" stroke-width="1"/>
+      <text x="460" y="160" fill="#64748b" font-size="10" class="font-mono">x</text>
+
+      <!-- Trapezoid Polygons (Linear Segments) -->
+      <polygon points="70,145 70,115 160,65 160,145" fill="url(#trap-fill)"/>
+      <polygon points="160,145 160,65 250,42 250,145" fill="url(#trap-fill)"/>
+      <polygon points="250,145 250,42 340,52 340,145" fill="url(#trap-fill)"/>
+      <polygon points="340,145 340,52 430,95 430,145" fill="url(#trap-fill)"/>
+
+      <!-- Chords (Straight Line Approximations) -->
+      <line x1="70" y1="115" x2="160" y2="65" stroke="#38bdf8" stroke-width="2"/>
+      <line x1="160" y1="65" x2="250" y2="42" stroke="#38bdf8" stroke-width="2"/>
+      <line x1="250" y1="42" x2="340" y2="52" stroke="#38bdf8" stroke-width="2"/>
+      <line x1="340" y1="52" x2="430" y2="95" stroke="#38bdf8" stroke-width="2"/>
+
+      <!-- Real Curve f(x) -->
+      <path d="M 50 128 C 90 100, 180 32, 250 30 C 310 28, 380 55, 450 110" 
+            fill="none" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="3,3"/>
+      <text x="390" y="38" fill="#94a3b8" font-size="10" class="font-mono">f(x) real</text>
+
+      <!-- Node Markers -->
+      <line x1="70" y1="145" x2="70" y2="115" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="70" cy="115" r="3.5" fill="#38bdf8"/>
+      <circle cx="70" cy="145" r="3" fill="#38bdf8"/>
+      <text x="60" y="162" fill="#38bdf8" font-size="10" font-weight="700" class="font-mono">x0=a</text>
+
+      <line x1="160" y1="145" x2="160" y2="65" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="160" cy="65" r="3.5" fill="#38bdf8"/>
+      <circle cx="160" cy="145" r="3" fill="#38bdf8"/>
+      <text x="154" y="162" fill="#38bdf8" font-size="10" font-weight="700" class="font-mono">x1</text>
+
+      <line x1="250" y1="145" x2="250" y2="42" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="250" cy="42" r="3.5" fill="#38bdf8"/>
+      <circle cx="250" cy="145" r="3" fill="#38bdf8"/>
+      <text x="244" y="162" fill="#38bdf8" font-size="10" font-weight="700" class="font-mono">x2</text>
+
+      <line x1="340" y1="145" x2="340" y2="52" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="340" cy="52" r="3.5" fill="#38bdf8"/>
+      <circle cx="340" cy="145" r="3" fill="#38bdf8"/>
+      <text x="334" y="162" fill="#38bdf8" font-size="10" font-weight="700" class="font-mono">x3</text>
+
+      <line x1="430" y1="145" x2="430" y2="95" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="430" cy="95" r="3.5" fill="#38bdf8"/>
+      <circle cx="430" cy="145" r="3" fill="#38bdf8"/>
+      <text x="420" y="162" fill="#38bdf8" font-size="10" font-weight="700" class="font-mono">x4=b</text>
+
+      <!-- Width h indicator -->
+      <line x1="160" y1="130" x2="250" y2="130" stroke="#f59e0b" stroke-width="1.2"/>
+      <text x="200" y="126" fill="#fbbf24" font-size="10" font-weight="700" class="font-mono">h</text>
+    </g>
+
+    <!-- Formula -->
+    <g transform="translate(20, 285)">
+      <rect width="485" height="48" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="14" y="22" fill="#38bdf8" font-size="12" font-weight="700" class="font-mono">
+        I ≈ (h/2) · [ f(x0) + 2·f(x1) + 2·f(x2) + ... + f(xn) ]
+      </text>
+      <text x="14" y="38" fill="#94a3b8" font-size="10.5" class="font-mono">
+        Vetor de pesos: [ 1,  2,  2,  2,  ...,  2,  1 ] × (h/2)
+      </text>
+    </g>
+
+    <!-- Properties (Explicit Coordinates) -->
+    <g transform="translate(20, 345)">
+      <text x="0" y="14" fill="#94a3b8" font-size="11" class="font-mono">PRECISÃO: Polinômios de grau ≤ 1</text>
+      <text x="0" y="32" fill="#94a3b8" font-size="11" class="font-mono">ERRO TRUNCAMENTO: O(h^2) = -(b-a)·h^2·f''(ξ)/12</text>
+      <text x="0" y="50" fill="#94a3b8" font-size="11" class="font-mono">REQUISITO DE NÓS: Qualquer n ≥ 1 (sem restrição)</text>
+      
+      <rect x="0" y="58" width="485" height="20" rx="4" fill="#0369a1" fill-opacity="0.2"/>
+      <text x="10" y="72" fill="#7dd3fc" font-size="10.5" class="font-mono">Arquivo: Integração/Trapez.m (4000 passos vetorizados)</text>
+    </g>
+  </g>
+
+  <!-- ================= RIGHT PANEL: REGRA DE SIMPSON 1/3 ================= -->
+  <g transform="translate(615, 130)" filter="url(#shadow-int)">
+    <rect width="525" height="425" rx="14" fill="url(#card-bg-int)" stroke="#a855f7" stroke-width="1.3" stroke-opacity="0.7"/>
+    <rect width="525" height="425" rx="14" fill="url(#grid-int)"/>
+
+    <!-- Badge -->
+    <rect x="20" y="16" width="168" height="22" rx="6" fill="#581c87" fill-opacity="0.4" stroke="#a855f7" stroke-width="1"/>
+    <text x="28" y="31" fill="#d8b4fe" font-size="10" font-weight="700" class="font-mono">INTERPOLAÇÃO PARABÓLICA</text>
+
+    <text x="20" y="60" fill="#ffffff" font-size="18" font-weight="700" class="font-sans">
+      Regra de Simpson 1/3 Composta
+    </text>
+    <text x="20" y="78" fill="#94a3b8" font-size="12" class="font-sans">
+      Aproxima trios de pontos consecutivos por arcos de parábola P2(x)
+    </text>
+
+    <!-- Graphical Canvas -->
+    <g transform="translate(20, 95)">
+      <rect width="485" height="175" rx="8" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
+      
+      <!-- Axis -->
+      <line x1="30" y1="145" x2="465" y2="145" stroke="#475569" stroke-width="1.2"/>
+      <line x1="45" y1="20" x2="45" y2="155" stroke="#334155" stroke-width="1"/>
+      <text x="460" y="160" fill="#64748b" font-size="10" class="font-mono">x</text>
+
+      <!-- Simpson Parabolic Area -->
+      <path d="M 70 145 L 70 115 Q 160 30, 250 42 L 250 145 Z" fill="url(#simp-fill)"/>
+      <path d="M 70 115 Q 160 30, 250 42" fill="none" stroke="#a855f7" stroke-width="2.5"/>
+
+      <path d="M 250 145 L 250 42 Q 330 20, 430 95 L 430 145 Z" fill="url(#simp-fill)"/>
+      <path d="M 250 42 Q 330 20, 430 95" fill="none" stroke="#c084fc" stroke-width="2.5"/>
+
+      <!-- Node Markers -->
+      <line x1="70" y1="145" x2="70" y2="115" stroke="#a855f7" stroke-width="1.2"/>
+      <circle cx="70" cy="115" r="3.5" fill="#a855f7"/>
+      <circle cx="70" cy="145" r="3" fill="#a855f7"/>
+      <text x="64" y="162" fill="#c084fc" font-size="10" font-weight="700" class="font-mono">x0</text>
+
+      <line x1="160" y1="145" x2="160" y2="58" stroke="#f43f5e" stroke-width="1.4" stroke-dasharray="2,2"/>
+      <circle cx="160" cy="58" r="4" fill="#f43f5e"/>
+      <circle cx="160" cy="145" r="3" fill="#f43f5e"/>
+      <text x="148" y="162" fill="#f43f5e" font-size="10" font-weight="700" class="font-mono">x1 (4x)</text>
+
+      <line x1="250" y1="145" x2="250" y2="42" stroke="#38bdf8" stroke-width="1.4"/>
+      <circle cx="250" cy="42" r="4" fill="#38bdf8"/>
+      <circle cx="250" cy="145" r="3" fill="#38bdf8"/>
+      <text x="238" y="162" fill="#38bdf8" font-size="10" font-weight="700" class="font-mono">x2 (2x)</text>
+
+      <line x1="340" y1="145" x2="340" y2="48" stroke="#f43f5e" stroke-width="1.4" stroke-dasharray="2,2"/>
+      <circle cx="340" cy="48" r="4" fill="#f43f5e"/>
+      <circle cx="340" cy="145" r="3" fill="#f43f5e"/>
+      <text x="328" y="162" fill="#f43f5e" font-size="10" font-weight="700" class="font-mono">x3 (4x)</text>
+
+      <line x1="430" y1="145" x2="430" y2="95" stroke="#a855f7" stroke-width="1.2"/>
+      <circle cx="430" cy="95" r="3.5" fill="#a855f7"/>
+      <circle cx="430" cy="145" r="3" fill="#a855f7"/>
+      <text x="424" y="162" fill="#c084fc" font-size="10" font-weight="700" class="font-mono">x4</text>
+
+      <rect x="180" y="16" width="130" height="20" rx="4" fill="#1e1b4b" stroke="#818cf8" stroke-width="0.8"/>
+      <text x="188" y="30" fill="#a5b4fc" font-size="10" font-weight="700" class="font-mono">Parábola por 3 nós</text>
+    </g>
+
+    <!-- Formula -->
+    <g transform="translate(20, 285)">
+      <rect width="485" height="48" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="14" y="22" fill="#c084fc" font-size="12" font-weight="700" class="font-mono">
+        I ≈ (h/3) · [ f(x0) + 4·sum(f_impar) + 2·sum(f_par) + f(xn) ]
+      </text>
+      <text x="14" y="38" fill="#94a3b8" font-size="10.5" class="font-mono">
+        Vetor de pesos: [ 1,  4,  2,  4,  2,  ...,  4,  1 ] × (h/3)
+      </text>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(20, 345)">
+      <text x="0" y="14" fill="#94a3b8" font-size="11" class="font-mono">PRECISÃO: Polinômios de grau ≤ 3 (grau extra!)</text>
+      <text x="0" y="32" fill="#94a3b8" font-size="11" class="font-mono">ERRO TRUNCAMENTO: O(h^4) = -(b-a)·h^4·f^(4)(ξ)/180</text>
+      <text x="0" y="50" fill="#94a3b8" font-size="11" class="font-mono">REQUISITO OBRIGATÓRIO: n DEVE SER PAR</text>
+      
+      <rect x="0" y="58" width="485" height="20" rx="4" fill="#581c87" fill-opacity="0.2"/>
+      <text x="10" y="72" fill="#d8b4fe" font-size="10.5" class="font-mono">Arquivo: Integração/Simpson13composto.m (n = 20)</text>
+    </g>
+  </g>
+
+  <!-- ================= BOTTOM COMPLEMENTARY STRIP: SIMPSON 3/8 ================= -->
+  <g transform="translate(60, 575)">
+    <rect width="1080" height="90" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.2"/>
+    
+    <rect x="20" y="14" width="115" height="20" rx="5" fill="#f59e0b" fill-opacity="0.25" stroke="#f59e0b" stroke-width="1"/>
+    <text x="28" y="28" fill="#fbbf24" font-size="10" font-weight="700" class="font-mono">COMPLEMENTAR</text>
+
+    <text x="145" y="29" fill="#f8fafc" font-size="14" font-weight="700" class="font-sans">
+      Regra de Simpson 3/8 (Cúbica) — Quando utilizar?
+    </text>
+    <text x="20" y="52" fill="#94a3b8" font-size="11.5" class="font-sans">
+      Interpola grupos de 4 nós por polinômios cúbicos P3(x). Fórmula: I ≈ (3h/8) · [ f0 + 3f1 + 3f2 + f3 ] com erro O(h^4).
+    </text>
+    <text x="20" y="72" fill="#cbd5e1" font-size="11.5" class="font-sans">
+      Dica Prática: Se o seu número de faixas n for ímpar, aplique Simpson 1/3 em n-3 faixas e Simpson 3/8 nas 3 últimas!
+    </text>
+  </g>
+</svg>
