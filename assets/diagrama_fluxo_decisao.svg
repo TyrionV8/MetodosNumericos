@@ -1,319 +1,148 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="100%" height="100%">
   <defs>
-    <linearGradient id="bg-grad-flx" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#070a14"/>
-      <stop offset="50%" stop-color="#0b1329"/>
-      <stop offset="100%" stop-color="#050811"/>
+    <linearGradient id="bg-flx" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070a13"/>
+      <stop offset="100%" stop-color="#0f172a"/>
     </linearGradient>
-
-    <linearGradient id="card-bg-flx" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.75"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.88"/>
-    </linearGradient>
-
-    <!-- Filters -->
-    <filter id="glow-flx" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
-
-    <filter id="shadow-flx" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45"/>
-    </filter>
-
-    <pattern id="grid-flx" width="24" height="24" patternUnits="userSpaceOnUse">
-      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#334155" stroke-width="0.5" stroke-opacity="0.25"/>
-    </pattern>
   </defs>
 
-  <style>
-    .font-sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-  </style>
+  <rect width="1200" height="620" fill="url(#bg-flx)"/>
 
-  <!-- Background Canvas -->
-  <rect width="1200" height="800" fill="url(#bg-grad-flx)"/>
+  <!-- Título Superior -->
+  <text x="60" y="55" fill="#f8fafc" font-size="28" font-weight="700" font-family="system-ui, sans-serif">Guia Rápido: Qual Método Escolher?</text>
+  <text x="60" y="85" fill="#94a3b8" font-size="16" font-family="system-ui, sans-serif">Seleção direta do método ótimo com base no seu objetivo e nas características do problema</text>
 
-  <!-- Top Title Header -->
-  <g transform="translate(60, 36)">
-    <rect x="0" y="0" width="146" height="24" rx="12" fill="#0284c7" fill-opacity="0.25" stroke="#38bdf8" stroke-width="1"/>
-    <text x="12" y="16" fill="#38bdf8" font-size="11" font-weight="700" class="font-mono">GUIA DE DECISÃO</text>
-
-    <text x="0" y="55" fill="#f8fafc" font-size="28" font-weight="800" class="font-sans">
-      Fluxo de Decisão: Qual Método Escolher?
-    </text>
-    <text x="0" y="80" fill="#94a3b8" font-size="14" class="font-sans">
-      Mapa interativo para seleção do algoritmo ótimo baseado nas características do seu problema
-    </text>
-  </g>
-
-  <!-- ================= 4 DECISION COLUMNS ================= -->
-
-  <!-- COLUNA 1: RAÍZES f(x) = 0 -->
-  <g transform="translate(60, 130)" filter="url(#shadow-flx)">
-    <rect width="258" height="630" rx="12" fill="url(#card-bg-flx)" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.6"/>
-    <rect width="258" height="630" rx="12" fill="url(#grid-flx)"/>
-
-    <!-- Column Header -->
-    <rect x="14" y="14" width="230" height="42" rx="8" fill="#0284c7" fill-opacity="0.25" stroke="#38bdf8" stroke-width="1"/>
-    <text x="24" y="32" fill="#38bdf8" font-size="11" font-weight="700" class="font-mono">01. EQUAÇÕES NÃO-LINEARES</text>
-    <text x="24" y="47" fill="#ffffff" font-size="14" font-weight="700" class="font-sans">Raízes: f(x) = 0</text>
-
-    <!-- Branch A: Derivada analítica disponível? -->
-    <g transform="translate(14, 70)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">TEM A DERIVADA f'(x)?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Sim, com bom chute inicial</text>
-      <text x="10" y="52" fill="#38bdf8" font-size="10" class="font-sans">↓ Máxima velocidade quadrática</text>
+  <!-- COLUNA 1: RAÍZES -->
+  <g transform="translate(60, 115)">
+    <rect width="260" height="460" rx="14" fill="#111827" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.6"/>
+    <text x="20" y="36" fill="#38bdf8" font-size="14" font-weight="700" font-family="monospace">RAÍZES DE EQUAÇÕES</text>
+    <text x="20" y="64" fill="#ffffff" font-size="20" font-weight="700" font-family="system-ui, sans-serif">f(x) = 0</text>
+    
+    <!-- Item 1 -->
+    <g transform="translate(16, 85)">
+      <rect width="228" height="75" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+      <text x="14" y="26" fill="#38bdf8" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Bisseção</text>
+      <text x="14" y="48" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">Tem intervalo [a, b]</text>
+      <text x="14" y="66" fill="#94a3b8" font-size="13" font-family="system-ui, sans-serif">Seguro contra divergência</text>
     </g>
 
-    <!-- Solution A: Newton -->
-    <g transform="translate(14, 142)">
-      <rect width="230" height="72" rx="8" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.2"/>
-      <text x="12" y="22" fill="#818cf8" font-size="13" font-weight="700" class="font-sans">⚡ Newton-Raphson</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">x_{k+1} = x_k - f/f'</text>
-      <text x="12" y="58" fill="#a5b4fc" font-size="10.5" class="font-mono">Raizes Reais/Newton.m</text>
+    <!-- Item 2 -->
+    <g transform="translate(16, 172)">
+      <rect width="228" height="75" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+      <text x="14" y="26" fill="#34d399" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Newton-Raphson</text>
+      <text x="14" y="48" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">Conhece derivada f&apos;(x)</text>
+      <text x="14" y="66" fill="#94a3b8" font-size="13" font-family="system-ui, sans-serif">Convergência muito rápida</text>
     </g>
 
-    <!-- Branch B: Sem derivada, 2 pontos? -->
-    <g transform="translate(14, 226)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">SEM DERIVADA ANALÍTICA?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Função complexa ou tabelada</text>
-      <text x="10" y="52" fill="#34d399" font-size="10" class="font-sans">↓ Aproximação superlinear</text>
+    <!-- Item 3 -->
+    <g transform="translate(16, 259)">
+      <rect width="228" height="75" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+      <text x="14" y="26" fill="#a78bfa" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Secante</text>
+      <text x="14" y="48" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">Sem derivada analítica</text>
+      <text x="14" y="66" fill="#94a3b8" font-size="13" font-family="system-ui, sans-serif">Usa 2 chutes iniciais</text>
     </g>
 
-    <!-- Solution B: Secante -->
-    <g transform="translate(14, 298)">
-      <rect width="230" height="72" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.2"/>
-      <text x="12" y="22" fill="#34d399" font-size="13" font-weight="700" class="font-sans">📈 Método da Secante</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">Ordem r ≈ 1.618 (1 aval/it)</text>
-      <text x="12" y="58" fill="#6ee7b7" font-size="10.5" class="font-mono">Raizes Reais/Secante.m</text>
-    </g>
-
-    <!-- Branch C: Garantia de intervalo [a, b]? -->
-    <g transform="translate(14, 382)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">GARANTIA 100% ROBUSTA?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Intervalo com f(a)·f(b) &lt; 0</text>
-      <text x="10" y="52" fill="#fbbf24" font-size="10" class="font-sans">↓ Teorema do Valor Intermediário</text>
-    </g>
-
-    <!-- Solution C: Bisseção / Falsa Posição -->
-    <g transform="translate(14, 454)">
-      <rect width="230" height="72" rx="8" fill="#082f49" stroke="#38bdf8" stroke-width="1.2"/>
-      <text x="12" y="22" fill="#38bdf8" font-size="13" font-weight="700" class="font-sans">🛡️ Bisseção / Falsa Posição</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">Convergência incondicional</text>
-      <text x="12" y="58" fill="#7dd3fc" font-size="10.5" class="font-mono">Raizes Reais/Bissecao.m</text>
-    </g>
-
-    <!-- Solution D: Ponto Fixo -->
-    <g transform="translate(14, 538)">
-      <rect width="230" height="72" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1"/>
-      <text x="12" y="22" fill="#e2e8f0" font-size="12" font-weight="700" class="font-sans">🔄 Ponto Fixo: x = g(x)</text>
-      <text x="12" y="40" fill="#94a3b8" font-size="10.5" class="font-mono">Requer |g'(x)| &lt; 1</text>
-      <text x="12" y="58" fill="#cbd5e1" font-size="10.5" class="font-mono">Raizes Reais/PontoFixo.m</text>
+    <!-- Item 4 -->
+    <g transform="translate(16, 346)">
+      <rect width="228" height="75" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="1"/>
+      <text x="14" y="26" fill="#fbbf24" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Ponto Fixo</text>
+      <text x="14" y="48" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">Reescrito como x = g(x)</text>
+      <text x="14" y="66" fill="#94a3b8" font-size="13" font-family="system-ui, sans-serif">Converge se |g&apos;(x)| &lt; 1</text>
     </g>
   </g>
 
-  <!-- COLUNA 2: SISTEMAS LINEARES Ax = b -->
-  <g transform="translate(334, 130)" filter="url(#shadow-flx)">
-    <rect width="258" height="630" rx="12" fill="url(#card-bg-flx)" stroke="#818cf8" stroke-width="1.2" stroke-opacity="0.6"/>
-    <rect width="334" height="630" rx="12" fill="url(#grid-flx)"/>
-
-    <!-- Column Header -->
-    <rect x="14" y="14" width="230" height="42" rx="8" fill="#3730a3" fill-opacity="0.3" stroke="#818cf8" stroke-width="1"/>
-    <text x="24" y="32" fill="#a5b4fc" font-size="11" font-weight="700" class="font-mono">02. ÁLGEBRA LINEAR</text>
-    <text x="24" y="47" fill="#ffffff" font-size="14" font-weight="700" class="font-sans">Sistemas: Ax = b</text>
-
-    <!-- Branch A: Sistema único denso -->
-    <g transform="translate(14, 70)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">SISTEMA DIRETO AX = B?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Objetivo: achar vetor solução x</text>
-      <text x="10" y="52" fill="#818cf8" font-size="10" class="font-sans">↓ Pivoteamento + Substituição</text>
+  <!-- COLUNA 2: SISTEMAS LINEARES -->
+  <g transform="translate(334, 115)">
+    <rect width="260" height="460" rx="14" fill="#111827" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.6"/>
+    <text x="20" y="36" fill="#38bdf8" font-size="14" font-weight="700" font-family="monospace">ÁLGEBRA LINEAR</text>
+    <text x="20" y="64" fill="#ffffff" font-size="20" font-weight="700" font-family="system-ui, sans-serif">Ax = b</text>
+    
+    <!-- Item 1 -->
+    <g transform="translate(16, 85)">
+      <rect width="228" height="162" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+      <text x="14" y="28" fill="#38bdf8" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Gauss com Pivô</text>
+      <text x="14" y="56" fill="#cbd5e1" font-size="14" font-weight="600" font-family="system-ui, sans-serif">Recomendado Geral</text>
+      <text x="14" y="82" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif">Pivoteamento parcial real</text>
+      <text x="14" y="106" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif">Retrossubstituição</text>
+      <text x="14" y="136" fill="#38bdf8" font-size="14" font-family="monospace">Custo: O(2/3 n³)</text>
     </g>
 
-    <!-- Solution A: Gauss com Substituição -->
-    <g transform="translate(14, 142)">
-      <rect width="230" height="88" rx="8" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.2"/>
-      <text x="12" y="22" fill="#a5b4fc" font-size="13" font-weight="700" class="font-sans">🧱 Gauss + Pivoteamento</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">Troca linhas + retrossubst.</text>
-      <text x="12" y="56" fill="#34d399" font-size="10" class="font-sans">✓ Estável &amp; Custo (2/3)n³ FLOPS</text>
-      <text x="12" y="74" fill="#818cf8" font-size="10" class="font-mono">EscalonamentoGAUSScomSubst.m</text>
-    </g>
-
-    <!-- Branch B: Inversão ou Leitura Direta -->
-    <g transform="translate(14, 242)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">INVERTER MATRIZ OU DIAGONAL?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Eliminar retrossubstituição</text>
-      <text x="10" y="52" fill="#34d399" font-size="10" class="font-sans">↓ Diagonaliza acima e abaixo</text>
-    </g>
-
-    <!-- Solution B: Gauss-Jordan -->
-    <g transform="translate(14, 314)">
-      <rect width="230" height="88" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="1.2"/>
-      <text x="12" y="22" fill="#34d399" font-size="13" font-weight="700" class="font-sans">🎯 Gauss-Jordan Completo</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">[A|b] ⟶ [I | x] ou [A|I] ⟶ [I|A⁻¹]</text>
-      <text x="12" y="56" fill="#6ee7b7" font-size="10" class="font-sans">✓ Solução lida direto na matriz</text>
-      <text x="12" y="74" fill="#34d399" font-size="10" class="font-mono">EscalonamentoGAUSSJORDAM2.m</text>
-    </g>
-
-    <!-- Branch C: Só Triangularização -->
-    <g transform="translate(14, 414)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">SÓ ESCALONAR SEM RESOLVER?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Calcular determinante ou posto</text>
-      <text x="10" y="52" fill="#94a3b8" font-size="10" class="font-sans">↓ Apenas zera abaixo do pivô</text>
-    </g>
-
-    <!-- Solution C: Escalonamento Puro -->
-    <g transform="translate(14, 486)">
-      <rect width="230" height="72" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="12" y="22" fill="#e2e8f0" font-size="12" font-weight="700" class="font-sans">📐 Escalonamento Simples</text>
-      <text x="12" y="40" fill="#94a3b8" font-size="10.5" class="font-mono">Gera matriz [U] pura</text>
-      <text x="12" y="58" fill="#93c5fd" font-size="10" class="font-mono">EscalonamentoGAUSS2.m</text>
-    </g>
-
-    <!-- Solution D: Inversa com Octave -->
-    <g transform="translate(14, 570)">
-      <rect width="230" height="40" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-      <text x="12" y="24" fill="#cbd5e1" font-size="10.5" class="font-mono">Nativo: inv(A), A \ b (L1Q2.m)</text>
+    <!-- Item 2 -->
+    <g transform="translate(16, 259)">
+      <rect width="228" height="162" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+      <text x="14" y="28" fill="#10b981" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Gauss-Jordan</text>
+      <text x="14" y="56" fill="#cbd5e1" font-size="14" font-weight="600" font-family="system-ui, sans-serif">Diagonalização</text>
+      <text x="14" y="82" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif">Zera acima e abaixo</text>
+      <text x="14" y="106" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif">Leitura direta do vetor x</text>
+      <text x="14" y="136" fill="#10b981" font-size="14" font-family="monospace">Custo: O(n³)</text>
     </g>
   </g>
 
-  <!-- COLUNA 3: INTEGRAÇÃO NUMÉRICA -->
-  <g transform="translate(608, 130)" filter="url(#shadow-flx)">
-    <rect width="258" height="630" rx="12" fill="url(#card-bg-flx)" stroke="#10b981" stroke-width="1.2" stroke-opacity="0.6"/>
-    <rect width="608" height="630" rx="12" fill="url(#grid-flx)"/>
-
-    <!-- Column Header -->
-    <rect x="14" y="14" width="230" height="42" rx="8" fill="#065f46" fill-opacity="0.3" stroke="#10b981" stroke-width="1"/>
-    <text x="24" y="32" fill="#34d399" font-size="11" font-weight="700" class="font-mono">03. QUADRATURA</text>
-    <text x="24" y="47" fill="#ffffff" font-size="14" font-weight="700" class="font-sans">Integrais: ∫ f(x) dx</text>
-
-    <!-- Branch A: n par de intervalos? -->
-    <g transform="translate(14, 70)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">Nº PAR DE FAIXAS (n PAR)?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Exige alta precisão global</text>
-      <text x="10" y="52" fill="#a855f7" font-size="10" class="font-sans">↓ Parábolas de Simpson O(h⁴)</text>
+  <!-- COLUNA 3: CÁLCULO NUMÉRICO -->
+  <g transform="translate(608, 115)">
+    <rect width="260" height="460" rx="14" fill="#111827" stroke="#a78bfa" stroke-width="1.5" stroke-opacity="0.6"/>
+    <text x="20" y="36" fill="#a78bfa" font-size="14" font-weight="700" font-family="monospace">INTEGRAIS E DERIVADAS</text>
+    <text x="20" y="64" fill="#ffffff" font-size="20" font-weight="700" font-family="system-ui, sans-serif">∫ f(x) e f&apos;(x)</text>
+    
+    <!-- Item 1 -->
+    <g transform="translate(16, 85)">
+      <rect width="228" height="102" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+      <text x="14" y="26" fill="#38bdf8" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Trapézio Composto</text>
+      <text x="14" y="50" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">Integral definida</text>
+      <text x="14" y="72" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif">Qualquer número de faixas n</text>
+      <text x="14" y="92" fill="#38bdf8" font-size="13" font-family="monospace">Erro: O(h²)</text>
     </g>
 
-    <!-- Solution A: Simpson 1/3 -->
-    <g transform="translate(14, 142)">
-      <rect width="230" height="88" rx="8" fill="#3b0764" stroke="#a855f7" stroke-width="1.2"/>
-      <text x="12" y="22" fill="#d8b4fe" font-size="13" font-weight="700" class="font-sans">🌟 Simpson 1/3 Composto</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">Erro O(h⁴) | Exato grau ≤ 3</text>
-      <text x="12" y="56" fill="#34d399" font-size="10" class="font-sans">✓ Muito mais preciso com poucas faixas</text>
-      <text x="12" y="74" fill="#c084fc" font-size="10" class="font-mono">Integração/Simpson13composto.m</text>
+    <!-- Item 2 -->
+    <g transform="translate(16, 199)">
+      <rect width="228" height="102" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1"/>
+      <text x="14" y="26" fill="#a78bfa" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Simpson 1/3</text>
+      <text x="14" y="50" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">Alta precisão (parabólica)</text>
+      <text x="14" y="72" fill="#fbbf24" font-size="13" font-weight="700" font-family="system-ui, sans-serif">Exige n par obrigatório</text>
+      <text x="14" y="92" fill="#a78bfa" font-size="13" font-family="monospace">Erro: O(h⁴)</text>
     </g>
 
-    <!-- Branch B: Qualquer n ou dados tabelados? -->
-    <g transform="translate(14, 242)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">N QUALQUER OU TABELA?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Sem restrição de nós pares/ímpares</text>
-      <text x="10" y="52" fill="#38bdf8" font-size="10" class="font-sans">↓ Trapézios lineares O(h²)</text>
-    </g>
-
-    <!-- Solution B: Trapézio -->
-    <g transform="translate(14, 314)">
-      <rect width="230" height="88" rx="8" fill="#082f49" stroke="#38bdf8" stroke-width="1.2"/>
-      <text x="12" y="22" fill="#38bdf8" font-size="13" font-weight="700" class="font-sans">📏 Regra do Trapézio</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">Erro O(h²) | n qualquer</text>
-      <text x="12" y="56" fill="#7dd3fc" font-size="10" class="font-sans">✓ Simples, robusto, fácil de vetorizar</text>
-      <text x="12" y="74" fill="#38bdf8" font-size="10" class="font-mono">Integração/Trapez.m</text>
-    </g>
-
-    <!-- Branch C: n ímpar com precisão alta -->
-    <g transform="translate(14, 414)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">N ÍMPAR E EXIGE O(h⁴)?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Final com 3 nós cúbicos</text>
-      <text x="10" y="52" fill="#fbbf24" font-size="10" class="font-sans">↓ Combinação 1/3 + 3/8</text>
-    </g>
-
-    <!-- Solution C: Simpson 3/8 -->
-    <g transform="translate(14, 486)">
-      <rect width="230" height="72" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="1"/>
-      <text x="12" y="22" fill="#fbbf24" font-size="12" font-weight="700" class="font-sans">✨ Simpson 3/8 (Cúbica)</text>
-      <text x="12" y="40" fill="#fde68a" font-size="10.5" class="font-mono">Pesos [1, 3, 3, 1] · (3h/8)</text>
-      <text x="12" y="58" fill="#fcd34d" font-size="10" class="font-mono">Complemento ideal de Simpson 1/3</text>
-    </g>
-
-    <!-- Comprimento de Arco -->
-    <g transform="translate(14, 570)">
-      <rect width="230" height="40" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-      <text x="12" y="24" fill="#cbd5e1" font-size="10.5" class="font-mono">Arco: ∫√(1 + f'²) dx (Integração/)</text>
+    <!-- Item 3 -->
+    <g transform="translate(16, 313)">
+      <rect width="228" height="108" rx="8" fill="#1e293b" stroke="#f43f5e" stroke-width="1"/>
+      <text x="14" y="26" fill="#f43f5e" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Diferença 3 Pontos</text>
+      <text x="14" y="50" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">Derivada f&apos;(x) numérica</text>
+      <text x="14" y="72" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif">Dados experimentais</text>
+      <text x="14" y="94" fill="#f43f5e" font-size="13" font-family="monospace">Erro: O(h²)</text>
     </g>
   </g>
 
-  <!-- COLUNA 4: EQUAÇÕES DIFERENCIAIS (EDO) & DERIVADAS -->
-  <g transform="translate(882, 130)" filter="url(#shadow-flx)">
-    <rect width="258" height="630" rx="12" fill="url(#card-bg-flx)" stroke="#f43f5e" stroke-width="1.2" stroke-opacity="0.6"/>
-    <rect width="882" height="630" rx="12" fill="url(#grid-flx)"/>
-
-    <!-- Column Header -->
-    <rect x="14" y="14" width="230" height="42" rx="8" fill="#881337" fill-opacity="0.3" stroke="#f43f5e" stroke-width="1"/>
-    <text x="24" y="32" fill="#fb7185" font-size="11" font-weight="700" class="font-mono">04. DINÂMICA &amp; EDOS</text>
-    <text x="24" y="47" fill="#ffffff" font-size="14" font-weight="700" class="font-sans">y' = f(x, y) &amp; dy/dx</text>
-
-    <!-- Branch A: Simulação rápida / didática -->
-    <g transform="translate(14, 70)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">SIMULAÇÃO RÁPIDA / 1ª ORDEM?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Passo h pequeno, didático</text>
-      <text x="10" y="52" fill="#fb7185" font-size="10" class="font-sans">↓ Tangente de Euler simples</text>
+  <!-- COLUNA 4: EDOS E MODELAGEM -->
+  <g transform="translate(882, 115)">
+    <rect width="260" height="460" rx="14" fill="#111827" stroke="#10b981" stroke-width="1.5" stroke-opacity="0.6"/>
+    <text x="20" y="36" fill="#10b981" font-size="14" font-weight="700" font-family="monospace">EDOS E MODELAGEM</text>
+    <text x="20" y="64" fill="#ffffff" font-size="20" font-weight="700" font-family="system-ui, sans-serif">dy/dx = f(x, y)</text>
+    
+    <!-- Item 1 -->
+    <g transform="translate(16, 85)">
+      <rect width="228" height="102" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+      <text x="14" y="26" fill="#38bdf8" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Euler Explícito</text>
+      <text x="14" y="50" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">PVI simples de 1ª ordem</text>
+      <text x="14" y="72" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif">Passo de avanço rápido</text>
+      <text x="14" y="92" fill="#38bdf8" font-size="13" font-family="monospace">Erro: O(h)</text>
     </g>
 
-    <!-- Solution A: Euler -->
-    <g transform="translate(14, 142)">
-      <rect width="230" height="88" rx="8" fill="#4c0519" stroke="#f43f5e" stroke-width="1.2"/>
-      <text x="12" y="22" fill="#fda4af" font-size="13" font-weight="700" class="font-sans">⚡ Método de Euler</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">y_{n+1} = y_n + h·f(x_n, y_n)</text>
-      <text x="12" y="56" fill="#fca5a5" font-size="10" class="font-sans">Ordem O(h) • Custo mínimo</text>
-      <text x="12" y="74" fill="#fda4af" font-size="10" class="font-mono">EDO/edoEULER.m</text>
+    <!-- Item 2 -->
+    <g transform="translate(16, 199)">
+      <rect width="228" height="102" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1"/>
+      <text x="14" y="26" fill="#10b981" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Euler Implícito</text>
+      <text x="14" y="50" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">EDOs rígidas (stiff)</text>
+      <text x="14" y="72" fill="#34d399" font-size="14" font-family="system-ui, sans-serif">Newton a cada passo</text>
+      <text x="14" y="92" fill="#10b981" font-size="13" font-family="monospace">A-estável incondicional</text>
     </g>
 
-    <!-- Branch B: EDO de 2ª ordem ou sistema acoplado -->
-    <g transform="translate(14, 242)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">SISTEMA ACOPLADO / 2ª ORDEM?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Trajetórias físicas ou osciladores</text>
-      <text x="10" y="52" fill="#fbbf24" font-size="10" class="font-sans">↓ Preditor-Corretor de Heun</text>
-    </g>
-
-    <!-- Solution B: Runge-Kutta 2 -->
-    <g transform="translate(14, 314)">
-      <rect width="230" height="88" rx="8" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.2"/>
-      <text x="12" y="22" fill="#a5b4fc" font-size="13" font-weight="700" class="font-sans">🚀 Runge-Kutta 2ª Ordem</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">2 EDOs acopladas (y₁', y₂')</text>
-      <text x="12" y="56" fill="#34d399" font-size="10" class="font-sans">Ordem O(h²) • Ótima estabilidade</text>
-      <text x="12" y="74" fill="#a5b4fc" font-size="10" class="font-mono">EDO/Sys2EDOsRK2.m, testeRK.m</text>
-    </g>
-
-    <!-- Branch C: Diferenciação de dados tabulares -->
-    <g transform="translate(14, 414)">
-      <rect width="230" height="64" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="10" y="20" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">DERIVADA DE DADOS TABELADOS?</text>
-      <text x="10" y="36" fill="#f1f5f9" font-size="11" class="font-sans">Discretização por diferenças finitas</text>
-      <text x="10" y="52" fill="#38bdf8" font-size="10" class="font-sans">↓ Fórmula progressiva de 3 pontos</text>
-    </g>
-
-    <!-- Solution C: Progressiva 3 pontos -->
-    <g transform="translate(14, 486)">
-      <rect width="230" height="72" rx="8" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
-      <text x="12" y="22" fill="#38bdf8" font-size="12" font-weight="700" class="font-sans">📉 Diferença Progressiva 3P</text>
-      <text x="12" y="40" fill="#cbd5e1" font-size="10.5" class="font-mono">f' ≈ (-3f₀ + 4f₁ - f₂) / (2h)</text>
-      <text x="12" y="58" fill="#7dd3fc" font-size="10" class="font-mono">Diferenciacao/Progressiva3Pontos.m</text>
-    </g>
-
-    <!-- Taylor e Outros -->
-    <g transform="translate(14, 570)">
-      <rect width="230" height="40" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-      <text x="12" y="24" fill="#cbd5e1" font-size="10.5" class="font-mono">Série Taylor: cos(x) (Coseno.m)</text>
+    <!-- Item 3 -->
+    <g transform="translate(16, 313)">
+      <rect width="228" height="108" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="1"/>
+      <text x="14" y="26" fill="#fbbf24" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Runge-Kutta 2</text>
+      <text x="14" y="50" fill="#cbd5e1" font-size="14" font-family="system-ui, sans-serif">Heun preditor-corretor</text>
+      <text x="14" y="72" fill="#94a3b8" font-size="14" font-family="system-ui, sans-serif">Para 1 EDO ou sistema 2 EDOs</text>
+      <text x="14" y="94" fill="#fbbf24" font-size="13" font-family="monospace">Erro: O(h²)</text>
     </g>
   </g>
 </svg>

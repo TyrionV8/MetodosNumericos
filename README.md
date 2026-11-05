@@ -1,8 +1,4 @@
-# 🧮 Métodos Numéricos — GNU Octave / MATLAB
-
-<p align="center">
-  <img src="assets/banner_topo.svg" alt="Banner Métodos Numéricos" width="100%">
-</p>
+# Métodos Numéricos — GNU Octave / MATLAB
 
 <p align="center">
   <img src="https://img.shields.io/badge/GNU_Octave-6.4%2B-blue?style=for-the-badge&logo=gnu" alt="GNU Octave 6.4+">
@@ -22,28 +18,28 @@ Todos os códigos foram integralmente refatorados com foco em estabilidade assin
 
 ---
 
-## 📑 Sumário Executivo
+## Sumário Executivo
 
-1. [⚡ Guia de Busca Rápida: "Quero Fazer X → Use Tal Método"](#-guia-de-busca-rápida-quero-fazer-x--use-tal-método)
-2. [🗺️ Mapa Arquitetural do Repositório](#️-mapa-arquitetural-do-repositório)
-3. [▶️ Como Executar e Ambientes Suportados](#️-como-executar-e-ambientes-suportados)
-4. [🎯 1. Raízes de Equações Não Lineares ($f(x) = 0$)](#-1-raízes-de-equações-não-lineares-fx--0)
-5. [🧱 2. Sistemas de Equações Lineares ($Ax = b$)](#-2-sistemas-de-equações-lineares-ax--b)
-6. [∫ 3. Integração Numérica (Quadratura de Newton-Cotes)](#-3-integração-numérica-quadratura-de-newton-cotes)
-7. [📐 4. Diferenciação Numérica e Diferenças Finitas](#-4-diferenciação-numérica-e-diferenças-finitas)
-8. [📈 5. Equações Diferenciais Ordinárias (PVI)](#-5-equações-diferenciais-ordinárias-pvi)
-9. [🔁 6. Séries de Funções e Aproximações Polinomiais](#-6-séries-de-funções-e-aproximações-polinomiais)
-10. [〰️ 7. Processamento de Sinais e Métricas Estatísticas](#️-7-processamento-de-sinais-e-métricas-estatísticas)
-11. [⚗️ 8. Físico-Química e Modelagem Molecular](#️-8-físico-química-e-modelagem-molecular)
-12. [💊 9. Farmacocinética e Modelagem Compartimental](#-9-farmacocinética-e-modelagem-compartimental)
-13. [🛠️ 10. Utilitários, Conversões e Visualização Gráfica](#️-10-utilitários-conversões-e-visualização-gráfica)
-14. [🛡️ Guia Fundamental de Boas Práticas Numéricas](#️-guia-fundamental-de-boas-práticas-numéricas)
-15. [🔍 Histórico de Correções Críticas da Refatoração](#-histórico-de-correções-críticas-da-refatoração)
-16. [📋 Guia Sintático Octave vs. MATLAB](#-guia-sintático-octave-vs-matlab)
+1. [Guia de Busca Rápida: "Quero Fazer X → Use Tal Método"](#guia-de-busca-rápida-quero-fazer-x--use-tal-método)
+2. [Mapa Arquitetural do Repositório](#mapa-arquitetural-do-repositório)
+3. [Como Executar e Ambientes Suportados](#como-executar-e-ambientes-suportados)
+4. [1. Raízes de Equações Não Lineares ($f(x) = 0$)](#1-raízes-de-equações-não-lineares-fx--0)
+5. [2. Sistemas de Equações Lineares ($Ax = b$)](#2-sistemas-de-equações-lineares-ax--b)
+6. [3. Integração Numérica (Quadratura de Newton-Cotes)](#3-integração-numérica-quadratura-de-newton-cotes)
+7. [4. Diferenciação Numérica e Diferenças Finitas](#4-diferenciação-numérica-e-diferenças-finitas)
+8. [5. Equações Diferenciais Ordinárias (PVI)](#5-equações-diferenciais-ordinárias-pvi)
+9. [6. Séries de Funções e Aproximações Polinomiais](#6-séries-de-funções-e-aproximações-polinomiais)
+10. [7. Processamento de Sinais e Métricas Estatísticas](#7-processamento-de-sinais-e-métricas-estatísticas)
+11. [8. Físico-Química e Modelagem Molecular](#8-físico-química-e-modelagem-molecular)
+12. [9. Farmacocinética e Modelagem Compartimental](#9-farmacocinética-e-modelagem-compartimental)
+13. [10. Utilitários, Conversões e Visualização Gráfica](#10-utilitários-conversões-e-visualização-gráfica)
+14. [Guia Fundamental de Boas Práticas Numéricas](#guia-fundamental-de-boas-práticas-numéricas)
+15. [Histórico de Correções Críticas da Refatoração](#-histórico-de-correções-críticas-da-refatoração)
+16. [Guia Sintático Octave vs. MATLAB](#-guia-sintático-octave-vs-matlab)
 
 ---
 
-## ⚡ Guia de Busca Rápida: "Quero Fazer X → Use Tal Método"
+## Guia de Busca Rápida: "Quero Fazer X → Use Tal Método"
 
 Consulte o fluxo de decisão a seguir para determinar instantaneamente a rota algorítmica ótima para seu problema de engenharia ou cálculo científico:
 
@@ -51,7 +47,7 @@ Consulte o fluxo de decisão a seguir para determinar instantaneamente a rota al
   <img src="assets/diagrama_fluxo_decisao.svg" alt="Diagrama de Fluxo de Decisão" width="95%">
 </p>
 
-### 📊 Tabela Mestra de Decisão
+### Tabela Mestra de Decisão
 
 | O que você quer calcular? | Método Recomendado | O que precisa ter (Entradas) | O que entrega (Saídas) | Arquivo no Repositório |
 |---|---|---|---|---|
@@ -83,76 +79,75 @@ Consulte o fluxo de decisão a seguir para determinar instantaneamente a rota al
 
 ---
 
-## 🗺️ Mapa Arquitetural do Repositório
+## Mapa Arquitetural do Repositório
 
 O projeto adota estrutura modular canônica, onde cada categoria científica possui seu próprio diretório autossuficiente:
 
 ```text
 MetodosNumericos/
-├── assets/                                 # 🎨 Recursos gráficos, diagramas SVG vetoriais e animações
-│   ├── banner_topo.svg / .png              # Banner superior de apresentação
+├── assets/                                 # Recursos gráficos, diagramas SVG vetoriais e animações
 │   ├── animacao_convergencia.gif           # GIF animado de convergência iterativa
 │   ├── diagrama_fluxo_decisao.svg / .png   # Árvore de decisão para escolha de algoritmos
 │   ├── diagrama_raizes.svg / .png          # Diagrama conceitual de raízes de equações
 │   ├── diagrama_sistemas.svg / .png        # Diagrama de decomposição e escalonamento linear
 │   └── diagrama_integracao.svg / .png      # Diagrama de partição geométrica de integração
 │
-├── raizes_equacoes/                        # 🎯 Resolução de equações não lineares escalares f(x) = 0
+├── raizes_equacoes/                        # Resolução de equações não lineares escalares f(x) = 0
 │   ├── bissecao.m                          # Bisseção intervalar (Teorema de Bolzano)
 │   ├── falsa_posicao.m                     # Falsa Posição (Regula Falsi com interpolação linear)
 │   ├── newton_raphson.m                    # Newton-Raphson com convergência quadrática
 │   ├── ponto_fixo.m                        # Iteração de Ponto Fixo (Picard-Banach)
 │   └── secante.m                           # Método da Secante com estimativa de derivadas finitas
 │
-├── sistemas_lineares/                      # 🧱 Resolução direta de sistemas algébricos Ax = b
+├── sistemas_lineares/                      # Resolução direta de sistemas algébricos Ax = b
 │   ├── gauss_pivoteamento.m                # Eliminação Gaussiana com pivoteamento parcial e substituição
 │   └── gauss_jordan.m                      # Método de Gauss-Jordan com normalização diagonal unitária
 │
-├── integracao_numerica/                    # ∫ Quadratura numérica de Newton-Cotes
+├── integracao_numerica/                    # Quadratura numérica de Newton-Cotes
 │   ├── trapezio_composto.m                 # Regra do Trapézio Composta (convergência O(h²))
 │   └── simpson_13_composto.m               # Regra de Simpson 1/3 Composta (convergência O(h⁴))
 │
-├── diferenciacao_numerica/                 # 📐 Aproximação de derivadas por diferenças finitas
+├── diferenciacao_numerica/                 # Aproximação de derivadas por diferenças finitas
 │   └── diferenca_progressiva_3pontos.m     # Fórmula Progressiva de 3 Pontos (convergência O(h²))
 │
-├── equacoes_diferenciais/                  # 📈 Problemas de Valor Inicial (PVI) para EDOs
+├── equacoes_diferenciais/                  # Problemas de Valor Inicial (PVI) para EDOs
 │   ├── euler_explicito.m                   # Euler Explícito de 1º ordem
 │   ├── euler_implicito_newton.m            # Euler Implícito incondicionalmente estável + Newton-Raphson
 │   ├── rk2_individual.m                    # Runge-Kutta de 2ª ordem (Heun) para EDO escalar
 │   └── rk2_heun_sistema.m                  # Runge-Kutta de 2ª ordem para sistema acoplado de 2 EDOs
 │
-├── series_aproximacoes/                    # 🔁 Séries analíticas e aproximações de funções
+├── series_aproximacoes/                    # Séries analíticas e aproximações de funções
 │   └── taylor_cosseno.m                    # Expansão em Série de Taylor/Maclaurin para cos(x)
 │
-├── processamento_sinais/                   # 〰️ Síntese de formas de onda e análise harmônica
+├── processamento_sinais/                   # Síntese de formas de onda e análise harmônica
 │   ├── gerador_sinais_rms.m                # Geração de senoidal, quadrada, triangular e cálculo de RMS
 │   └── workspace_senoide_exemplo.mat       # Matriz e dados pré-computados de amostragem
 │
-├── fisico_quimica/                         # ⚗️ Termodinâmica iônica e magnetoquímica quântica
+├── fisico_quimica/                         # Termodinâmica iônica e magnetoquímica quântica
 │   ├── born_mayer_energia_reticular.m      # Equação de Born-Mayer para cristais iônicos
 │   ├── susceptibilidade_magnetica.m        # Momento magnético e Lei de Curie para íons de transição
 │   └── eletrons_desemparelhados.m          # Problema inverso: determinação de n a partir de χ_M
 │
-├── farmacocinetica/                        # 💊 Modelagem compartimental de fármacos e posologia
+├── farmacocinetica/                        # Modelagem compartimental de fármacos e posologia
 │   ├── concentracao_dose_instantanea.m     # Modelo monocompartimental em bolus sem absorção
 │   ├── concentracao_com_absorcao.m         # Cinética de 1ª ordem com taxa contínua de absorção
 │   └── estudo_intervalo_meia_vida.m        # Varredura paramétrica do acúmulo no platô estacionário
 │
-├── utilitarios/                            # 🛠️ Ferramentas auxiliares e rotinas matemáticas
+├── utilitarios/                            # Ferramentas auxiliares e rotinas matemáticas
 │   ├── conversao_si_imperial.m             # Função de conversão precisa SI ↔ Imperial
 │   ├── operacoes_matrizes.m                # Álgebra linear, precedência e condicionamento matricial
 │   └── plotar_funcao.m                     # Visualização comparativa de catenárias e polinômios
 │
-└── README.md                               # 📖 Este manual técnico completo de referência
+└── README.md                               # Manual técnico de referência
 ```
 
 ---
 
-## ▶️ Como Executar e Ambientes Suportados
+## Como Executar e Ambientes Suportados
 
 Os scripts foram desenvolvidos primariamente para **GNU Octave** (versão 6.4 ou superior) e são integralmente compatíveis com **MathWorks MATLAB** (R2020b ou superior).
 
-### 🐧 Execução via Terminal Linux / macOS (Octave CLI)
+### Execução via Terminal Linux / macOS (Octave CLI)
 
 Para executar qualquer rotina diretamente sem carregar a interface gráfica:
 
@@ -166,7 +161,7 @@ octave --no-gui "sistemas_lineares/gauss_pivoteamento.m"
 octave --no-gui "equacoes_diferenciais/euler_implicito_newton.m"
 ```
 
-### 🖥️ Execução via Interface Gráfica (Octave GUI ou MATLAB)
+### Execução via Interface Gráfica (Octave GUI ou MATLAB)
 
 1. Abra o GNU Octave ou o MATLAB.
 2. Defina a pasta corrente como a raiz do projeto (`/dev/shm/MetodosNumericos`).
@@ -174,7 +169,7 @@ octave --no-gui "equacoes_diferenciais/euler_implicito_newton.m"
 4. Pressione **F5** (ou clique no botão **Run**).
 5. Os gráficos serão instanciados em janelas independentes e as tabelas numéricas serão impressas formatadas no terminal.
 
-### 📦 Dependências e Toolboxes
+### Dependências e Toolboxes
 
 - **GNU Octave:** Todas as rotinas numéricas utilizam apenas o núcleo básico (*core*). Para síntese de formas de onda em `processamento_sinais/gerador_sinais_rms.m`, o código já possui rotinas analíticas nativas embutidas, funcionando perfeitamente sem exigir a instalação de pacotes externos. Se desejar instalar a biblioteca opcional do ecossistema Forge:
   ```octave
@@ -185,7 +180,7 @@ octave --no-gui "equacoes_diferenciais/euler_implicito_newton.m"
 
 ---
 
-## 🎯 1. Raízes de Equações Não Lineares ($f(x) = 0$)
+## 1. Raízes de Equações Não Lineares ($f(x) = 0$)
 
 A determinação de raízes de equações transcendentais e algébricas consiste em encontrar $x^* \in \mathbb{R}$ tal que $f(x^*) = 0$.
 
@@ -277,7 +272,7 @@ A determinação de raízes de equações transcendentais e algébricas consiste
 
 ---
 
-## 🧱 2. Sistemas de Equações Lineares ($Ax = b$)
+## 2. Sistemas de Equações Lineares ($Ax = b$)
 
 Resolução de sistemas lineares determinados de ordem $n$ da forma matricial:
 $$A \mathbf{x} = \mathbf{b}$$
@@ -317,7 +312,7 @@ $$A \mathbf{x} = \mathbf{b}$$
 
 ---
 
-## ∫ 3. Integração Numérica (Quadratura de Newton-Cotes)
+## 3. Integração Numérica (Quadratura de Newton-Cotes)
 
 Aproximação da integral definida de uma função real:
 $$I = \int_{a}^{b} f(x) \, dx$$
@@ -352,7 +347,7 @@ $$I = \int_{a}^{b} f(x) \, dx$$
 
 ---
 
-## 📐 4. Diferenciação Numérica e Diferenças Finitas
+## 4. Diferenciação Numérica e Diferenças Finitas
 
 - **Arquivo:** [`diferenciacao_numerica/diferenca_progressiva_3pontos.m`](diferenciacao_numerica/diferenca_progressiva_3pontos.m)
 - **O que calcula:** Aproxima a primeira derivada $f'(x_0)$ combinando três amostras equidistantes para cancelar o termo de segunda derivada nas expansões de Taylor, alcançando precisão $O(h^2)$:
@@ -364,7 +359,7 @@ $$I = \int_{a}^{b} f(x) \, dx$$
   - Para $x = 0{,}00$: Derivada exata = $2{,}000000$; Derivada numérica calculada = **$2{,}006643$**.
   - Erro máximo no domínio: $\approx 6{,}66 \times 10^{-3}$, perfeitamente alinhado com o limitante teórico $O(h^2) = \frac{h^2}{3} \max |f'''(\xi)|$.
 
-### 📚 Quadro Resumo das Fórmulas de Diferenciação
+### Quadro Resumo das Fórmulas de Diferenciação
 
 | Esquema | Expressão Algébrica | Ordem de Erro |
 |---|---|---|
@@ -377,7 +372,7 @@ $$I = \int_{a}^{b} f(x) \, dx$$
 
 ---
 
-## 📈 5. Equações Diferenciais Ordinárias (PVI)
+## 5. Equações Diferenciais Ordinárias (PVI)
 
 Aproximação de Problemas de Valor Inicial (PVI) da forma:
 $$\frac{dy}{dx} = f(x, y), \quad y(x_0) = y_0$$
@@ -437,7 +432,7 @@ $$\frac{dy}{dx} = f(x, y), \quad y(x_0) = y_0$$
 
 ---
 
-## 🔁 6. Séries de Funções e Aproximações Polinomiais
+## 6. Séries de Funções e Aproximações Polinomiais
 
 - **Arquivo:** [`series_aproximacoes/taylor_cosseno.m`](series_aproximacoes/taylor_cosseno.m)
 - **O que calcula:** Expansão em Série de Maclaurin para o cosseno em torno da origem ($x_0 = 0$):
@@ -456,7 +451,7 @@ $$\frac{dy}{dx} = f(x, y), \quad y(x_0) = y_0$$
 
 ---
 
-## 〰️ 7. Processamento de Sinais e Métricas Estatísticas
+## 7. Processamento de Sinais e Métricas Estatísticas
 
 - **Arquivo:** [`processamento_sinais/gerador_sinais_rms.m`](processamento_sinais/gerador_sinais_rms.m)
 - **Arquivo de Dados:** [`processamento_sinais/workspace_senoide_exemplo.mat`](processamento_sinais/workspace_senoide_exemplo.mat)
@@ -478,7 +473,7 @@ $$\frac{dy}{dx} = f(x, y), \quad y(x_0) = y_0$$
 
 ---
 
-## ⚗️ 8. Físico-Química e Modelagem Molecular
+## 8. Físico-Química e Modelagem Molecular
 
 ### 8.1 Equação de Born-Mayer para Energia Reticular
 - **Arquivo:** [`fisico_quimica/born_mayer_energia_reticular.m`](fisico_quimica/born_mayer_energia_reticular.m)
@@ -514,7 +509,7 @@ $$\frac{dy}{dx} = f(x, y), \quad y(x_0) = y_0$$
 
 ---
 
-## 💊 9. Farmacocinética e Modelagem Compartimental
+## 9. Farmacocinética e Modelagem Compartimental
 
 Modelagem temporal da concentração de fármacos sob regimes posológicos de doses repetidas com taxa horária de decaimento:
 $$C(t + 1) = C(t) - \frac{C(t)}{2 \cdot t_{1/2}} + \Delta_{entrada}$$
@@ -549,7 +544,7 @@ $$C(t + 1) = C(t) - \frac{C(t)}{2 \cdot t_{1/2}} + \Delta_{entrada}$$
 
 ---
 
-## 🛠️ 10. Utilitários, Conversões e Visualização Gráfica
+## 10. Utilitários, Conversões e Visualização Gráfica
 
 ### 10.1 Conversor de Unidades SI para Imperial
 - **Arquivo:** [`utilitarios/conversao_si_imperial.m`](utilitarios/conversao_si_imperial.m)
@@ -583,7 +578,7 @@ $$C(t + 1) = C(t) - \frac{C(t)}{2 \cdot t_{1/2}} + \Delta_{entrada}$$
 
 ---
 
-## 🛡️ Guia Fundamental de Boas Práticas Numéricas
+## Guia Fundamental de Boas Práticas Numéricas
 
 ### 1. Condicionamento Matricial e Sensibilidade a Perturbações
 Antes de confiar na solução de um sistema $Ax = b$, avalie o **Número de Condicionamento**:
@@ -613,7 +608,7 @@ Para obter curvas suaves sem distorção visual ou serrilhamento (*aliasing*), u
 
 ---
 
-## 🔍 Histórico de Correções Críticas da Refatoração
+## Histórico de Correções Críticas da Refatoração
 
 Durante o processo de auditoria e refatoração arquitetural, foram eliminadas inconsistências históricas presentes nos códigos originais:
 
@@ -631,7 +626,7 @@ Durante o processo de auditoria e refatoração arquitetural, foram eliminadas i
 
 ---
 
-## 📋 Guia Sintático Octave vs. MATLAB
+## Guia Sintático Octave vs. MATLAB
 
 Se você estiver alternando entre o GNU Octave e o MathWorks MATLAB, atente-se às equivalências sintáticas:
 
@@ -647,14 +642,10 @@ Se você estiver alternando entre o GNU Octave e o MathWorks MATLAB, atente-se �
 
 ---
 
-## 👥 Autoria e Licença
+## Autoria e Licença
 
 - **Autor Original:** Davi Monteiro Alves
 - **Engenharia e Refatoração Científica:** Arquitetura de Software Científico e Métodos Numéricos
 - **Licença:** MIT — Livre para uso acadêmico, científico e comercial com preservação de autoria.
 
 ---
-
-<p align="center">
-  <sub>Desenvolvido com rigor matemático e paixão pela computação científica.</sub>
-</p>

@@ -1,207 +1,100 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="100%" height="100%">
   <defs>
-    <linearGradient id="bg-grad-sys" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#070a14"/>
-      <stop offset="50%" stop-color="#0b1329"/>
-      <stop offset="100%" stop-color="#050811"/>
+    <linearGradient id="bg-sys" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070a13"/>
+      <stop offset="100%" stop-color="#0f172a"/>
     </linearGradient>
-
-    <linearGradient id="card-bg-sys" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.75"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.88"/>
-    </linearGradient>
-
-    <filter id="shadow-sys" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45"/>
-    </filter>
-
-    <pattern id="grid-sys" width="24" height="24" patternUnits="userSpaceOnUse">
-      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#334155" stroke-width="0.5" stroke-opacity="0.25"/>
-    </pattern>
   </defs>
 
-  <style>
-    .font-sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-  </style>
+  <rect width="1200" height="620" fill="url(#bg-sys)"/>
 
-  <!-- Background -->
-  <rect width="1200" height="700" fill="url(#bg-grad-sys)"/>
+  <!-- Título Superior -->
+  <text x="60" y="55" fill="#f8fafc" font-size="28" font-weight="700" font-family="system-ui, sans-serif">Sistemas Lineares — Ax = b</text>
+  <text x="60" y="85" fill="#94a3b8" font-size="16" font-family="system-ui, sans-serif">Pivoteamento parcial e comparação de rotinas de escalonamento matricial</text>
 
-  <!-- Top Title Header -->
-  <g transform="translate(60, 40)">
-    <rect x="0" y="0" width="138" height="24" rx="12" fill="#4338ca" fill-opacity="0.3" stroke="#818cf8" stroke-width="1"/>
-    <text x="12" y="16" fill="#a5b4fc" font-size="11" font-weight="700" class="font-mono">ÁLGEBRA LINEAR</text>
+  <!-- BLOCO SUPERIOR: PIVOTEAMENTO PARCIAL -->
+  <g transform="translate(60, 115)">
+    <rect width="1080" height="185" rx="14" fill="#111827" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.6"/>
+    
+    <text x="24" y="36" fill="#38bdf8" font-size="14" font-weight="700" font-family="monospace">ESTABILIDADE NUMÉRICA</text>
+    <text x="24" y="66" fill="#ffffff" font-size="22" font-weight="700" font-family="system-ui, sans-serif">Por que o Pivoteamento Parcial é Obrigatório?</text>
+    
+    <g transform="translate(24, 90)" font-family="monospace" font-size="17">
+      <!-- Matriz Sem Pivoteamento -->
+      <rect x="0" y="0" width="280" height="65" rx="8" fill="#030712" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="16" y="28" fill="#ef4444" font-weight="700">[ 0.0001   2.0000 | 2.0 ]</text>
+      <text x="16" y="52" fill="#94a3b8">[ 1.0000   1.0000 | 2.0 ]</text>
+      <text x="95" y="-8" fill="#ef4444" font-size="13" font-family="sans-serif" font-weight="700">Pivô Quase Nulo</text>
 
-    <text x="0" y="55" fill="#f8fafc" font-size="28" font-weight="800" class="font-sans">
-      Sistemas Lineares — Ax = b &amp; Escalonamento
-    </text>
-    <text x="0" y="80" fill="#94a3b8" font-size="14" class="font-sans">
-      Da estabilidade numérica com pivoteamento parcial à diagonalização completa por Gauss-Jordan
-    </text>
-  </g>
+      <!-- Seta de Troca -->
+      <g transform="translate(310, 15)">
+        <line x1="0" y1="18" x2="70" y2="18" stroke="#38bdf8" stroke-width="3"/>
+        <polygon points="70,12 85,18 70,24" fill="#38bdf8"/>
+        <text x="-5" y="-8" fill="#38bdf8" font-size="14" font-family="sans-serif" font-weight="700">Troca L1 ↔ L2</text>
+      </g>
 
-  <!-- ================= TOP SECTION: PIVOTEAMENTO PARCIAL ================= -->
-  <g transform="translate(60, 130)" filter="url(#shadow-sys)">
-    <rect width="1080" height="175" rx="12" fill="url(#card-bg-sys)" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.5"/>
-    <rect width="1080" height="175" rx="12" fill="url(#grid-sys)"/>
+      <!-- Matriz Com Pivoteamento -->
+      <rect x="425" y="0" width="280" height="65" rx="8" fill="#030712" stroke="#10b981" stroke-width="1.5"/>
+      <text x="441" y="28" fill="#10b981" font-weight="700">[ 1.0000   1.0000 | 2.0 ]</text>
+      <text x="441" y="52" fill="#94a3b8">[ 0.0001   2.0000 | 2.0 ]</text>
+      <text x="520" y="-8" fill="#10b981" font-size="13" font-family="sans-serif" font-weight="700">Pivô Máximo Real</text>
 
-    <!-- Badge -->
-    <rect x="20" y="16" width="168" height="22" rx="6" fill="#0284c7" fill-opacity="0.3" stroke="#38bdf8" stroke-width="1"/>
-    <text x="28" y="31" fill="#38bdf8" font-size="10" font-weight="700" class="font-mono">ESTABILIDADE NUMÉRICA</text>
-
-    <text x="20" y="60" fill="#ffffff" font-size="16" font-weight="700" class="font-sans">
-      Por que o Pivoteamento Parcial é Crucial?
-    </text>
-    <text x="20" y="78" fill="#94a3b8" font-size="12" class="font-sans">
-      A cada coluna k, procura-se o elemento com maior valor absoluto: p = argmax |a(i,k)| para i ≥ k.
-    </text>
-
-    <!-- Matrix Before Swap -->
-    <g transform="translate(20, 92)">
-      <rect width="260" height="68" rx="6" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
-      <text x="12" y="16" fill="#64748b" font-size="10" font-weight="600" class="font-mono">MATRIZ ORIGINAL [A|b]:</text>
-      <!-- Row 1: small pivot 0.002 -->
-      <rect x="22" y="24" width="46" height="16" rx="3" fill="#ef4444" fill-opacity="0.3" stroke="#f87171" stroke-width="0.8"/>
-      <text x="26" y="36" fill="#fca5a5" font-size="11" font-weight="700" class="font-mono">0.002</text>
-      <text x="76" y="36" fill="#cbd5e1" font-size="11" class="font-mono">4.000   1.000 |  5.0</text>
-      <!-- Row 2: large value 8.000 -->
-      <rect x="22" y="42" width="46" height="16" rx="3" fill="#10b981" fill-opacity="0.3" stroke="#34d399" stroke-width="0.8"/>
-      <text x="26" y="54" fill="#6ee7b7" font-size="11" font-weight="700" class="font-mono">8.000</text>
-      <text x="76" y="54" fill="#cbd5e1" font-size="11" class="font-mono">1.000   3.000 | 12.0</text>
-    </g>
-
-    <!-- Swap Arrow Graphic -->
-    <g transform="translate(300, 108)">
-      <line x1="5" y1="12" x2="48" y2="12" stroke="#f59e0b" stroke-width="2.5"/>
-      <polygon points="48,12 38,7 38,17" fill="#f59e0b"/>
-      <polygon points="5,12 15,7 15,17" fill="#f59e0b"/>
-      <text x="0" y="36" fill="#fbbf24" font-size="12" font-weight="700" class="font-mono">L1 &lt;--&gt; L2</text>
-    </g>
-
-    <!-- Matrix After Swap -->
-    <g transform="translate(390, 92)">
-      <rect width="260" height="68" rx="6" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
-      <text x="12" y="16" fill="#64748b" font-size="10" font-weight="600" class="font-mono">APÓS PIVOTEAMENTO:</text>
-      <!-- Row 1: now has 8.000 -->
-      <rect x="22" y="24" width="46" height="16" rx="3" fill="#10b981" fill-opacity="0.3" stroke="#34d399" stroke-width="0.8"/>
-      <text x="26" y="36" fill="#6ee7b7" font-size="11" font-weight="700" class="font-mono">8.000</text>
-      <text x="76" y="36" fill="#cbd5e1" font-size="11" class="font-mono">1.000   3.000 | 12.0</text>
-      <!-- Row 2: 0.002 -->
-      <text x="26" y="54" fill="#94a3b8" font-size="11" class="font-mono">0.002   4.000   1.000 |  5.0</text>
-    </g>
-
-    <!-- Impact Cards on Right -->
-    <g transform="translate(675, 20)">
-      <rect width="380" height="135" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <text x="16" y="24" fill="#38bdf8" font-size="12" font-weight="700" class="font-sans">BENEFÍCIOS MATEMÁTICOS:</text>
-      
-      <circle cx="22" cy="48" r="3.5" fill="#ef4444"/>
-      <text x="32" y="52" fill="#cbd5e1" font-size="11" class="font-sans">Sem pivoteamento: m = 8.000 / 0.002 = 4000!</text>
-      <text x="32" y="68" fill="#94a3b8" font-size="10.5" class="font-sans">Qualquer erro de arredondamento é multiplicado por 4000x.</text>
-
-      <circle cx="22" cy="94" r="3.5" fill="#10b981"/>
-      <text x="32" y="98" fill="#cbd5e1" font-size="11" class="font-sans">Com pivoteamento: multiplicador |m_ik| ≤ 1.0 sempre!</text>
-      <text x="32" y="114" fill="#94a3b8" font-size="10.5" class="font-sans">Erros de ponto flutuante contidos. Divisão por zero eliminada.</text>
+      <!-- Benefício Principal -->
+      <g transform="translate(735, 8)" font-family="system-ui, sans-serif">
+        <text x="0" y="18" fill="#f8fafc" font-size="16" font-weight="700">Multiplicadores restritos a |m| ≤ 1</text>
+        <text x="0" y="42" fill="#38bdf8" font-size="15">Evita divisão por zero e amplificação de ruído</text>
+      </g>
     </g>
   </g>
 
-  <!-- ================= BOTTOM COMPARISON: GAUSS vs GAUSS-JORDAN ================= -->
+  <!-- BLOCO INFERIOR: GAUSS VS GAUSS-JORDAN -->
+  <!-- GAUSS -->
   <g transform="translate(60, 325)">
-    <!-- LEFT METHOD: ELIMINAÇÃO DE GAUSS + RETROSSUBSTITUIÇÃO -->
-    <g transform="translate(0, 0)" filter="url(#shadow-sys)">
-      <rect width="525" height="340" rx="12" fill="url(#card-bg-sys)" stroke="#818cf8" stroke-width="1.3" stroke-opacity="0.7"/>
-      <rect width="525" height="340" rx="12" fill="url(#grid-sys)"/>
-
-      <rect x="20" y="16" width="135" height="22" rx="6" fill="#3730a3" fill-opacity="0.4" stroke="#818cf8" stroke-width="1"/>
-      <text x="28" y="31" fill="#c7d2fe" font-size="10" font-weight="700" class="font-mono">TRIANGULAR SUPERIOR</text>
-
-      <text x="20" y="60" fill="#ffffff" font-size="17" font-weight="700" class="font-sans">
-        Eliminação Gaussiana + Retrossubstituição
-      </text>
-      <text x="20" y="78" fill="#94a3b8" font-size="11.5" class="font-sans">
-        Transforma [A|b] em matriz triangular superior [U|c] e resolve de baixo para cima.
-      </text>
-
-      <!-- Visual Matrix Stage: U -->
-      <g transform="translate(20, 92)">
-        <rect width="485" height="80" rx="8" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
-        
-        <text x="24" y="26" fill="#38bdf8" font-size="12" font-weight="700" class="font-mono">[  u11   u12   u13  |  c1  ]</text>
-        <text x="24" y="48" fill="#818cf8" font-size="12" font-weight="700" class="font-mono">[   0    u22   u23  |  c2  ]</text>
-        <text x="24" y="70" fill="#c084fc" font-size="12" font-weight="700" class="font-mono">[   0     0    u33  |  c3  ]</text>
-
-        <!-- Right Side Annotation Box -->
-        <rect x="255" y="16" width="215" height="48" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-        <text x="268" y="36" fill="#38bdf8" font-size="10.5" font-weight="700" class="font-mono">FORMA ESCALONADA:</text>
-        <text x="268" y="52" fill="#94a3b8" font-size="10" class="font-mono">Zeros abaixo da diagonal</text>
+    <rect width="525" height="250" rx="14" fill="#111827" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.6"/>
+    <text x="24" y="36" fill="#38bdf8" font-size="14" font-weight="700" font-family="monospace">TRIANGULARIZAÇÃO SUPERIOR</text>
+    <text x="24" y="66" fill="#ffffff" font-size="22" font-weight="700" font-family="system-ui, sans-serif">Eliminação de Gauss + Substituição</text>
+    
+    <g transform="translate(24, 90)">
+      <!-- Mini Matriz Triangular -->
+      <rect x="0" y="0" width="170" height="85" rx="8" fill="#030712" stroke="#1f2937" stroke-width="1"/>
+      <g font-family="monospace" font-size="16">
+        <text x="16" y="26" fill="#f8fafc">[ u11  u12  u13 ]</text>
+        <text x="16" y="50" fill="#38bdf8">[  0   u22  u23 ]</text>
+        <text x="16" y="74" fill="#38bdf8">[  0    0   u33 ]</text>
       </g>
 
-      <!-- Step Formula -->
-      <g transform="translate(20, 184)">
-        <rect width="485" height="58" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-        <text x="14" y="22" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">Fase 1: Multiplicador m_ik = a_ik / a_kk  |  Li &lt;-- Li - m_ik · Lk</text>
-        <text x="14" y="44" fill="#a5b4fc" font-size="11.5" font-weight="700" class="font-mono">Fase 2: x_i = (c_i - sum_{j=i+1}^n u_ij · x_j) / u_ii</text>
-      </g>
-
-      <!-- Key Specs -->
-      <g transform="translate(20, 254)">
-        <text x="0" y="14" fill="#94a3b8" font-size="11" class="font-mono">COMPLEXIDADE: (2/3) n^3 FLOPS (Mais Rápido!)</text>
-        <text x="0" y="32" fill="#94a3b8" font-size="11" class="font-mono">INDICAÇÃO: Resolver Ax = b com único vetor b</text>
-        
-        <rect x="0" y="44" width="485" height="28" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.8"/>
-        <text x="12" y="62" fill="#a5b4fc" font-size="10.5" font-weight="600" class="font-mono">
-          Arquivo: EscalonamentoGAUSScomSubst.m (completo e vetorizado)
-        </text>
+      <g transform="translate(195, 10)" font-family="system-ui, sans-serif">
+        <text x="0" y="16" fill="#38bdf8" font-size="17" font-weight="700">Retrossubstituição de baixo para cima</text>
+        <text x="0" y="42" fill="#94a3b8" font-size="15">Complexidade Algorítmica: O(2/3 n³)</text>
+        <text x="0" y="68" fill="#cbd5e1" font-size="15" font-weight="600">Uso padrão para resolver sistemas Ax = b</text>
       </g>
     </g>
 
-    <!-- RIGHT METHOD: GAUSS-JORDAN -->
-    <g transform="translate(555, 0)" filter="url(#shadow-sys)">
-      <rect width="525" height="340" rx="12" fill="url(#card-bg-sys)" stroke="#34d399" stroke-width="1.3" stroke-opacity="0.7"/>
-      <rect width="525" height="340" rx="12" fill="url(#grid-sys)"/>
+    <text x="24" y="225" fill="#94a3b8" font-size="15" font-family="system-ui, sans-serif">Arquivo: <tspan fill="#38bdf8" font-family="monospace" font-weight="700">sistemas_lineares/gauss_pivoteamento.m</tspan></text>
+  </g>
 
-      <rect x="20" y="16" width="145" height="22" rx="6" fill="#065f46" fill-opacity="0.4" stroke="#34d399" stroke-width="1"/>
-      <text x="28" y="31" fill="#6ee7b7" font-size="10" font-weight="700" class="font-mono">DIAGONAL REDUZIDA</text>
-
-      <text x="20" y="60" fill="#ffffff" font-size="17" font-weight="700" class="font-sans">
-        Método de Gauss-Jordan
-      </text>
-      <text x="20" y="78" fill="#94a3b8" font-size="11.5" class="font-sans">
-        Transforma [A|b] diretamente na matriz identidade [I|x]. Sem retrossubstituição!
-      </text>
-
-      <!-- Visual Matrix Stage: I -->
-      <g transform="translate(20, 92)">
-        <rect width="485" height="80" rx="8" fill="#0b1329" stroke="#1e293b" stroke-width="1"/>
-        
-        <text x="24" y="26" fill="#34d399" font-size="12" font-weight="700" class="font-mono">[   1     0     0   |  x1  ]</text>
-        <text x="24" y="48" fill="#34d399" font-size="12" font-weight="700" class="font-mono">[   0     1     0   |  x2  ]</text>
-        <text x="24" y="70" fill="#34d399" font-size="12" font-weight="700" class="font-mono">[   0     0     1   |  x3  ]</text>
-
-        <!-- Directly reading vector x -->
-        <rect x="330" y="12" width="140" height="60" rx="6" fill="#059669" fill-opacity="0.15" stroke="#10b981" stroke-width="1"/>
-        <text x="340" y="36" fill="#34d399" font-size="10" font-weight="700" class="font-mono">LEITURA DIRETA:</text>
-        <text x="340" y="54" fill="#a7f3d0" font-size="10" class="font-mono">Última coluna é x!</text>
+  <!-- GAUSS-JORDAN -->
+  <g transform="translate(615, 325)">
+    <rect width="525" height="250" rx="14" fill="#111827" stroke="#10b981" stroke-width="1.5" stroke-opacity="0.6"/>
+    <text x="24" y="36" fill="#10b981" font-size="14" font-weight="700" font-family="monospace">DIAGONALIZAÇÃO COMPLETA</text>
+    <text x="24" y="66" fill="#ffffff" font-size="22" font-weight="700" font-family="system-ui, sans-serif">Método de Gauss-Jordan</text>
+    
+    <g transform="translate(24, 90)">
+      <!-- Mini Matriz Identidade -->
+      <rect x="0" y="0" width="170" height="85" rx="8" fill="#030712" stroke="#1f2937" stroke-width="1"/>
+      <g font-family="monospace" font-size="16">
+        <text x="16" y="26" fill="#10b981">[  1    0    0  | x1 ]</text>
+        <text x="16" y="50" fill="#10b981">[  0    1    0  | x2 ]</text>
+        <text x="16" y="74" fill="#10b981">[  0    0    1  | x3 ]</text>
       </g>
 
-      <!-- Step Formula -->
-      <g transform="translate(20, 184)">
-        <rect width="485" height="58" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-        <text x="14" y="22" fill="#94a3b8" font-size="10.5" font-weight="600" class="font-mono">Normaliza pivô: Lk &lt;-- Lk / a_kk (pivô unitário)</text>
-        <text x="14" y="44" fill="#6ee7b7" font-size="11.5" font-weight="700" class="font-mono">Zera acima e abaixo: Li &lt;-- Li - a_ik · Lk  (para todo i != k)</text>
-      </g>
-
-      <!-- Key Specs -->
-      <g transform="translate(20, 254)">
-        <text x="0" y="14" fill="#94a3b8" font-size="11" class="font-mono">COMPLEXIDADE: n^3 FLOPS (50% mais operações que Gauss)</text>
-        <text x="0" y="32" fill="#94a3b8" font-size="11" class="font-mono">SUPERPODER: Inversão de Matrizes [A|I] --&gt; [I|A^-1]</text>
-        
-        <rect x="0" y="44" width="485" height="28" rx="6" fill="#064e3b" stroke="#059669" stroke-width="0.8"/>
-        <text x="12" y="62" fill="#6ee7b7" font-size="10.5" font-weight="600" class="font-mono">
-          Arquivo: EscalonamentoGAUSSJORDAM2.m (diagonal completa)
-        </text>
+      <g transform="translate(195, 10)" font-family="system-ui, sans-serif">
+        <text x="0" y="16" fill="#10b981" font-size="17" font-weight="700">Solução direta na última coluna</text>
+        <text x="0" y="42" fill="#94a3b8" font-size="15">Zera termos abaixo e acima do pivô</text>
+        <text x="0" y="68" fill="#cbd5e1" font-size="15" font-weight="600">Ideal para inversão matricial direta</text>
       </g>
     </g>
+
+    <text x="24" y="225" fill="#94a3b8" font-size="15" font-family="system-ui, sans-serif">Arquivo: <tspan fill="#10b981" font-family="monospace" font-weight="700">sistemas_lineares/gauss_jordan.m</tspan></text>
   </g>
 </svg>
