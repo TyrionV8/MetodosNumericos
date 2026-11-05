@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-04T23:49:36.578269</dc:date>
+    <dc:date>2026-11-05T00:03:52.569901</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -48,7 +48,7 @@ Q 63.130193 127.296 63.130193 132.5376
 L 63.130193 174.4704 
 Q 63.130193 179.712 67.392741 179.712 
 z
-" clip-path="url(#p66369ca41a)" style="fill: #ef4444; opacity: 0.14; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #ef4444; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pf7d4f992cd)" style="fill: #ef4444; opacity: 0.14; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #ef4444; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 67.392741 284.544 
@@ -61,14 +61,14 @@ Q 63.130193 232.128 63.130193 237.3696
 L 63.130193 279.3024 
 Q 63.130193 284.544 67.392741 284.544 
 z
-" clip-path="url(#p66369ca41a)" style="fill: #10b981; opacity: 0.18; stroke: #10b981; stroke-width: 1.5; stroke-linejoin: miter"/>
+" clip-path="url(#pf7d4f992cd)" style="fill: #10b981; opacity: 0.18; stroke: #10b981; stroke-width: 1.5; stroke-linejoin: miter"/>
    </g>
    <g id="matplotlib.axis_1"/>
    <g id="matplotlib.axis_2"/>
    <g id="line2d_1">
     <path d="M 191.006641 289.7856 
 L 191.006641 122.0544 
-" clip-path="url(#p66369ca41a)" style="fill: none; stroke-dasharray: 1.5,2.475; stroke-dashoffset: 0; stroke: #484f58; stroke-width: 1.5"/>
+" clip-path="url(#pf7d4f992cd)" style="fill: none; stroke-dasharray: 1.5,2.475; stroke-dashoffset: 0; stroke: #484f58; stroke-width: 1.5"/>
    </g>
    <g id="patch_5">
     <path d="M 46.08 336.96 
@@ -296,7 +296,7 @@ z
    </g>
    <g id="text_5">
     <!-- 1.50 -->
-    <g style="fill: #8b949e" transform="translate(75.346108 209.23125) scale(0.12 -0.12)">
+    <g style="fill: #94a3b8" transform="translate(75.346108 209.23125) scale(0.12 -0.12)">
      <use xlink:href="#DejaVuSans-31"/>
      <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
      <use xlink:href="#DejaVuSans-35" x="95.410156"/>
@@ -305,7 +305,7 @@ z
    </g>
    <g id="text_6">
     <!-- 0.80 -->
-    <g style="fill: #8b949e" transform="translate(113.709042 209.23125) scale(0.12 -0.12)">
+    <g style="fill: #94a3b8" transform="translate(113.709042 209.23125) scale(0.12 -0.12)">
      <defs>
       <path id="DejaVuSans-38" d="M 2034 2216 
 Q 1584 2216 1326 1975 
@@ -355,7 +355,7 @@ z
    </g>
    <g id="text_7">
     <!-- 3.20 -->
-    <g style="fill: #8b949e" transform="translate(152.071976 209.23125) scale(0.12 -0.12)">
+    <g style="fill: #94a3b8" transform="translate(152.071976 209.23125) scale(0.12 -0.12)">
      <defs>
       <path id="DejaVuSans-33" d="M 2597 2516 
 Q 3050 2419 3304 2112 
@@ -725,7 +725,7 @@ z
    </g>
    <g id="text_14">
     <!-- Evita divisões por quase zero e instabilidade -->
-    <g style="fill: #8b949e" transform="translate(51.802421 315.9936) scale(0.1 -0.1)">
+    <g style="fill: #94a3b8" transform="translate(51.802421 315.9936) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-45" d="M 628 4666 
 L 3578 4666 
@@ -2272,14 +2272,14 @@ z
 L 445.992278 279.3024 
 L 512.061776 279.3024 
 z
-" clip-path="url(#p08a8961295)" style="fill: #38bdf8; opacity: 0.12; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #38bdf8; stroke-linejoin: miter"/>
+" clip-path="url(#p687cce8a66)" style="fill: #38bdf8; opacity: 0.12; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #38bdf8; stroke-linejoin: miter"/>
    </g>
    <g id="matplotlib.axis_3"/>
    <g id="matplotlib.axis_4"/>
    <g id="line2d_2">
     <path d="M 563.212355 289.7856 
 L 563.212355 122.0544 
-" clip-path="url(#p08a8961295)" style="fill: none; stroke-dasharray: 1.5,2.475; stroke-dashoffset: 0; stroke: #484f58; stroke-width: 1.5"/>
+" clip-path="url(#p687cce8a66)" style="fill: none; stroke-dasharray: 1.5,2.475; stroke-dashoffset: 0; stroke: #484f58; stroke-width: 1.5"/>
    </g>
    <g id="patch_12">
     <path d="M 418.285714 336.96 
@@ -2851,7 +2851,7 @@ z
    </g>
    <g id="text_29">
     <!-- Resolução regressiva de baixo para cima -->
-    <g style="fill: #8b949e" transform="translate(433.133917 315.9936) scale(0.1 -0.1)">
+    <g style="fill: #94a3b8" transform="translate(433.133917 315.9936) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-52" d="M 2841 2188 
 Q 3044 2119 3236 1894 
@@ -3498,7 +3498,7 @@ Q 939.680618 127.296 939.680618 132.5376
 L 939.680618 174.4704 
 Q 939.680618 179.712 943.943166 179.712 
 z
-" clip-path="url(#p1ef4e10f17)" style="fill: #38bdf8; opacity: 0.22; stroke: #38bdf8; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pf83aac8abb)" style="fill: #38bdf8; opacity: 0.22; stroke: #38bdf8; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_19">
     <path d="M 943.943166 232.128 
@@ -3511,7 +3511,7 @@ Q 939.680618 179.712 939.680618 184.9536
 L 939.680618 226.8864 
 Q 939.680618 232.128 943.943166 232.128 
 z
-" clip-path="url(#p1ef4e10f17)" style="fill: #38bdf8; opacity: 0.22; stroke: #38bdf8; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pf83aac8abb)" style="fill: #38bdf8; opacity: 0.22; stroke: #38bdf8; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="patch_20">
     <path d="M 943.943166 284.544 
@@ -3524,14 +3524,14 @@ Q 939.680618 232.128 939.680618 237.3696
 L 939.680618 279.3024 
 Q 939.680618 284.544 943.943166 284.544 
 z
-" clip-path="url(#p1ef4e10f17)" style="fill: #38bdf8; opacity: 0.22; stroke: #38bdf8; stroke-width: 1.2; stroke-linejoin: miter"/>
+" clip-path="url(#pf83aac8abb)" style="fill: #38bdf8; opacity: 0.22; stroke: #38bdf8; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="matplotlib.axis_5"/>
    <g id="matplotlib.axis_6"/>
    <g id="line2d_3">
     <path d="M 931.155521 289.7856 
 L 931.155521 122.0544 
-" clip-path="url(#p1ef4e10f17)" style="fill: none; stroke-dasharray: 1.5,2.475; stroke-dashoffset: 0; stroke: #484f58; stroke-width: 1.5"/>
+" clip-path="url(#pf83aac8abb)" style="fill: none; stroke-dasharray: 1.5,2.475; stroke-dashoffset: 0; stroke: #484f58; stroke-width: 1.5"/>
    </g>
    <g id="patch_21">
     <path d="M 790.491429 336.96 
@@ -3676,7 +3676,7 @@ z
    </g>
    <g id="text_43">
     <!-- Vetor solução lido diretamente sem substituição -->
-    <g style="fill: #8b949e" transform="translate(786.872443 315.9936) scale(0.1 -0.1)">
+    <g style="fill: #94a3b8" transform="translate(786.872443 315.9936) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-56" d="M 1831 0 
 L 50 4666 
@@ -4253,13 +4253,13 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="p66369ca41a">
+  <clipPath id="pf7d4f992cd">
    <rect x="46.08" y="74.88" width="315.428571" height="262.08"/>
   </clipPath>
-  <clipPath id="p08a8961295">
+  <clipPath id="p687cce8a66">
    <rect x="418.285714" y="74.88" width="315.428571" height="262.08"/>
   </clipPath>
-  <clipPath id="p1ef4e10f17">
+  <clipPath id="pf83aac8abb">
    <rect x="790.491429" y="74.88" width="315.428571" height="262.08"/>
   </clipPath>
  </defs>
