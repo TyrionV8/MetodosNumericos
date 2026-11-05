@@ -1,0 +1,3568 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Técnico de Métodos Numéricos &bull; Repositório MetodosNumericos (branch main)</title>
+  <meta name="description" content="Guia técnico aprofundado de estudo e consulta do repositório MetodosNumericos em GNU Octave e MATLAB. Cobre zeros de funções, álgebra linear, quadratura, diferenciação, EDOs, sinais, físico-química e farmacocinética.">
+  <style>
+:root {
+  --bg-primary: #0b0f19;
+  --bg-secondary: #111827;
+  --bg-tertiary: #1f2937;
+  --bg-card: #141d2e;
+  --bg-card-hover: #1a253a;
+  --border-color: #243049;
+  --border-focus: #38bdf8;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-cyan: #38bdf8;
+  --accent-blue: #60a5fa;
+  --accent-indigo: #818cf8;
+  --accent-emerald: #34d399;
+  --accent-amber: #fbbf24;
+  --accent-rose: #f87171;
+  --code-bg: #070a12;
+  --code-border: #1e293b;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --border-color: #e2e8f0;
+  --border-focus: #0284c7;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --accent-cyan: #0284c7;
+  --accent-blue: #2563eb;
+  --accent-indigo: #4f46e5;
+  --accent-emerald: #059669;
+  --accent-amber: #d97706;
+  --accent-rose: #dc2626;
+  --code-bg: #f1f5f9;
+  --code-border: #cbd5e1;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Top Header Bar */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 2rem;
+  transition: all 0.2s;
+}
+
+[data-theme="light"] .topbar {
+  background-color: rgba(255, 255, 255, 0.92);
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.brand-badge {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.45rem 0.85rem 0.45rem 2.2rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  width: 240px;
+  transition: all 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+  width: 320px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  width: 14px;
+  height: 14px;
+  fill: var(--text-muted);
+  pointer-events: none;
+}
+
+.btn-action {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.15s;
+}
+
+.btn-action:hover {
+  background: var(--border-color);
+  border-color: var(--border-focus);
+  color: var(--accent-cyan);
+}
+
+/* Reading Progress Bar */
+.progress-bar-container {
+  position: fixed;
+  top: 57px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+  z-index: 101;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-indigo), var(--accent-emerald));
+  width: 0%;
+  transition: width 0.1s;
+}
+
+/* App Layout */
+.app-container {
+  display: flex;
+  min-height: calc(100vh - 58px);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  height: calc(100vh - 58px);
+  position: sticky;
+  top: 58px;
+  overflow-y: auto;
+  padding: 1.5rem 1rem;
+}
+
+.sidebar-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: 0.5rem 0.75rem 0.25rem;
+  margin-top: 1rem;
+}
+
+.sidebar-title:first-child {
+  margin-top: 0;
+}
+
+.nav-list {
+  list-style: none;
+  margin-bottom: 0.5rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.15s;
+  border-left: 2px solid transparent;
+}
+
+.nav-link:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.nav-link.active {
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--accent-cyan);
+  border-left-color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  max-width: 1100px;
+  padding: 2.5rem 3rem 6rem;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ffffff 40%, var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .hero h1 {
+  background: linear-gradient(135deg, #0f172a 40%, #0284c7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 850px;
+  margin-bottom: 1.5rem;
+}
+
+.hero-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.meta-value {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+/* Section Common Styling */
+.doc-section {
+  margin-bottom: 4rem;
+  scroll-margin-top: 80px;
+}
+
+.section-header {
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-number {
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--accent-cyan);
+}
+
+p {
+  margin-bottom: 1.25rem;
+  color: var(--text-primary);
+}
+
+/* Callouts / Alerts */
+.callout {
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid;
+  background: var(--bg-card);
+  position: relative;
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.callout-info {
+  border-left-color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.08);
+}
+.callout-info .callout-title { color: var(--accent-cyan); }
+
+.callout-warning {
+  border-left-color: var(--accent-amber);
+  background: rgba(251, 191, 36, 0.08);
+}
+.callout-warning .callout-title { color: var(--accent-amber); }
+
+.callout-danger {
+  border-left-color: var(--accent-rose);
+  background: rgba(248, 113, 113, 0.08);
+}
+.callout-danger .callout-title { color: var(--accent-rose); }
+
+.callout-success {
+  border-left-color: var(--accent-emerald);
+  background: rgba(52, 211, 153, 0.08);
+}
+.callout-success .callout-title { color: var(--accent-emerald); }
+
+.callout-math {
+  border-left-color: var(--accent-indigo);
+  background: rgba(129, 140, 248, 0.08);
+}
+.callout-math .callout-title { color: var(--accent-indigo); }
+
+/* Math Blocks */
+.math-block {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.25rem 0;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--accent-cyan);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.math-inline {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--bg-tertiary);
+  color: var(--accent-cyan);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+.formula-tag {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Cards & Grids */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Tables */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  margin: 1.5rem 0;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  text-align: left;
+}
+
+th {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-primary);
+}
+
+td.mono, th.mono {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+}
+
+/* Code Blocks */
+.code-wrapper {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 10px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--code-border);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.code-lang-badge {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+}
+
+pre {
+  margin: 0;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+/* Syntax highlights */
+.kw { color: #f472b6; font-weight: 600; }
+.fn { color: #38bdf8; }
+.str { color: #a7f3d0; }
+.num { color: #fcd34d; }
+.cm { color: #64748b; font-style: italic; }
+.op { color: #93c5fd; }
+.var { color: #e2e8f0; }
+
+/* Side by side diff */
+.diff-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.diff-col {
+  border-radius: 10px;
+  border: 1px solid;
+  overflow: hidden;
+}
+
+.diff-orig {
+  border-color: rgba(248, 113, 113, 0.4);
+}
+
+.diff-fixed {
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+.diff-header {
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+}
+
+.diff-orig .diff-header {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--accent-rose);
+}
+
+.diff-fixed .diff-header {
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--accent-emerald);
+}
+
+/* Interactive Simulator Containers */
+.simulator-card {
+  background: var(--bg-card);
+  border: 2px solid var(--accent-cyan);
+  border-radius: 14px;
+  padding: 1.75rem;
+  margin: 2rem 0;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+}
+
+.sim-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
+}
+
+.sim-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sim-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: var(--bg-tertiary);
+  padding: 1.25rem;
+  border-radius: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-control {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+}
+
+.sim-btn-run {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+  color: #fff;
+  border: none;
+  padding: 0.65rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(56, 189, 248, 0.3);
+}
+
+.sim-btn-run:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.sim-output-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.canvas-container {
+  background: #050811;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+canvas {
+  width: 100%;
+  height: 280px;
+  border-radius: 6px;
+}
+
+.sim-table-wrap {
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+/* Accordion Questions */
+.quiz-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.quiz-header {
+  padding: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  user-select: none;
+}
+
+.quiz-header:hover {
+  background: var(--bg-tertiary);
+  color: var(--accent-cyan);
+}
+
+.quiz-badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(129, 140, 248, 0.15);
+  color: var(--accent-indigo);
+  margin-right: 0.75rem;
+}
+
+.quiz-content {
+  padding: 0 1.25rem 1.25rem;
+  border-top: 1px dashed var(--border-color);
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  display: none;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.quiz-content.show {
+  display: block;
+}
+
+.quiz-toggle-icon {
+  transition: transform 0.2s;
+}
+
+.quiz-item.open .quiz-toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* Vector Graphic Container */
+.svg-diagram-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.svg-diagram-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .sidebar {
+    display: none;
+  }
+  .main-content {
+    padding: 1.5rem 1rem 4rem;
+  }
+  .diff-container {
+    grid-template-columns: 1fr;
+  }
+  .sim-output-grid {
+    grid-template-columns: 1fr;
+  }
+  .search-input {
+    width: 160px;
+  }
+  .search-input:focus {
+    width: 200px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .topbar, .sidebar, .btn-action, .sim-controls, .sim-btn-run, .quiz-toggle-icon {
+    display: none !important;
+  }
+  body, .main-content {
+    background: #fff !important;
+    color: #000 !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .card, .table-container, .code-wrapper, .simulator-card, .callout {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+  }
+  .quiz-content {
+    display: block !important;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<!-- Top Navigation Bar -->
+<header class="topbar">
+  <div class="topbar-brand">
+    <span class="brand-badge">Octave / MATLAB</span>
+    <span>Métodos Numéricos &bull; Guia Técnico Integral</span>
+  </div>
+  <div class="topbar-actions">
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" id="search-input" class="search-input" placeholder="Buscar método, arquivo, fórmula...">
+    </div>
+    <button class="btn-action" onclick="toggleAllAccordions()" title="Expandir/Recolher Seções e Questões">
+      <span>↕️ Alternar FAQ</span>
+    </button>
+    <button class="btn-action" onclick="window.print()" title="Imprimir Guia ou Salvar em PDF">
+      <span>🖨️ Imprimir / PDF</span>
+    </button>
+    <button class="btn-action" onclick="toggleTheme()" title="Alternar Modo Escuro / Claro">
+      <span id="theme-toggle-icon">☀️</span>
+    </button>
+  </div>
+</header>
+
+<div class="progress-bar-container">
+  <div class="progress-bar" id="reading-progress"></div>
+</div>
+
+<div class="app-container">
+  <!-- Sticky Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Estrutura de Estudo</div>
+    <ul class="nav-list">
+      <li><a href="#visao-geral" class="nav-link active"><span>0. Visão Geral & Metadados</span><span class="nav-badge">repo</span></a></li>
+      <li><a href="#glossario" class="nav-link"><span>1. Glossário de Termos & Siglas</span><span class="nav-badge">A-Z</span></a></li>
+      <li><a href="#mapa-arquitetura" class="nav-link"><span>2. Taxonomia & Mapa dos Arquivos</span><span class="nav-badge">34 files</span></a></li>
+      <li><a href="#modulo-raizes" class="nav-link"><span>3. Zeros de Funções (f(x)=0)</span><span class="nav-badge">5 métodos</span></a></li>
+      <li><a href="#modulo-sistemas" class="nav-link"><span>4. Sistemas Lineares (Ax=b)</span><span class="nav-badge">Gauss/LU</span></a></li>
+      <li><a href="#modulo-integracao" class="nav-link"><span>5. Integração Numérica</span><span class="nav-badge">Newton-Cotes</span></a></li>
+      <li><a href="#modulo-diferenciacao" class="nav-link"><span>6. Diferenciação Numérica</span><span class="nav-badge">O(h²)</span></a></li>
+      <li><a href="#modulo-edos" class="nav-link"><span>7. Equações Diferenciais (EDOs)</span><span class="nav-badge">Euler/RK2</span></a></li>
+      <li><a href="#modulo-series" class="nav-link"><span>8. Séries & Taylor/Maclaurin</span><span class="nav-badge">cos(x)</span></a></li>
+      <li><a href="#modulo-sinais" class="nav-link"><span>9. Geração de Sinais & RMS</span><span class="nav-badge">Nyquist</span></a></li>
+      <li><a href="#modulo-aplicacoes" class="nav-link"><span>10. Físico-Química & Farmacocinética</span><span class="nav-badge">Cálculo Real</span></a></li>
+      <li><a href="#modulo-auditoria" class="nav-link"><span>11. Auditoria Forense de Bugs</span><span class="nav-badge">15 correções</span></a></li>
+      <li><a href="#modulo-questoes" class="nav-link"><span>12. Autoavaliação & Entrevista</span><span class="nav-badge">10 testes</span></a></li>
+      <li><a href="#comandos-execucao" class="nav-link"><span>13. Guia de Execução & Comandos</span><span class="nav-badge">CLI</span></a></li>
+    </ul>
+
+    <div class="sidebar-title">Ambiente & Dependências</div>
+    <div style="padding: 0.75rem; background: var(--bg-tertiary); border-radius: 8px; font-size: 0.78rem; line-height: 1.5; color: var(--text-muted); margin-top: 0.5rem;">
+      <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.35rem;">⚙️ Requisitos do Ambiente</div>
+      <div>&bull; <strong>GNU Octave</strong> &ge; 6.4 (recomendado)</div>
+      <div>&bull; Pacote <code>signal</code> (para pasta <code>Octave/</code>)</div>
+      <div>&bull; Codificação: Latin-1 (converter p/ UTF-8)</div>
+      <div>&bull; 100% Funcional Offline</div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+
+    <!-- HERO SECTION & METADATA -->
+    <section id="visao-geral" class="doc-section hero">
+      <div class="hero-tag">📘 Documentação Técnica de Engenharia &bull; Branch main</div>
+      <h1>Guia Técnico Completo de Métodos Numéricos</h1>
+      <p class="hero-subtitle">
+        Manual analítico exaustivo dos 34 scripts em GNU Octave e MATLAB do repositório <code>MetodosNumericos</code>. 
+        Este documento foi concebido para fornecer domínio conceitual, algorítmico e prático sobre a discretização matemática de fenômenos físicos, químicos, farmacológicos e de engenharia.
+      </p>
+
+      <div class="hero-meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Repositório & Ramo</span>
+          <span class="meta-value">MetodosNumericos (branch main)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Autor do Código</span>
+          <span class="meta-value">Davi Monteiro Alves (16/0049156)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Instituição & Origem</span>
+          <span class="meta-value">Universidade de Brasília (UnB)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Ambiente Primário</span>
+          <span class="meta-value">GNU Octave 6.4+ / MATLAB</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRODUÇÃO TEÓRICA -->
+    <section class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">0.1</span> O Papel dos Métodos Numéricos na Engenharia</h2>
+      </div>
+      <p>
+        Na matemática clássica, busca-se frequentemente a <strong>solução analítica</strong> (uma expressão fechada exata) para equações diferenciais, integrais e raízes. No entanto, na esmagadora maioria dos problemas reais de engenharia — desde a dinâmica de voo até o cálculo de circuitos com saturação e a farmacocinética no sangue humano —, as equações resultantes são intrinsecamente não lineares ou acopladas de tal forma que <em>não existe solução analítica fechada</em>.
+      </p>
+      <p>
+        Os <strong>métodos numéricos</strong> suprem essa limitação fundamental através da <strong>discretização</strong>: transformam o contínuo infinito em um conjunto finito de pontos e iterações aritméticas simples (+, &minus;, &times;, &divide;) que computadores conseguem executar com alta velocidade. O domínio dessa disciplina exige compreender não apenas o código, mas as grandezas que governam o comportamento dos algoritmos:
+      </p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">📉 Erro de Truncamento</div>
+          <p style="font-size:0.9rem; color:var(--text-secondary); margin:0;">
+            Surge quando uma operação matemática contínua (como uma derivada ou série infinita de Taylor) é truncada em um número finito de termos ou passos finitos <em>h</em>. Sua escala é modelada pela notação assintótica <code>O(h^p)</code>.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🧮 Erro de Arredondamento</div>
+          <p style="font-size:0.9rem; color:var(--text-secondary); margin:0;">
+            Decorre da limitação física do computador em representar números reais com infinitas casas decimais (padrão IEEE 754 de ponto flutuante). O acúmulo de subtrações de números quase iguais gera perda catastrófica de significância.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">⚖️ Estabilidade & Condicionamento</div>
+          <p style="font-size:0.9rem; color:var(--text-secondary); margin:0;">
+            Mede se pequenas perturbações nas entradas (ou erros em iterações intermediárias) são amortecidas pelo algoritmo (estabilidade) ou se crescem exponencialmente até destruir o resultado numérico.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOSSÁRIO DE TERMOS E SIGLAS -->
+    <section id="glossario" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">1.0</span> Glossário Essencial de Termos Técnicos e Siglas</h2>
+      </div>
+      <p class="section-desc">
+        A precisão conceitual é um pré-requisito absoluto para o aprendizado e para a comunicação com pares e professores. Todas as siglas e termos do repositório estão definidos abaixo com sua etimologia e significado prático.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Termo / Sigla</th>
+              <th>Nome Completo / Tradução</th>
+              <th>Definição Conceitual e Função no Repositório</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">GNU</td>
+              <td><em>GNU's Not Unix</em> (Recursivo)</td>
+              <td>Projeto de software livre criado por Richard Stallman. Dá nome ao <strong>GNU Octave</strong>, ambiente computacional livre de alto nível com sintaxe amplamente compatível com o MATLAB comercial.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">EDO</td>
+              <td>Equação Diferencial Ordinária</td>
+              <td>Equação diferencial que relaciona uma função desconhecida de <em>uma única variável independente</em> com suas derivadas. Modelada nos scripts da pasta <code>EDO/</code> (ex: Euler, Heun e sistemas acoplados).</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">PVI</td>
+              <td>Problema de Valor Inicial</td>
+              <td>Uma EDO acompanhada do estado inicial conhecido do sistema no instante inicial <code>y(x₀) = y₀</code>. Sem o valor inicial, a solução conteria uma constante arbitrária <em>C</em> indefinida.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">MPF</td>
+              <td>Método do Ponto Fixo</td>
+              <td>Algoritmo para encontrar zeros de <code>f(x) = 0</code> reescrevendo-a na forma <code>x = g(x)</code>. Um ponto <em>p</em> onde <code>g(p) = p</code> é chamado de ponto fixo de <em>g</em> e coincide com a raiz de <em>f</em>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">RMS</td>
+              <td><em>Root Mean Square</em> (Valor Eficaz)</td>
+              <td>Média quadrática de um sinal contínuo ou discreto: raiz quadrada da média dos quadrados dos valores instantâneos. Na engenharia elétrica, representa a tensão contínua equivalente que dissipa a mesma potência térmica em um resistor.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">LU</td>
+              <td><em>Lower-Upper Decomposition</em> (Fatoração Triangular)</td>
+              <td>Decomposição de uma matriz <code>A</code> no produto de uma matriz triangular inferior <code>L</code> (com 1s na diagonal) e uma matriz triangular superior <code>U</code>, viabilizando resolução de múltiplos sistemas lineares com custo computacional reduzido.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">RREF</td>
+              <td><em>Reduced Row Echelon Form</em> (Forma Escalonada Reduzida)</td>
+              <td>Estado final de uma matriz após a eliminação de Gauss-Jordan: pivôs iguais a 1 e todos os demais elementos de cada coluna contendo pivô iguais a zero. Testado no script <code>teste2.m</code> via função nativa <code>rref()</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">SI</td>
+              <td>Sistema Internacional de Unidades</td>
+              <td>Sistema métrico padrão mundial baseado no metro (m), quilograma (kg), segundo (s), etc. Convertido para unidades imperiais no script <code>my_functions/SItoING.m</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">ING</td>
+              <td><em>English / Imperial Units</em> (Unidades Imperiais)</td>
+              <td>Sistema de medidas tradicional britânico/americano baseado em libras (lb), polegadas (in), pés (ft). Utilizado na conversão do comprimento de arco do Gateway Arch para pés (fator 3.28).</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Aliasing</td>
+              <td>Falseamento / Mascaramento de Espectro</td>
+              <td>Distorção que ocorre quando um sinal contínuo de alta frequência é amostrado a uma taxa insuficiente, fazendo com que ele se manifeste como uma frequência aparente muito mais baixa ou constante nula. Ocorre no script <code>Octave/Gerador de função.m</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Critério de Nyquist</td>
+              <td>Teorema da Amostragem de Nyquist-Shannon</td>
+              <td>Princípio fundamental da teoria da informação que estabelece que a taxa de amostragem <code>fs</code> deve ser estritamente maior que o dobro da máxima frequência do sinal (<code>fs &gt; 2·fmax</code>) para evitar o <em>aliasing</em> e permitir reconstrução perfeita.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Offset (Nível DC)</td>
+              <td>Deslocamento Contínuo</td>
+              <td>Componente contínua ou valor médio não nulo somado a uma forma de onda alternada, elevando ou rebaixando o sinal verticalmente em relação ao eixo horizontal de tensão zero.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Bolus</td>
+              <td>Dose Concentrada Instantânea</td>
+              <td>Em farmacologia clínica, refere-se à administração rápida de uma dose de medicação (ex: injeção intravenosa direta), provocando elevação instantânea na concentração sanguínea, modelado em <code>pessoal/ConcentPlasm_SemAbs.m</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Meia-vida (T½)</td>
+              <td>Tempo de Meia-Vida Biológica / Radioativa</td>
+              <td>Tempo necessário para que a quantidade de uma substância no organismo seja reduzida à metade através de metabolismo e excreção. Rege o decaimento exponencial nos modelos da pasta <code>pessoal/</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Clearance</td>
+              <td>Depuração Plasmática</td>
+              <td>Volume teórico de plasma completamente depurado (livre) do fármaco por unidade de tempo pelos rins e fígado. Relaciona a dose com a área sob a curva de concentração plasmática.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Steady-State</td>
+              <td>Estado de Equilíbrio Dinâmico</td>
+              <td>Condição em que a taxa de entrada do fármaco é exatamente igual à sua taxa de eliminação, fazendo a concentração flutuar periodicamente em torno de uma média estável constante.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Pivoteamento Parcial</td>
+              <td>Permutação Estratégica de Linhas</td>
+              <td>Procedimento na Eliminação de Gauss que, a cada coluna <em>k</em>, localiza a linha abaixo com o elemento de maior valor absoluto (<code>max |A(l,k)|</code>) e a troca com a linha atual, evitando divisão por zero e reduzindo erros de ponto flutuante.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Retrossubstituição</td>
+              <td><em>Backward Substitution</em> (Substituição Regressiva)</td>
+              <td>Fase final da resolução de sistemas triangulares superiores, onde a última incógnita <code>x_n</code> é calculada diretamente e suas sucessoras são resolvidas recursivamente de baixo para cima.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Ordem O(h^p)</td>
+              <td>Notação Assintótica de Landau (Grande-O)</td>
+              <td>Descreve o comportamento limitante do erro: significa que o erro é proporcional a <code>h^p</code>. Se a ordem é <code>O(h²)</code> e o passo <em>h</em> for cortado pela metade, o erro de truncamento é reduzido por um fator de 4.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Catenária</td>
+              <td>Curva Catenária Hiperbólica</td>
+              <td>Curva geométrica formada por um cabo ou corrente homogênea e flexível suspenso pelas extremidades sob ação exclusiva da gravidade, governada pela função cosseno hiperbólico <code>cosh(x/a)</code>. Modela a forma do Gateway Arch de St. Louis em <code>Integração/Trapez.m</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Energia Reticular</td>
+              <td>Energia de Rede Cristalina</td>
+              <td>Energia liberada quando íons gasosos infinitamente separados se unem para formar um mol de um cristal iônico sólido. Calculada pela equação de Born-Mayer em <code>Eq_BornMayer.m</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Cte. de Madelung</td>
+              <td>Constante Eletrostática Geométrica</td>
+              <td>Fator puramente geométrico adimensional que quantifica o potencial eletrostático total sentido por um íon em uma rede cristalina periódica infinita devido a todos os outros cátions e ânions vizinhos.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Susceptibilidade Molar</td>
+              <td>Susceptibilidade Magnética Molar (χ_M)</td>
+              <td>Propriedade físico-química que mede o grau de magnetização induzida em um mol de uma substância quando submetida a um campo magnético externo. Relacionada ao momento magnético de spin puro em <code>SuscepMag.m</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">Latin-1 / UTF-8</td>
+              <td>Padrões de Codificação de Caracteres</td>
+              <td><strong>Latin-1 (ISO-8859-1)</strong> codifica caracteres acentuados em 1 byte (padrão legado no qual muitos arquivos <code>.m</code> do repo foram criados); <strong>UTF-8</strong> é o padrão universal de tamanho variável. A incompatibilidade causa o aparecimento de caracteres corrompidos como <code>funo</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-cyan); font-weight:bold;">CR vs LF vs CRLF</td>
+              <td>Finalizadores de Linha (<em>Line Endings</em>)</td>
+              <td><code>LF</code> (<code>\n</code>, padrão Unix/Linux moderno); <code>CRLF</code> (<code>\r\n</code>, padrão Windows); <code>CR</code> (<code>\r</code>, legado do Mac OS clássico pré-OSX). Arquivos como <code>Eq_BornMayer.m</code> usam apenas <code>CR</code>, o que faz com que editores modernos exibam o arquivo inteiro em uma linha contínua.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- TAXONOMIA E MAPA DO REPOSITÓRIO -->
+    <section id="mapa-arquitetura" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">2.0</span> Taxonomia e Arquitetura do Repositório</h2>
+      </div>
+      <p class="section-desc">
+        O repositório totaliza <strong>34 scripts <code>.m</code></strong> e <strong>1 arquivo binário de workspace (<code>Octave/01</code>)</strong>. 
+        Abaixo apresentamos a árvore de decisão visual para localização imediata do algoritmo adequado a cada classe de problema, seguida pela dissecação das versões legadas versus ativas.
+      </p>
+
+      <!-- SVG Decision Tree Diagram -->
+      <div class="svg-diagram-card">
+        <div class="svg-diagram-title">🗺️ Árvore de Decisão Rápida &bull; Qual Arquivo Usar?</div>
+<svg viewBox="0 0 950 420" xmlns="http://www.w3.org/2000/svg" style="background:#080d1a; border-radius:12px; border:1px solid #1e293b; width:100%;">
+  <defs>
+    <linearGradient id="gCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="gIndigo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="gEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="gAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Root Node -->
+  <rect x="360" y="20" width="230" height="46" rx="8" fill="url(#gCyan)" filter="url(#shadow)"/>
+  <text x="475" y="48" fill="#ffffff" font-family="system-ui, sans-serif" font-weight="700" font-size="14" text-anchor="middle">Qual é o seu Problema Numérico?</text>
+
+  <!-- Branch lines from Root -->
+  <path d="M 475 66 L 475 95 L 115 95 L 115 130" stroke="#38bdf8" stroke-width="2" fill="none"/>
+  <path d="M 475 95 L 295 95 L 295 130" stroke="#818cf8" stroke-width="2" fill="none"/>
+  <path d="M 475 95 L 475 130" stroke="#34d399" stroke-width="2" fill="none"/>
+  <path d="M 475 95 L 655 95 L 655 130" stroke="#fbbf24" stroke-width="2" fill="none"/>
+  <path d="M 475 95 L 835 95 L 835 130" stroke="#f472b6" stroke-width="2" fill="none"/>
+
+  <!-- Category Nodes -->
+  <!-- 1. Raízes -->
+  <rect x="30" y="130" width="170" height="42" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="115" y="156" fill="#38bdf8" font-family="system-ui, sans-serif" font-weight="700" font-size="12" text-anchor="middle">🎯 Raízes f(x) = 0</text>
+
+  <!-- 2. Sistemas -->
+  <rect x="210" y="130" width="170" height="42" rx="6" fill="#1e293b" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="295" y="156" fill="#818cf8" font-family="system-ui, sans-serif" font-weight="700" font-size="12" text-anchor="middle">🧱 Sistemas Ax = b</text>
+
+  <!-- 3. Integração / Derivada -->
+  <rect x="390" y="130" width="170" height="42" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+  <text x="475" y="156" fill="#34d399" font-family="system-ui, sans-serif" font-weight="700" font-size="12" text-anchor="middle">∫ Cálculo Diferencial/Int.</text>
+
+  <!-- 4. EDOs -->
+  <rect x="570" y="130" width="170" height="42" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="655" y="156" fill="#fbbf24" font-family="system-ui, sans-serif" font-weight="700" font-size="12" text-anchor="middle">📈 EDOs / PVI</text>
+
+  <!-- 5. Aplicações -->
+  <rect x="750" y="130" width="170" height="42" rx="6" fill="#1e293b" stroke="#f472b6" stroke-width="1.5"/>
+  <text x="835" y="156" fill="#f472b6" font-family="system-ui, sans-serif" font-weight="700" font-size="12" text-anchor="middle">💊 Sinais & Físico-Química</text>
+
+  <!-- Leaf Solutions -->
+  <!-- Raízes Leaves -->
+  <path d="M 115 172 L 115 200" stroke="#38bdf8" stroke-width="1.5" fill="none"/>
+  <rect x="20" y="200" width="190" height="190" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="30" y="222" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Com intervalo [a,b]:</text>
+  <text x="40" y="240" fill="#38bdf8" font-family="monospace" font-size="11">Raizes Reais/Bissecao.m</text>
+  <text x="40" y="258" fill="#38bdf8" font-family="monospace" font-size="11">Raizes Reais/PosFalsa.m</text>
+  <text x="30" y="282" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Com derivada f'(x):</text>
+  <text x="40" y="300" fill="#38bdf8" font-family="monospace" font-size="11">Raizes Reais/Newton.m</text>
+  <text x="30" y="324" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Sem derivada (2 chutes):</text>
+  <text x="40" y="342" fill="#38bdf8" font-family="monospace" font-size="11">Raizes Reais/Secante.m</text>
+  <text x="30" y="364" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Forma x = g(x):</text>
+  <text x="40" y="380" fill="#38bdf8" font-family="monospace" font-size="11">Raizes Reais/PontoFixo.m</text>
+
+  <!-- Sistemas Leaves -->
+  <path d="M 295 172 L 295 200" stroke="#818cf8" stroke-width="1.5" fill="none"/>
+  <rect x="200" y="200" width="190" height="190" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="210" y="222" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Gauss + Substituição ✅:</text>
+  <text x="220" y="240" fill="#818cf8" font-family="monospace" font-size="10.5">EscalonamentoGAUSS</text>
+  <text x="220" y="255" fill="#818cf8" font-family="monospace" font-size="10.5">comSubst.m</text>
+  <text x="210" y="280" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Gauss-Jordan Direto ✅:</text>
+  <text x="220" y="298" fill="#818cf8" font-family="monospace" font-size="10.5">EscalonamentoGAUSS</text>
+  <text x="220" y="313" fill="#818cf8" font-family="monospace" font-size="10.5">JORDAM2.m</text>
+  <text x="210" y="338" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Só triangularizar:</text>
+  <text x="220" y="356" fill="#818cf8" font-family="monospace" font-size="10.5">EscalonamentoGAUSS2.m</text>
+  <text x="220" y="374" fill="#818cf8" font-family="monospace" font-size="10.5">teste2.m (com rref)</text>
+
+  <!-- Integração Leaves -->
+  <path d="M 475 172 L 475 200" stroke="#34d399" stroke-width="1.5" fill="none"/>
+  <rect x="380" y="200" width="190" height="190" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="390" y="222" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Trapézio Composto:</text>
+  <text x="400" y="240" fill="#34d399" font-family="monospace" font-size="11">Integração/Trapez.m</text>
+  <text x="390" y="268" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Simpson 1/3 Composto:</text>
+  <text x="400" y="286" fill="#34d399" font-family="monospace" font-size="11">Integração/Simpson13</text>
+  <text x="400" y="302" fill="#34d399" font-family="monospace" font-size="11">composto.m</text>
+  <text x="390" y="330" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Diferença Progressiva:</text>
+  <text x="400" y="348" fill="#34d399" font-family="monospace" font-size="11">Diferenciacao/Progressiva</text>
+  <text x="400" y="364" fill="#34d399" font-family="monospace" font-size="11">3Pontos.m</text>
+
+  <!-- EDO Leaves -->
+  <path d="M 655 172 L 655 200" stroke="#fbbf24" stroke-width="1.5" fill="none"/>
+  <rect x="560" y="200" width="190" height="190" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="570" y="222" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• 1 EDO (Euler Explícito):</text>
+  <text x="580" y="240" fill="#fbbf24" font-family="monospace" font-size="11">EDO/edoEULER.m</text>
+  <text x="570" y="268" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Sistema 2 EDOs (RK2):</text>
+  <text x="580" y="286" fill="#fbbf24" font-family="monospace" font-size="11">EDO/Sys2EDOsRK2.m</text>
+  <text x="570" y="314" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• RK2 Genérico (feval):</text>
+  <text x="580" y="332" fill="#fbbf24" font-family="monospace" font-size="11">testeRK.m</text>
+  <text x="570" y="356" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Euler Implícito (rascunho):</text>
+  <text x="580" y="374" fill="#fbbf24" font-family="monospace" font-size="11">EDO/edoEULERimpNewton.m</text>
+
+  <!-- Sinais Leaves -->
+  <path d="M 835 172 L 835 200" stroke="#f472b6" stroke-width="1.5" fill="none"/>
+  <rect x="740" y="200" width="190" height="190" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="750" y="222" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Sinais (Média e RMS):</text>
+  <text x="760" y="240" fill="#f472b6" font-family="monospace" font-size="11">Octave/func_generator.m</text>
+  <text x="750" y="268" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Cristal / Born-Mayer:</text>
+  <text x="760" y="286" fill="#f472b6" font-family="monospace" font-size="11">Eq_BornMayer.m</text>
+  <text x="750" y="314" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Susceptibilidade / Spin:</text>
+  <text x="760" y="332" fill="#f472b6" font-family="monospace" font-size="11">SuscepMag.m / EletonsD.</text>
+  <text x="750" y="356" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">• Farmacocinética:</text>
+  <text x="760" y="374" fill="#f472b6" font-family="monospace" font-size="11">pessoal/ConcentPlasm*</text>
+</svg>
+      </div>
+
+      <h3>2.1 O Mistério das Duplicatas: Raiz vs Subpastas</h3>
+      <p>
+        Uma inspeção atenta na estrutura de diretórios revela que métodos fundamentais como Bisseção, Falsa Posição, Newton, Secante e Ponto Fixo existem tanto na raiz do repositório quanto dentro da subpasta <code>Raizes Reais/</code>. Compreender essa bifurcação é vital para não utilizar versões desatualizadas:
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Método Numérico</th>
+              <th>Versão na Raiz (Legada)</th>
+              <th>Versão em <code>Raizes Reais/</code> (Recomendada)</th>
+              <th>Diferenças Estruturais & Correções Aplicadas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bisseção</strong></td>
+              <td class="mono">Bissecao.m</td>
+              <td class="mono" style="color:var(--accent-emerald);">Raizes Reais/Bissecao.m</td>
+              <td>A versão da raiz contém a função transcendental <code>8 - 4.5*(x - sin(x))</code> comentada e roda <code>x² - e^(-x)</code>. Ambas possuem o mesmo algoritmo funcional.</td>
+            </tr>
+            <tr>
+              <td><strong>Falsa Posição</strong></td>
+              <td class="mono">PosFalsa.m</td>
+              <td class="mono" style="color:var(--accent-emerald);">Raizes Reais/PosFalsa.m</td>
+              <td>Idênticas na lógica, ambas compartilhando o mesmo bug clássico de manter <code>Fa</code> e <code>Fb</code> estáticos fora do laço (ver seção de auditoria).</td>
+            </tr>
+            <tr>
+              <td><strong>Newton-Raphson</strong></td>
+              <td class="mono">Newton.m</td>
+              <td class="mono" style="color:var(--accent-emerald);">Raizes Reais/Newton.m</td>
+              <td><span style="color:var(--accent-emerald); font-weight:bold;">CRÍTICO:</span> A versão da raiz usava <code>abs(xi-x0)/x0 &lt; Tol</code> sem módulo no divisor (falhava em raízes negativas). A versão em <code>Raizes Reais/</code> corrigiu para <code>abs((xi-x0)/x0) &lt; Tol</code> e testa <code>x³ + 3.8x² - 8.6x - 24.4</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Secante</strong></td>
+              <td class="mono">Secante.m</td>
+              <td class="mono" style="color:var(--accent-emerald);">Raizes Reais/Secante.m</td>
+              <td>Idem a Newton: corrigiu a fórmula do erro relativo percentual para <code>abs((xi-b)/b)</code> com proteção completa de módulo no quociente.</td>
+            </tr>
+            <tr>
+              <td><strong>Ponto Fixo</strong></td>
+              <td class="mono">PontoFixo.m</td>
+              <td class="mono" style="color:var(--accent-emerald);">Raizes Reais/PontoFixo.m</td>
+              <td>Mesma lógica de iteração <code>x = g(x)</code> com <code>G = @(x)(0.5*exp(0.5*x))</code> derivada de <code>e^x - 4x² = 0</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Conversão SI → ING</strong></td>
+              <td class="mono" style="color:var(--accent-rose);">SItoING.m (raiz)</td>
+              <td class="mono" style="color:var(--accent-emerald);">my_functions/SItoING.m</td>
+              <td>A versão da raiz contém um erro de sintaxe gravíssimo ao usar vírgula decimal (<code>2,205</code> e <code>39,37</code>), criando vetores espúrios. A versão em <code>my_functions/</code> usa pontos decimais corretos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-title">💡 Regra Prática de Uso</div>
+        <p>
+          Para qualquer estudo ou prova, <strong>sempre priorize os arquivos localizados nas subpastas organizadas</strong> (<code>Raizes Reais/</code>, <code>my_functions/</code>, <code>Integração/</code>, <code>EDO/</code>). Os arquivos na raiz representam versões de rascunho ou etapas intermediárias de trabalho realizadas durante o semestre letivo.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- MÓDULO 3: ZEROS DE FUNÇÕES -->
+    <section id="modulo-raizes" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">3.0</span> Zeros de Funções e Equações Não Lineares: f(x) = 0</h2>
+      </div>
+      <p class="section-desc">
+        Determinar a raiz de uma equação não linear <code>f(x) = 0</code> é o problema basilar do cálculo numérico. 
+        O repositório implementa os 5 métodos clássicos, divididos entre <strong>métodos intervalares (com garantia de convergência)</strong> e <strong>métodos abertos (mais velozes, porém com risco de divergência)</strong>.
+      </p>
+
+      <!-- SVG Diagram Comparison -->
+      <div class="svg-diagram-card">
+        <div class="svg-diagram-title">📐 Geometria Comparada dos Métodos de Raízes</div>
+<svg viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg" style="background:#080d1a; border-radius:12px; border:1px solid #1e293b; width:100%;">
+  <line x1="50" y1="200" x2="850" y2="200" stroke="#334155" stroke-width="1.5"/>
+  <line x1="200" y1="30" x2="200" y2="250" stroke="#1e293b" stroke-width="1"/>
+  <line x1="450" y1="30" x2="450" y2="250" stroke="#1e293b" stroke-width="1"/>
+  <line x1="700" y1="30" x2="700" y2="250" stroke="#1e293b" stroke-width="1"/>
+
+  <g transform="translate(30, 0)">
+    <text x="110" y="35" fill="#38bdf8" font-family="system-ui, sans-serif" font-weight="700" font-size="13" text-anchor="middle">1. Bisseção & Falsa Posição</text>
+    <path d="M 30 240 Q 90 220, 120 180 T 210 50" fill="none" stroke="#64748b" stroke-width="2"/>
+    <circle cx="40" cy="235" r="4" fill="#f87171"/>
+    <text x="40" y="255" fill="#f87171" font-size="11" font-family="monospace" text-anchor="middle">a</text>
+    <circle cx="190" cy="65" r="4" fill="#f87171"/>
+    <text x="190" y="85" fill="#f87171" font-size="11" font-family="monospace" text-anchor="middle">b</text>
+    
+    <line x1="115" y1="195" x2="115" y2="205" stroke="#38bdf8" stroke-width="2"/>
+    <text x="115" y="190" fill="#38bdf8" font-size="10" font-family="monospace" text-anchor="middle">x_m = (a+b)/2</text>
+    
+    <line x1="40" y1="235" x2="190" y2="65" stroke="#fbbf24" stroke-dasharray="3,3" stroke-width="1.5"/>
+    <circle cx="155" cy="200" r="4" fill="#fbbf24"/>
+    <text x="160" y="225" fill="#fbbf24" font-size="10" font-family="monospace" text-anchor="middle">x_r (corda)</text>
+    <text x="110" y="270" fill="#94a3b8" font-size="10" text-anchor="middle">Falsa Posição pondera por f(a) e f(b)</text>
+  </g>
+
+  <g transform="translate(320, 0)">
+    <text x="110" y="35" fill="#34d399" font-family="system-ui, sans-serif" font-weight="700" font-size="13" text-anchor="middle">2. Newton-Raphson</text>
+    <path d="M 20 240 Q 80 210, 110 160 T 200 40" fill="none" stroke="#64748b" stroke-width="2"/>
+    <circle cx="170" cy="70" r="4" fill="#34d399"/>
+    <text x="170" y="60" fill="#34d399" font-size="11" font-family="monospace" text-anchor="middle">(x₀, f(x₀))</text>
+    <line x1="200" y1="20" x2="115" y2="200" stroke="#34d399" stroke-width="2"/>
+    <circle cx="115" cy="200" r="4" fill="#34d399"/>
+    <text x="115" y="220" fill="#34d399" font-size="11" font-family="monospace" text-anchor="middle">x₁</text>
+    <text x="110" y="270" fill="#94a3b8" font-size="10" text-anchor="middle">Traça tangente f'(x₀) até cruzar y=0</text>
+  </g>
+
+  <g transform="translate(610, 0)">
+    <text x="110" y="35" fill="#818cf8" font-family="system-ui, sans-serif" font-weight="700" font-size="13" text-anchor="middle">3. Método da Secante</text>
+    <path d="M 20 240 Q 80 210, 110 160 T 200 40" fill="none" stroke="#64748b" stroke-width="2"/>
+    <circle cx="50" cy="225" r="4" fill="#818cf8"/>
+    <text x="50" y="245" fill="#818cf8" font-size="10" font-family="monospace" text-anchor="middle">x₀</text>
+    <circle cx="180" cy="60" r="4" fill="#818cf8"/>
+    <text x="180" y="50" fill="#818cf8" font-size="10" font-family="monospace" text-anchor="middle">x₁</text>
+    <line x1="180" y1="60" x2="105" y2="200" stroke="#818cf8" stroke-width="2"/>
+    <circle cx="105" cy="200" r="4" fill="#818cf8"/>
+    <text x="105" y="220" fill="#818cf8" font-size="11" font-family="monospace" text-anchor="middle">x₂</text>
+    <text x="110" y="270" fill="#94a3b8" font-size="10" text-anchor="middle">Aproxima derivada pelos 2 pontos prévios</text>
+  </g>
+</svg>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Método</th>
+              <th>Tipo</th>
+              <th>Requisitos de Entrada</th>
+              <th>Taxa de Convergência</th>
+              <th>Convergência Garantida?</th>
+              <th>Custo por Ciclo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bisseção</strong></td>
+              <td>Intervalar</td>
+              <td>Intervalo [a,b] com <code>f(a)·f(b) &lt; 0</code></td>
+              <td>Linear (fator 0.5)</td>
+              <td><span style="color:var(--accent-emerald); font-weight:bold;">✅ Sim (Bolzano)</span></td>
+              <td>1 avaliação de <code>f(x)</code></td>
+            </tr>
+            <tr>
+              <td><strong>Falsa Posição</strong></td>
+              <td>Intervalar</td>
+              <td>Intervalo [a,b] com <code>f(a)·f(b) &lt; 0</code></td>
+              <td>Superlinear (pode degradar)</td>
+              <td><span style="color:var(--accent-emerald); font-weight:bold;">✅ Sim (Bolzano)</span></td>
+              <td>1 avaliação de <code>f(x)</code></td>
+            </tr>
+            <tr>
+              <td><strong>Newton-Raphson</strong></td>
+              <td>Aberto</td>
+              <td>Chute <code>x₀</code> e derivada analítica <code>f'(x)</code></td>
+              <td>Quadrática (ordem 2)</td>
+              <td><span style="color:var(--accent-rose); font-weight:bold;">❌ Não (local)</span></td>
+              <td>1 de <code>f(x)</code> + 1 de <code>f'(x)</code></td>
+            </tr>
+            <tr>
+              <td><strong>Secante</strong></td>
+              <td>Aberto</td>
+              <td>Dois chutes iniciais <code>x₀, x₁</code></td>
+              <td>Superlinear (ordem áurea &phi; &approx; 1.618)</td>
+              <td><span style="color:var(--accent-rose); font-weight:bold;">❌ Não (local)</span></td>
+              <td>1 avaliação de <code>f(x)</code></td>
+            </tr>
+            <tr>
+              <td><strong>Ponto Fixo (MPF)</strong></td>
+              <td>Aberto</td>
+              <td>Chute <code>x₀</code> e função de iteração <code>g(x)</code></td>
+              <td>Linear</td>
+              <td><span style="color:var(--accent-rose); font-weight:bold;">❌ Só se |g'(x)| &lt; 1</span></td>
+              <td>1 avaliação de <code>g(x)</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>3.1 Teorema de Bolzano e Métodos Intervalares</h3>
+      <p>
+        O <strong>Teorema do Valor Intermediário (Bolzano)</strong> postula que se uma função contínua <code>f(x)</code> possui sinais opostos nas extremidades de um intervalo fechado, isto é, <code>f(a)·f(b) &lt; 0</code>, então existe pelo menos um ponto <code>&xi; &isin; (a, b)</code> tal que <code>f(&xi;) = 0</code>.
+      </p>
+
+      <h4>A. Método da Bisseção (<code>Raizes Reais/Bissecao.m</code>)</h4>
+      <p>
+        Divide o intervalo sistematicamente ao meio pelo ponto médio <code>x_m = (a + b) / 2</code>. A cada ciclo, substitui a extremidade que possui o mesmo sinal de <code>f(x_m)</code>, reduzindo o tamanho do intervalo à metade.
+      </p>
+      <div class="math-block">
+        <div>x_m = (a + b) / 2, \quad \text{Erro}_k = (b - a) / (2^k) &le; \text{Tolerância}</div>
+        <div class="formula-tag">Número Mínimo de Iterações Necessárias: k &ge; [ln(b - a) - ln(Tol)] / ln(2)</div>
+      </div>
+
+      <h4>B. Método da Falsa Posição / Regula Falsi (<code>Raizes Reais/PosFalsa.m</code>)</h4>
+      <p>
+        Em vez de usar o ponto médio puramente geométrico, calcula a intersecção da reta secante (corda) que une os pontos <code>(a, f(a))</code> e <code>(b, f(b))</code> com o eixo horizontal <code>y = 0</code>.
+      </p>
+      <div class="math-block">
+        <div>x_r = [a &middot; f(b) - b &middot; f(a)] / [f(b) - f(a)] = b - [f(b) &middot; (b - a)] / [f(b) - f(a)]</div>
+        <div class="formula-tag">Zero da Reta Secante Ponderado pelo Peso das Imagens</div>
+      </div>
+      <div class="callout callout-danger">
+        <div class="callout-title">⚠️ Bug Histórico Crítico em PosFalsa.m</div>
+        <p>
+          Nos arquivos <code>PosFalsa.m</code> e <code>Raizes Reais/PosFalsa.m</code>, as variáveis <code>Fa = F(a)</code> e <code>Fb = F(b)</code> foram calculadas <strong>antes do laço for</strong> e <strong>nunca são atualizadas internamente</strong> quando <code>a</code> ou <code>b</code> é redefinido! Isso faz com que a fórmula utilize os valores iniciais estáticos, destruindo a convergência correta da Falsa Posição. Além disso, o código usa <code>Erro = (b-a)/2</code> (da bisseção) em vez da variação real <code>|ZeroReta - ZeroRetaAnterior|</code>. Veja a correção completa na Seção 11.
+        </p>
+      </div>
+
+      <h3>3.2 Métodos Abertos e Convergência de Alta Ordem</h3>
+
+      <h4>A. Método de Newton-Raphson (<code>Raizes Reais/Newton.m</code>)</h4>
+      <p>
+        Utiliza a expansão em Série de Taylor truncada de primeira ordem <code>f(x + &Delta;x) &approx; f(x) + f'(x)&Delta;x = 0</code>. Geometricamente, traça a reta tangente à curva no ponto <code>(x_k, f(x_k))</code> e encontra sua raiz no eixo horizontal.
+      </p>
+      <div class="math-block">
+        <div>x_{k+1} = x_k - [f(x_k) / f'(x_k)]</div>
+        <div class="formula-tag">Convergência Quadrática Local: |e_{k+1}| &le; C &middot; |e_k|²</div>
+      </div>
+      <p>
+        <strong>Convergência Quadrática</strong> significa que, próximo da raiz, o número de casas decimais corretas <em>aproximadamente dobra a cada iteração</em>. Porém, falha catastrophicamente se <code>f'(x_k) &approx; 0</code> (divisão por zero) ou em pontos de inflexão onde o algoritmo entra em ciclos fechados.
+      </p>
+
+      <h4>B. Método da Secante (<code>Raizes Reais/Secante.m</code>)</h4>
+      <p>
+        Elimina a necessidade de derivar a função analiticamente — uma vantagem gigantesca quando a expressão é complexa ou dada por dados experimentais. Substitui a derivada pela aproximação por quociente de diferenças entre os dois pontos anteriores:
+      </p>
+      <div class="math-block">
+        <div>x_{k+1} = x_k - f(x_k) &middot; [(x_k - x_{k-1}) / (f(x_k) - f(x_{k-1}))]</div>
+        <div class="formula-tag">Ordem de Convergência Superlinear: p = (1 + &radic;5) / 2 &approx; 1.618</div>
+      </div>
+
+      <h4>C. Método do Ponto Fixo / MPF (<code>Raizes Reais/PontoFixo.m</code>)</h4>
+      <p>
+        Manipula a equação <code>f(x) = 0</code> algebricamente para isolar <code>x = g(x)</code>. A iteração sucessiva <code>x_{k+1} = g(x_k)</code> converge se e somente se a derivada da função de iteração satisfizer a condição de contração de Banach na vizinhança da raiz:
+      </p>
+      <div class="math-block">
+        <div>|g'(x)| &lt; 1 \quad \forall x \in [a, b]</div>
+        <div class="formula-tag">Critério de Convergência do Teorema do Ponto Fixo de Banach</div>
+      </div>
+      <p>
+        No repositório, para resolver <code>e^x - 4x² = 0</code>, a equação foi reescrita como:
+        <br>
+        <code>4x² = e^x &rArr; x² = 0.25·e^x &rArr; x = 0.5·e^(x/2) = g(x)</code>. 
+        Como <code>g'(x) = 0.25·e^(x/2)</code>, em <code>x &approx; 0.714</code> temos <code>g'(0.714) &approx; 0.357 &lt; 1</code>, garantindo convergência estável.
+      </p>
+
+      <!-- INTERACTIVE LAB 1 -->
+      <div class="simulator-card">
+        <div class="sim-header">
+          <div class="sim-title">🧪 Laboratório Interativo 1: Simulador de Raízes em Tempo Real</div>
+          <span class="brand-badge">Canvas + Algoritmo Nativo</span>
+        </div>
+        <div class="sim-controls">
+          <div class="form-group">
+            <label for="sim-func">Função do Repositório</label>
+            <select id="sim-func" class="form-control">
+              <option value="f1">f(x) = x² - e^(-x) [Raizes Reais/Bissecao.m]</option>
+              <option value="f2">f(x) = x³ + 3.8x² - 8.6x - 24.4 [Newton.m]</option>
+              <option value="f3">f(x) = 8 - 4.5(x - sen x) [Versão Legada]</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sim-method">Método Numérico</label>
+            <select id="sim-method" class="form-control">
+              <option value="bissecao">Bisseção (Intervalar)</option>
+              <option value="newton">Newton-Raphson (Tangente)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sim-tol">Tolerância (&epsilon;)</label>
+            <input type="number" id="sim-tol" class="form-control" value="0.0001" step="0.00001">
+          </div>
+          <div class="form-group">
+            <label for="sim-maxiter">Iterações Máx.</label>
+            <input type="number" id="sim-maxiter" class="form-control" value="25" min="1" max="50">
+          </div>
+          <button id="btn-run-raizes" class="sim-btn-run">Executar Simulação</button>
+        </div>
+
+        <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.5rem; color:var(--text-primary);" id="sim-raizes-status">
+          Calculando...
+        </div>
+
+        <div class="sim-output-grid">
+          <div class="canvas-container">
+            <canvas id="canvas-raizes"></canvas>
+            <span style="font-size:0.75rem; color:var(--text-muted); margin-top:5px;">Gráfico de f(x) e convergência dos pontos de iteração</span>
+          </div>
+          <div class="sim-table-wrap">
+            <table id="table-sim-raizes">
+              <thead>
+                <tr>
+                  <th>i</th>
+                  <th>a (ou x₀)</th>
+                  <th>b</th>
+                  <th>Raiz Estimada</th>
+                  <th>f(x)</th>
+                  <th>Erro Estimado</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- MÓDULO 4: SISTEMAS LINEARES -->
+    <section id="modulo-sistemas" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">4.0</span> Sistemas Lineares (Ax = b) e Eliminação Gaussiana</h2>
+      </div>
+      <p class="section-desc">
+        A resolução de sistemas lineares da forma <code>Ax = b</code> é o núcleo computacional de simulações físicas, circuitos elétricos, elementos finitos e ajuste de curvas. 
+        O repositório apresenta 7 implementações que ilustram desde a eliminação ingênua até a decomposição com pivoteamento parcial e diagonalização por Gauss-Jordan.
+      </p>
+
+      <h3>4.1 Eliminação Gaussiana e Matriz Aumentada [A | b]</h3>
+      <p>
+        A <strong>Eliminação Gaussiana</strong> transforma o sistema linear original em um sistema equivalente com <strong>matriz triangular superior</strong>, cujas equações podem ser resolvidas de baixo para cima com esforço aritmético direto.
+      </p>
+      <div class="math-block">
+        <div>M = [A | b] &rarr; Escalonamento &rarr; [U | c] (Matriz Triangular Superior)</div>
+        <div class="formula-tag">Operação Elementar nas Linhas: L_i &larr; L_i - m_{ik} &middot; L_k \quad \text{com } m_{ik} = a_{ik} / a_{kk}</div>
+      </div>
+
+      <h3>4.2 Por Que o Pivoteamento Parcial é Obrigatório?</h3>
+      <p>
+        Na ausência de pivoteamento, dois desastres numéricos graves podem ocorrer:
+      </p>
+      <ol style="margin-left: 1.5rem; margin-bottom: 1.25rem; color: var(--text-secondary); line-height: 1.7;">
+        <li><strong>Divisão por Zero:</strong> Se o elemento diagonal <code>A(k,k) = 0</code>, o cálculo do multiplicador <code>m_{ik} = A(i,k)/A(k,k)</code> gera <code>Inf</code> ou <code>NaN</code>, abortando a execução.</li>
+        <li><strong>Instabilidade Numérica por Ponto Flutuante:</strong> Se <code>|A(k,k)|</code> for muito pequeno em relação aos elementos abaixo dele, o multiplicador será enorme. Multiplicar a linha por esse número astronômico amplifica drasticamente os erros de arredondamento inerentes à representação binária finita (IEEE 754), corrompendo a solução final.</li>
+      </ol>
+      <p>
+        O <strong>Pivoteamento Parcial</strong> inspeciona todos os candidatos na coluna <code>k</code> (da linha <code>k</code> até <code>n</code>), localiza a linha <code>l</code> com maior valor absoluto <code>max |A(l:n, k)|</code> e troca a linha <code>k</code> com a linha <code>l</code> tanto na matriz <code>A</code> quanto no vetor <code>b</code>. Isso assegura que <code>|m_{ik}| &le; 1</code> em todas as etapas.
+      </p>
+
+      <h3>4.3 Algoritmo de Retrossubstituição (Backward Substitution)</h3>
+      <p>
+        Uma vez obtida a matriz triangular superior, a última variável <code>x_n</code> é obtida imediatamente. As demais variáveis são calculadas de trás para frente subtraindo os termos já conhecidos:
+      </p>
+      <div class="math-block">
+        <div>x_n = b_n / A_{nn}, \qquad x_i = \frac{b_i - \sum_{j=i+1}^n A_{ij} \cdot x_j}{A_{ii}} \quad \text{para } i = n-1, n-2, \dots, 1</div>
+        <div class="formula-tag">Complexidade Computacional Total: O(n³/3) no escalonamento + O(n²/2) na substituição</div>
+      </div>
+
+      <h3>4.4 Método de Gauss-Jordan (Diagonalização Completa)</h3>
+      <p>
+        Enquanto a Eliminação de Gauss apenas zera os elementos <em>abaixo</em> da diagonal principal, o método de <strong>Gauss-Jordan</strong> estende a eliminação para zerar também os elementos <em>acima</em> da diagonal e, por fim, divide cada linha pelo seu elemento diagonal correspondente.
+      </p>
+      <p>
+        O resultado final transforma a matriz de coeficientes na <strong>Matriz Identidade <code>I</code></strong>, permitindo ler a solução diretamente na última coluna da matriz aumentada:
+      </p>
+      <div class="math-block">
+        <div>[A | b] &rarr; Gauss-Jordan &rarr; [I | x]</div>
+        <div class="formula-tag">Elimina a Etapa de Retrossubstituição ao Custo de Operações Extras no Escalonamento</div>
+      </div>
+
+      <h3>4.5 Anatomia dos 7 Scripts de Sistemas Lineares</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Arquivo</th>
+              <th>Pivoteamento?</th>
+              <th>Resolve Ax=b?</th>
+              <th>Avaliação & Peculiaridades do Código</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono" style="color:var(--accent-emerald); font-weight:bold;">EscalonamentoGAUSScomSubst.m</td>
+              <td>✅ Parcial</td>
+              <td>✅ Sim (retorna x)</td>
+              <td><strong>O PADRÃO OURO:</strong> Código completo, correto e robusto. Utiliza <code>max(abs(A(k:n,k)))</code>, permuta linhas em <code>A</code> e <code>b</code>, escalona e resolve via retrossubstituição. Solução do sistema exemplo: <code>x = [120, 100, 90]</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-emerald); font-weight:bold;">EscalonamentoGAUSSJORDAM2.m</td>
+              <td>⚠️ Troca simples</td>
+              <td>✅ Sim (retorna x)</td>
+              <td>Gauss-Jordan genuíno. Zera abaixo e acima da diagonal e normaliza a diagonal. Resolve o sistema do exemplo: <code>a &approx; 9.0311, R &approx; 13.2632, T &approx; 2.8421</code>. (Atenção: a troca de pivô nulo fixa na linha 1; ver auditoria).</td>
+            </tr>
+            <tr>
+              <td class="mono" style="color:var(--accent-rose); font-weight:bold;">EscalonamentoGAUSS.m</td>
+              <td>✅ Parcial</td>
+              <td>❌ Quebra no fim</td>
+              <td><span style="color:var(--accent-rose); font-weight:bold;">BUG CLÁSSICO:</span> Contém o erro de digitação <code>x(n) = b(n)/A(n/n)</code>. Como <code>n/n = 1</code>, divide por <code>A(1)</code> em vez de <code>A(n,n)</code>! Corrigido em <code>EscalonamentoGAUSScomSubst.m</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono">EscalonamentoGAUSS2.m</td>
+              <td>✅ Parcial</td>
+              <td>❌ Só escalona</td>
+              <td>Opera diretamente sobre a matriz aumentada <code>M = horzcat(A, b')</code>. Deixa a matriz em forma triangular superior, mas não executa a retrossubstituição.</td>
+            </tr>
+            <tr>
+              <td class="mono">EscalonamentoGAUSSJORDAM.m</td>
+              <td>✅ Parcial</td>
+              <td>❌ Só escalona</td>
+              <td>Nome enganoso: apesar de chamar-se "Jordam", não faz Gauss-Jordan! É idêntico ao <code>GAUSS2.m</code> e contém um comando <code>i</code> residual imprimindo o contador no console.</td>
+            </tr>
+            <tr>
+              <td class="mono">teste.m</td>
+              <td>⚠️ Laço manual</td>
+              <td>❌ Só escalona</td>
+              <td>Rascunho preliminar implementando a busca do pivô máximo via laço <code>for</code> manual em vez da função vetorizada <code>max()</code>.</td>
+            </tr>
+            <tr>
+              <td class="mono">teste2.m</td>
+              <td>✅ Parcial</td>
+              <td>❌ Só escalona</td>
+              <td>Versão didática que aplica a eliminação e compara a matriz escalonada resultante com o comando nativo <code>rref(A)</code> do Octave.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- INTERACTIVE LAB 2 -->
+      <div class="simulator-card">
+        <div class="sim-header">
+          <div class="sim-title">🧪 Laboratório Interativo 2: Resolvedor de Sistemas Lineares 3x3</div>
+          <span class="brand-badge">Gauss + Pivoteamento + Retrossubstituição</span>
+        </div>
+        <div class="sim-controls">
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="sim-gauss-preset">Carregar Sistema Predefinido do Repositório:</label>
+            <select id="sim-gauss-preset" class="form-control">
+              <option value="p1">Preset 1: EscalonamentoGAUSScomSubst.m (Solução: [120, 100, 90])</option>
+              <option value="p2">Preset 2: EscalonamentoGAUSSJORDAM2.m (Solução: [9.03, 13.26, 2.84])</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-card); padding:1rem; border-radius:8px; border:1px solid var(--border-color); margin-bottom:1rem;">
+          <label style="font-size:0.85rem; font-weight:700; color:var(--text-secondary); display:block; margin-bottom:0.5rem;">
+            Matriz Aumentada [A | b] &bull; Digite os coeficientes ou use o preset acima:
+          </label>
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr) 20px 1.2fr; gap:8px; align-items:center;">
+            <input type="number" id="g_0_0" class="form-control" value="4" step="any">
+            <input type="number" id="g_0_1" class="form-control" value="3" step="any">
+            <input type="number" id="g_0_2" class="form-control" value="2" step="any">
+            <span style="font-weight:bold; color:var(--accent-cyan); text-align:center;">|</span>
+            <input type="number" id="g_0_3" class="form-control" value="960" step="any">
+
+            <input type="number" id="g_1_0" class="form-control" value="1" step="any">
+            <input type="number" id="g_1_1" class="form-control" value="3" step="any">
+            <input type="number" id="g_1_2" class="form-control" value="1" step="any">
+            <span style="font-weight:bold; color:var(--accent-cyan); text-align:center;">|</span>
+            <input type="number" id="g_1_3" class="form-control" value="510" step="any">
+
+            <input type="number" id="g_2_0" class="form-control" value="2" step="any">
+            <input type="number" id="g_2_1" class="form-control" value="1" step="any">
+            <input type="number" id="g_2_2" class="form-control" value="3" step="any">
+            <span style="font-weight:bold; color:var(--accent-cyan); text-align:center;">|</span>
+            <input type="number" id="g_2_3" class="form-control" value="610" step="any">
+          </div>
+        </div>
+
+        <button id="btn-run-gauss" class="sim-btn-run" style="width:100%; margin-bottom:1rem;">
+          ⚡ Executar Eliminação de Gauss com Pivoteamento Parcial
+        </button>
+
+        <div id="sim-gauss-sol" style="margin-bottom:1rem;"></div>
+        <div id="sim-gauss-steps"></div>
+      </div>
+    </section>
+
+
+    <!-- MÓDULO 5: INTEGRAÇÃO NUMÉRICA -->
+    <section id="modulo-integracao" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">5.0</span> Integração Numérica (Quadratura de Newton-Cotes)</h2>
+      </div>
+      <p class="section-desc">
+        A quadratura numérica aproxima o valor exato de uma integral definida através de somas ponderadas dos valores da função em pontos discretos: <code>&int;_a^b f(x) dx &approx; &sum; w_i &middot; f(x_i)</code>.
+        O repositório foca nas duas fórmulas compostas mais consagradas da engenharia: a <strong>Regra do Trapézio Composta</strong> e a <strong>Regra de Simpson 1/3 Composta</strong>.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Método de Quadratura</th>
+              <th>Polinômio Interpolador</th>
+              <th>Erro de Truncamento Global</th>
+              <th>Restrição do Número de Intervalos (n)</th>
+              <th>Arquivo no Repositório</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Trapézio Composto</strong></td>
+              <td>Polinômio Linear (grau 1)</td>
+              <td class="mono" style="color:var(--accent-amber);">O(h²)</td>
+              <td>Qualquer <code>n &ge; 1</code></td>
+              <td class="mono">Integração/Trapez.m (n = 4000)</td>
+            </tr>
+            <tr>
+              <td><strong>Simpson 1/3 Composto</strong></td>
+              <td>Parábolas de Lagrange (grau 2)</td>
+              <td class="mono" style="color:var(--accent-emerald);">O(h⁴)</td>
+              <td><span style="color:var(--accent-rose); font-weight:bold;">Obrigatoriamente PAR (n = 2, 4, 6...)</span></td>
+              <td class="mono">Integração/Simpson13composto.m (n = 20)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>5.1 Dedução e Formulação Matemática</h3>
+      <h4>A. Regra do Trapézio Composta</h4>
+      <p>
+        Aproxima a área sob a curva em cada subintervalo <code>[x_i, x_{i+1}]</code> por um trapézio reto de largura <code>h = (b - a)/n</code>. A soma de todos os trapézios pondera os pontos internos com peso 2 e as extremidades com peso 1:
+      </p>
+      <div class="math-block">
+        <div>I_{\text{trap}} = \frac{h}{2} \left[ f(a) + 2 \sum_{i=1}^{n-1} f(a + i \cdot h) + f(b) \right] = h \left[ \frac{f(a) + f(b)}{2} + \sum_{i=1}^{n-1} f(x_i) \right]</div>
+        <div class="formula-tag">Erro Global: E_T = -[(b - a)³ / (12 n²)] &middot; f''(&xi;) &isin; O(h²)</div>
+      </div>
+
+      <h4>B. Regra de Simpson 1/3 Composta</h4>
+      <p>
+        Ajusta uma parábola de segundo grau para cada par consecutivo de subintervalos. Por exigir pares de subintervalos para definir a parábola através de 3 pontos, o número total de subintervalos <strong>n deve ser estritamente par</strong>.
+      </p>
+      <div class="math-block">
+        <div>I_{\text{simp}} = \frac{h}{3} \left[ f(x_0) + 4 \sum_{i=1,3,5}^{n-1} f(x_i) + 2 \sum_{i=2,4,6}^{n-2} f(x_i) + f(x_n) \right]</div>
+        <div class="formula-tag">Erro Global: E_S = -[(b - a)⁵ / (180 n⁴)] &middot; f⁴(&xi;) &isin; O(h⁴)</div>
+      </div>
+      <p>
+        Note a impressionante superioridade da convergência <code>O(h⁴)</code> de Simpson: se dividirmos o passo <code>h</code> por 2, o erro do Trapézio cai por 4 (<code>2²</code>), enquanto o erro de Simpson despenca por <strong>16 (<code>2⁴</code>)</strong>! É por isso que no repositório o Trapézio precisa de <code>n = 4000</code> para atingir a mesma acurácia que Simpson alcança com apenas <code>n = 20</code>.
+      </p>
+
+      <h3>5.2 Estudo de Caso de Engenharia: O Comprimento do Gateway Arch</h3>
+      <p>
+        Ambos os scripts da pasta <code>Integração/</code> foram construídos para resolver um desafio geométrico e estrutural real: calcular o <strong>comprimento de arco da catenária invertida</strong> do monumento <em>Gateway Arch</em> (St. Louis, Missouri, EUA).
+      </p>
+      
+      <!-- Catenary SVG Diagram -->
+      <div class="svg-diagram-card">
+        <div class="svg-diagram-title">🏛️ Geometria do Gateway Arch e Quadratura Numérica</div>
+<svg viewBox="0 0 850 300" xmlns="http://www.w3.org/2000/svg" style="background:#080d1a; border-radius:12px; border:1px solid #1e293b; width:100%;">
+  <defs>
+    <linearGradient id="catenaryFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(56, 189, 248, 0.25)"/>
+      <stop offset="100%" stop-color="rgba(56, 189, 248, 0.0)"/>
+    </linearGradient>
+  </defs>
+
+  <line x1="50" y1="260" x2="800" y2="260" stroke="#475569" stroke-width="2"/>
+  <text x="75" y="280" fill="#94a3b8" font-family="monospace" font-size="11">Solo: x = −91.21 m</text>
+  <text x="775" y="280" fill="#94a3b8" font-family="monospace" font-size="11" text-anchor="end">Solo: x = +91.21 m</text>
+  <text x="425" y="280" fill="#38bdf8" font-family="monospace" font-size="11" text-anchor="middle">Vão total: 182.42 m (~600 pés)</text>
+
+  <path d="M 120 260 Q 220 180, 320 80 Q 425 40, 530 80 Q 630 180, 730 260 Z" fill="url(#catenaryFill)"/>
+  <path d="M 120 260 Q 220 180, 320 80 Q 425 40, 530 80 Q 630 180, 730 260" fill="none" stroke="#38bdf8" stroke-width="3.5"/>
+
+  <circle cx="425" cy="40" r="5" fill="#fbbf24"/>
+  <text x="425" y="25" fill="#fbbf24" font-family="system-ui, sans-serif" font-weight="700" font-size="12" text-anchor="middle">Ápice: 190.5 m (630 pés)</text>
+
+  <rect x="230" y="110" width="180" height="45" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+  <text x="320" y="128" fill="#f1f5f9" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">Comprimento de Arco L:</text>
+  <text x="320" y="145" fill="#34d399" font-family="monospace" font-size="11" text-anchor="middle">dL = √(1 + [f'(x)]²) dx</text>
+  <line x1="280" y1="155" x2="260" y2="185" stroke="#38bdf8" stroke-dasharray="2,2"/>
+
+  <line x1="220" y1="260" x2="220" y2="175" stroke="#64748b" stroke-dasharray="3,3"/>
+  <line x1="320" y1="260" x2="320" y2="80" stroke="#64748b" stroke-dasharray="3,3"/>
+  <line x1="530" y1="260" x2="530" y2="80" stroke="#64748b" stroke-dasharray="3,3"/>
+  <line x1="630" y1="260" x2="630" y2="175" stroke="#64748b" stroke-dasharray="3,3"/>
+  <text x="425" y="230" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">Simpson (n=20) vs Trapézio (n=4000) discretizam a integral definida</text>
+</svg>
+      </div>
+
+      <p>
+        A equação do perfil do monumento é modelada por uma catenária com altura máxima de 190,5 metros (630 pés) e vão de 182,42 metros entre as bases (<code>x &isin; [-91.21, 91.21]</code> metros):
+      </p>
+      <div class="math-block">
+        <div>f(x) = 211.5 - 20.97 \cdot \cosh\left(\frac{x}{30.38}\right)</div>
+      </div>
+      <p>
+        Pelo cálculo diferencial, o comprimento de arco <code>L</code> de uma curva derivável <code>y = f(x)</code> é dado pela integral de linha:
+      </p>
+      <div class="math-block">
+        <div>L = \int_{-91.21}^{91.21} \sqrt{1 + [f'(x)]^2} \, dx</div>
+      </div>
+      <p>
+        Derivando analiticamente pela regra da cadeia (sabendo que <code>d/dx[cosh(u)] = sinh(u) &middot; u'</code>):
+      </p>
+      <div class="math-block">
+        <div>f'(x) = -20.97 \cdot \frac{1}{30.38} \cdot \sinh\left(\frac{x}{30.38}\right) \approx -0.690257 \cdot \sinh\left(\frac{x}{30.38}\right)</div>
+        <div>[f'(x)]^2 = (-0.690257)^2 \cdot \sinh^2\left(\frac{x}{30.38}\right) \approx 0.476454 \cdot \sinh^2\left(\frac{x}{30.38}\right)</div>
+        <div class="formula-tag">Integrando Final: F(x) = \sqrt{1 + 0.476454 \cdot \sinh^2(x / 30.38)}</div>
+      </div>
+      <p>
+        No script <code>Simpson13composto.m</code>, a integral calculada em metros é multiplicada no final pelo fator <code>3.28</code> para converter para <strong>pés (feet)</strong>, revelando o comprimento total do arco de aproximadamente <strong>1.488 pés</strong>.
+      </p>
+    </section>
+
+    <!-- MÓDULO 6: DIFERENCIAÇÃO NUMÉRICA -->
+    <section id="modulo-diferenciacao" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">6.0</span> Diferenciação Numérica por Diferenças Finitas</h2>
+      </div>
+      <p class="section-desc">
+        Quando uma função é conhecida apenas por uma tabela de pontos experimentais <code>(x_i, y_i)</code> ou quando a expressão analítica é intratável, aproximamos suas taxas de variação através de <strong>diferenças finitas</strong> obtidas da expansão em Série de Taylor.
+      </p>
+
+      <h3>6.1 Fórmula Progressiva de 3 Pontos O(h²)</h3>
+      <p>
+        O script <code>Diferenciacao/Progressiva3Pontos.m</code> implementa a fórmula forward difference de alta ordem. Expandindo <code>f(x+h)</code> e <code>f(x+2h)</code> em torno de <code>x</code>:
+      </p>
+      <div class="math-block">
+        <div>f(x+h) = f(x) + h f'(x) + \frac{h^2}{2} f''(x) + \frac{h^3}{6} f'''(x) + O(h^4)</div>
+        <div>f(x+2h) = f(x) + 2h f'(x) + 2h^2 f''(x) + \frac{4h^3}{3} f'''(x) + O(h^4)</div>
+      </div>
+      <p>
+        Multiplicando a primeira equação por 4 e subtraindo a segunda, eliminamos o termo de segunda derivada <code>f''(x)</code>, isolando a derivada primeira com erro de truncamento proporcional a <code>h²</code>:
+      </p>
+      <div class="math-block">
+        <div>f'(x_i) \approx \frac{-3 f(x_i) + 4 f(x_{i+1}) - f(x_{i+2})}{2h} + O(h^2)</div>
+        <div class="formula-tag">Fórmula de Diferença Progressiva de 3 Pontos (Acurácia de 2ª Ordem)</div>
+      </div>
+
+      <div class="callout callout-danger">
+        <div class="callout-title">⚠️ O Bug de Precedência de Operadores em Progressiva3Pontos.m</div>
+        <p>
+          No script original, a linha central de cálculo foi redigida como:<br>
+          <code style="color:var(--accent-rose); font-family:var(--font-mono);">dx(i) = (-3*u(i)+4*u(i+1)-u(i+2))/2*h;</code><br>
+          No Octave e no MATLAB, as operações <code>/</code> e <code>*</code> possuem <strong>a mesma ordem de precedência</strong> e associam rigorosamente da esquerda para a direita! Portanto, a expressão é avaliada como:<br>
+          <code style="color:var(--accent-rose); font-family:var(--font-mono);">[ (-3*u(i)+4*u(i+1)-u(i+2)) / 2 ] * h</code><br>
+          Ou seja: o código <strong>multiplica por h</strong> em vez de <strong>dividir por 2h</strong>! Com <code>h = 0.002</code>, o resultado calculado difere do valor físico real por um fator gigantesco de <code>4h² = 1.6 &times; 10⁻⁵</code>.
+          <br><strong>Correção Obrigatória:</strong> <code>dx(i) = (-3*u(i) + 4*u(i+1) - u(i+2)) / (2*h);</code>
+        </p>
+      </div>
+
+      <h3>6.2 Guia de Referência Rápida de Diferenças Finitas</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Denominação</th>
+              <th>Fórmula Numérica</th>
+              <th>Ordem de Erro</th>
+              <th>Melhor Caso de Uso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Progressiva 2 Pontos</strong></td>
+              <td class="mono">[f(x+h) - f(x)] / h</td>
+              <td class="mono">O(h)</td>
+              <td>Início do vetor de dados quando só há 2 pontos.</td>
+            </tr>
+            <tr>
+              <td><strong>Regressiva 2 Pontos</strong></td>
+              <td class="mono">[f(x) - f(x-h)] / h</td>
+              <td class="mono">O(h)</td>
+              <td>Fim do vetor de dados.</td>
+            </tr>
+            <tr>
+              <td><strong>Centrada 2 Pontos</strong></td>
+              <td class="mono" style="color:var(--accent-emerald);">[f(x+h) - f(x-h)] / (2h)</td>
+              <td class="mono" style="color:var(--accent-emerald);">O(h²)</td>
+              <td><strong>Recomendada para pontos internos:</strong> cancela termos ímpares de Taylor.</td>
+            </tr>
+            <tr>
+              <td><strong>Progressiva 3 Pontos</strong></td>
+              <td class="mono">[-3f(x) + 4f(x+h) - f(x+2h)] / (2h)</td>
+              <td class="mono">O(h²)</td>
+              <td>Início do domínio com precisão O(h²).</td>
+            </tr>
+            <tr>
+              <td><strong>Regressiva 3 Pontos</strong></td>
+              <td class="mono">[3f(x) - 4f(x-h) + f(x-2h)] / (2h)</td>
+              <td class="mono">O(h²)</td>
+              <td>Fim do domínio com precisão O(h²).</td>
+            </tr>
+            <tr>
+              <td><strong>Segunda Derivada Centrada</strong></td>
+              <td class="mono">[f(x+h) - 2f(x) + f(x-h)] / h²</td>
+              <td class="mono">O(h²)</td>
+              <td>Cálculo de curvatura, aceleração e equações da onda/calor.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- MÓDULO 7: EDOS E PVIs -->
+    <section id="modulo-edos" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">7.0</span> Equações Diferenciais Ordinárias (EDOs / PVI)</h2>
+      </div>
+      <p class="section-desc">
+        A modelagem de sistemas dinâmicos (cinética química, circuitos elétricos, transferência de calor, mecânica orbital) é governada por <strong>Equações Diferenciais Ordinárias (EDOs)</strong> associadas a uma condição inicial conhecida — constituindo um <strong>Problema de Valor Inicial (PVI)</strong>.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Método Numérico</th>
+              <th>Tipo de Esquema</th>
+              <th>Ordem Global</th>
+              <th>Equação Implementada no Repositório</th>
+              <th>Arquivo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Euler Explícito</strong></td>
+              <td>Passo Único / Direto</td>
+              <td class="mono" style="color:var(--accent-amber);">O(h)</td>
+              <td class="mono">y' = -2x³ + 12x² - 20x + 8.5, y(0) = 1</td>
+              <td class="mono">EDO/edoEULER.m</td>
+            </tr>
+            <tr>
+              <td><strong>Runge-Kutta 2ª Ordem (Heun)</strong></td>
+              <td>Preditor-Corretor</td>
+              <td class="mono" style="color:var(--accent-emerald);">O(h²)</td>
+              <td class="mono">Sistema 2 EDOs: y' = z·x - y &amp; z' = y·x + z</td>
+              <td class="mono">EDO/Sys2EDOsRK2.m</td>
+            </tr>
+            <tr>
+              <td><strong>RK2 Genérico (feval)</strong></td>
+              <td>Função Parametrizada</td>
+              <td class="mono" style="color:var(--accent-emerald);">O(h²)</td>
+              <td class="mono">y' = f(t, y) genérica</td>
+              <td class="mono">testeRK.m</td>
+            </tr>
+            <tr>
+              <td><strong>Euler Implícito + Newton</strong></td>
+              <td>Implícito (Stiff)</td>
+              <td class="mono">O(h) estável</td>
+              <td class="mono">Rascunho de EDO não linear</td>
+              <td class="mono" style="color:var(--accent-rose);">EDO/edoEULERimpNewton.m ⚠️</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>7.1 Método de Euler Explícito</h3>
+      <p>
+        O <strong>Método de Euler</strong> é o algoritmo mais elementar de marcha temporal. Partindo do ponto inicial <code>(x_i, y_i)</code>, projeta a solução para o próximo instante <code>x_{i+1} = x_i + h</code> seguindo a reta tangente com inclinação dada pela própria EDO:
+      </p>
+      <div class="math-block">
+        <div>y_{i+1} = y_i + h \cdot f(x_i, y_i)</div>
+        <div class="formula-tag">Erro Local de Truncamento: O(h²) \quad | \quad Erro Global Acumulado: O(h)</div>
+      </div>
+      <p>
+        No arquivo <code>EDO/edoEULER.m</code>, é resolvida a equação cúbica clássica de Steven Chapra (<em>Métodos Numéricos para Engenharia</em>):
+        <br>
+        <code>dy/dx = -2x³ + 12x² - 20x + 8.5</code> com condição inicial <code>y(0) = 1</code> no intervalo de <code>x &isin; [0, 4]</code> com passo <code>h = 0.1</code>.
+        <br>
+        Como essa equação depende apenas de <em>x</em>, podemos integrá-la analiticamente de forma exata para conferência:
+      </p>
+      <div class="math-block">
+        <div>y_{\text{exato}}(x) = -0.5 x^4 + 4 x^3 - 10 x^2 + 8.5 x + 1</div>
+        <div class="formula-tag">Solução Analítica Exata para Validação do Erro Numérico</div>
+      </div>
+
+      <h3>7.2 Método de Runge-Kutta de 2ª Ordem (Heun / RK2)</h3>
+      <p>
+        Para superar a lentidão de convergência de Euler (que exige passos <em>h</em> minúsculos para ter boa acurácia), a família <strong>Runge-Kutta</strong> calcula inclinações em pontos intermediários sem a necessidade de calcular derivadas analíticas de ordem superior.
+      </p>
+      <p>
+        O método de Heun (RK2) avalia uma primeira inclinação <code>K_1</code> no início do passo, estima a solução preliminar no fim do intervalo (fase preditora) para calcular uma segunda inclinação <code>K_2</code>, e avança a solução usando a média aritmética das duas (fase corretora):
+      </p>
+      <div class="math-block">
+        <div>K_1 = f(x_i, y_i)</div>
+        <div>K_2 = f(x_i + h, \, y_i + h \cdot K_1)</div>
+        <div>y_{i+1} = y_i + \frac{h}{2} (K_1 + K_2)</div>
+        <div class="formula-tag">Acurácia de 2ª Ordem: Erro Global O(h²)</div>
+      </div>
+
+      <h3>7.3 Sistemas de EDOs Acopladas (Sys2EDOsRK2.m)</h3>
+      <p>
+        Na engenharia, variáveis dinâmicas raramente evoluem isoladas. No script <code>EDO/Sys2EDOsRK2.m</code>, duas equações diferenciais acopladas compartilham o mesmo estado simultaneamente:
+      </p>
+      <div class="math-block">
+        <div>dy/dx = z &middot; x - y, \quad y(0) = 0.5 \qquad | \qquad dz/dx = y &middot; x + z, \quad z(0) = 1.0</div>
+      </div>
+      <p>
+        A implementação aplica o RK2 em paralelo sobre o vetor de estado: primeiro calcula <code>Ky1</code> e <code>Kz1</code> com os estados atuais; em seguida avalia <code>Ky2</code> e <code>Kz2</code> com os estados preditos; finalmente atualiza <code>y_{i+1}</code> e <code>z_{i+1}</code> simultaneamente. Isso preserva o acoplamento dinâmico sem introduzir defasagem temporal artificial.
+      </p>
+
+      <h3>7.4 EDOs Rígidas e o Rascunho de Euler Implícito (edoEULERimpNewton.m)</h3>
+      <p>
+        Quando um sistema envolve taxas de decaimento com ordens de grandeza muito discrepantes (sistemas <em>stiff</em> ou rígidos), métodos explícitos como Euler e Heun tornam-se numericamente instáveis a menos que o passo <em>h</em> seja infinitesimal.
+      </p>
+      <p>
+        A solução teórica é o <strong>Método de Euler Implícito</strong>:
+      </p>
+      <div class="math-block">
+        <div>y_{i+1} = y_i + h \cdot f(x_{i+1}, y_{i+1})</div>
+        <div class="formula-tag">Esquema Incondicionalmente Estável &bull; Exige Resolver Equação Não Linear a Cada Passo</div>
+      </div>
+      <p>
+        Como <code>y_{i+1}</code> aparece nos dois lados da igualdade, a cada passo deve-se resolver a equação não linear <code>F(z) = z - y_i - h·f(x_{i+1}, z) = 0</code> usando o Método de Newton-Raphson! O arquivo <code>EDO/edoEULERimpNewton.m</code> documenta essa intenção pedagógica, embora o código tenha sido interrompido com o laço explícito simples.
+      </p>
+
+      <!-- INTERACTIVE LAB 3 -->
+      <div class="simulator-card">
+        <div class="sim-header">
+          <div class="sim-title">🧪 Laboratório Interativo 3: Euler Explícito vs Solução Analítica Exata</div>
+          <span class="brand-badge">Simulação Gráfica com Passo Variável</span>
+        </div>
+        <div class="sim-controls">
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="sim-edo-h">Escolha o Tamanho do Passo de Integração (h):</label>
+            <select id="sim-edo-h" class="form-control">
+              <option value="0.5">h = 0.50 (Passo grosseiro: erro perceptível a olho nu)</option>
+              <option value="0.25">h = 0.25 (Passo médio)</option>
+              <option value="0.1" selected>h = 0.10 (Passo original do script Chapra no repo)</option>
+              <option value="0.05">h = 0.05 (Passo refinado: aproximação quase perfeita)</option>
+            </select>
+          </div>
+          <button id="btn-run-edo" class="sim-btn-run" style="margin-top:0.5rem;">⚡ Simular Euler vs Exato</button>
+        </div>
+
+        <div id="sim-edo-stats" style="background:var(--bg-tertiary); padding:1rem; border-radius:8px; border:1px solid var(--border-color); margin-bottom:1rem;"></div>
+
+        <div class="canvas-container">
+          <canvas id="canvas-edo"></canvas>
+          <span style="font-size:0.75rem; color:var(--text-muted); margin-top:5px;">Curva Cúbica de Chapra: Curva Ciano Contínua = Exato; Linha Vermelha com Marcadores = Euler</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÓDULO 8: SÉRIES DE POTÊNCIAS -->
+    <section id="modulo-series" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">8.0</span> Séries de Potências e Maclaurin/Taylor (Coseno.m)</h2>
+      </div>
+      <p class="section-desc">
+        Computadores não possuem circuitos de silício dedicados a calcular diretamente o cosseno ou seno de um número real. As funções trigonométricas são avaliadas por <strong>polinômios de aproximação</strong> derivados das Séries de Taylor e Maclaurin.
+      </p>
+
+      <h3>8.1 Expansão de Maclaurin para o Cosseno</h3>
+      <p>
+        A expansão em série de potências para <code>cos(x)</code> em torno de zero (Série de Maclaurin) contém exclusivamente as potências pares de <em>x</em> com sinais alternados:
+      </p>
+      <div class="math-block">
+        <div>\cos(x) = \sum_{k=0}^{\infty} (-1)^k \frac{x^{2k}}{(2k)!} = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \frac{x^8}{8!} - \dots</div>
+        <div class="formula-tag">Série Absolutamente Convergente para Qualquer Número Real x</div>
+      </div>
+      <p>
+        No script <code>Coseno.m</code>, o objetivo era calcular <code>cos(&pi;/3)</code> (cujo valor analítico exato é rigorosamente <code>0.5</code>) somando os primeiros 6 termos (<code>k = 0, 1, 2, 3, 4, 5</code>).
+      </p>
+
+      <div class="callout callout-danger">
+        <div class="callout-title">⚠️ O Erro Lógico de Paridade em Coseno.m</div>
+        <p>
+          O autor tentou alternar os sinais da série com a condição:<br>
+          <code style="color:var(--accent-rose); font-family:var(--font-mono);">if (i/2 == 0) &rArr; Res += ... else &rArr; Res -= ...</code><br>
+          No Octave/MATLAB, a barra <code>/</code> realiza divisão em ponto flutuante real:
+        </p>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem; color: var(--text-secondary);">
+          <li>Para <code>i = 0</code>: <code>0/2 = 0 == 0</code> (Verdadeiro: soma <code>+1</code>).</li>
+          <li>Para <code>i = 1</code>: <code>1/2 = 0.5 &ne; 0</code> (Falso: subtrai <code>-x²/2!</code>).</li>
+          <li>Para <code>i = 2</code>: <code>2/2 = 1.0 &ne; 0</code> (Falso: <strong>subtrai</strong> <code>-x⁴/4!</code> quando deveria somar!).</li>
+          <li>Para todos os demais termos <code>i &ge; 3</code>: o teste avalia como falso, subtraindo todos os termos subsequentes!</li>
+        </ul>
+        <p>
+          <strong>Correção Correta e Elegante:</strong> Substituir o teste condicional por <code>if mod(i, 2) == 0</code> ou, de forma direta e vetorizada, usar a potência alternante da fórmula analítica:
+          <br>
+          <code style="color:var(--accent-emerald); font-family:var(--font-mono);">Res += (-1)^i * (X^(2*i)) / factorial(2*i);</code>
+        </p>
+      </div>
+    </section>
+
+
+    <!-- MÓDULO 9: SINAIS E RMS -->
+    <section id="modulo-sinais" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">9.0</span> Geração de Sinais, Formas de Onda e RMS (Octave/)</h2>
+      </div>
+      <p class="section-desc">
+        A pasta <code>Octave/</code> reúne rotinas para sintetização de sinais elétricos clássicos (senoide, onda quadrada e triangular), cálculo de valor médio e eficaz (RMS), amostragem e persistência em workspace nativo.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Forma de Onda</th>
+              <th>Função no Octave</th>
+              <th>Fórmula do Valor Médio (DC)</th>
+              <th>Fórmula do RMS Teórico (Sem Offset)</th>
+              <th>RMS com Offset V_med</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Senoidal</strong></td>
+              <td class="mono">sin(2*pi*f*t)</td>
+              <td>V_med</td>
+              <td class="mono">A / &radic;2 &approx; 0.7071 &middot; A</td>
+              <td class="mono">&radic;(V_med² + A²/2)</td>
+            </tr>
+            <tr>
+              <td><strong>Onda Quadrada</strong></td>
+              <td class="mono">square(2*pi*f*t)</td>
+              <td>V_med</td>
+              <td class="mono">A (para ciclo ativo 50%)</td>
+              <td class="mono">&radic;(V_med² + A²)</td>
+            </tr>
+            <tr>
+              <td><strong>Triangular Simétrica</strong></td>
+              <td class="mono">sawtooth(2*pi*f*t, 0.5)</td>
+              <td>V_med</td>
+              <td class="mono">A / &radic;3 &approx; 0.5774 &middot; A</td>
+              <td class="mono">&radic;(V_med² + A²/3)</td>
+            </tr>
+            <tr>
+              <td><strong>Dente de Serra</strong></td>
+              <td class="mono">sawtooth(2*pi*f*t, 1.0)</td>
+              <td>V_med</td>
+              <td class="mono">A / &radic;3 &approx; 0.5774 &middot; A</td>
+              <td class="mono">&radic;(V_med² + A²/3)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>9.1 Dissecção de func_generator.m</h3>
+      <p>
+        O script sintetiza 3 formas de onda com características distintas no domínio do tempo (duração de 1 ms):
+      </p>
+      <ul style="margin-left: 1.5rem; margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.7;">
+        <li><strong>Senoide:</strong> Frequência = 1 kHz, Amplitude = 2.5 V, Offset = +0.5 V.</li>
+        <li><strong>Onda Quadrada:</strong> Frequência = 15 kHz, Amplitude = 2.0 V, Offset = +1.0 V.</li>
+        <li><strong>Onda Triangular:</strong> Frequência = 4 kHz, Amplitude = 3.0 V, Offset = 0 V (simétrica com parâmetro <code>0.5</code>).</li>
+      </ul>
+      <p>
+        Para cada onda, gera um gráfico com a forma de onda, a linha do valor médio contínuo e a linha do valor RMS (calculado com a função nativa <code>rms()</code> do pacote <code>signal</code>). Na Figura 4, todas as três ondas são plotadas sobrepostas.
+      </p>
+      
+      <div class="callout callout-info">
+        <div class="callout-title">💡 A Constante e^9 e a Frequência de Amostragem Real</div>
+        <p>
+          No início do script aparece a linha: <code>Frequencia_Amostragem = e^9;</code>. 
+          No Octave, a letra <code>e</code> é a constante matemática de Euler (2.71828...). Portanto, <code>e^9 &approx; 8103.08</code>. 
+          Como essa variável é passada como terceiro argumento de <code>linspace(0, 0.001, Frequencia_Amostragem)</code>, ela representa na verdade o <strong>número de pontos</strong> no intervalo de 1 milissegundo. 
+          A taxa de amostragem física correspondente é:
+          <br>
+          <code style="font-family:var(--font-mono); color:var(--accent-cyan);">fs = N / &Delta;t = 8103 pontos / 0.001 s &approx; 8.103 MHz</code>.
+          Essa taxa de 8,1 MHz é 540 vezes superior à máxima frequência do sinal (15 kHz), garantindo fidelidade gráfica absoluta.
+        </p>
+      </div>
+
+      <h3>9.2 O Teorema de Nyquist-Shannon e o Desastre do Aliasing</h3>
+      <p>
+        O script <code>Octave/Gerador de função.m</code> é um exemplo didático involuntário e fascinante sobre o <strong>Teorema da Amostragem de Nyquist-Shannon</strong>:
+      </p>
+      <div class="code-wrapper">
+        <div class="code-header"><span>Octave/Gerador de função.m (Código com Aliasing)</span><div style="display:flex; gap:8px; align-items:center;"><button class="btn-action" style="padding:0.15rem 0.5rem; font-size:0.72rem;" onclick="copyCode(this)">📋 Copiar</button><span class="code-lang-badge">Octave</span></div></div>
+        <pre><code><span class="var">Frequencia_Amostragem</span> = <span class="num">1000</span>;
+<span class="var">t</span> = [<span class="num">0</span>:<span class="num">1</span>/<span class="var">Frequencia_Amostragem</span>:<span class="num">1</span>];
+<span class="var">senoide</span> = <span class="fn">sin</span>(<span class="num">2</span>*<span class="num">pi</span>*<span class="num">1000</span>*<span class="var">t</span>);
+<span class="fn">plot</span>(<span class="var">t</span>, <span class="var">senoide</span>);</code></pre>
+      </div>
+      <p>
+        <strong>Por que o gráfico resultante mostra apenas uma linha reta estática em zero?</strong>
+        <br>
+        O sinal tem frequência <code>f = 1000 Hz</code> (período de 1 ms). A taxa de amostragem escolhida foi <code>fs = 1000 Hz</code>, ou seja, o computador tira uma amostra exatamente a cada 1 milissegundo (<code>t_k = k &times; 10⁻³ s</code>). Substituindo na fórmula da senoide:
+      </p>
+      <div class="math-block">
+        <div>\sin(2\pi \cdot 1000 \cdot t_k) = \sin(2\pi \cdot 1000 \cdot k \cdot 10^{-3}) = \sin(2\pi k) = 0 \quad \forall k \in \mathbb{Z}</div>
+        <div class="formula-tag">Todas as Amostras Caem Exatamente nos Zeros da Senoide!</div>
+      </div>
+      <p>
+        Pelo Critério de Nyquist, a taxa mínima absoluta deveria ser <code>fs &gt; 2·f = 2000 Hz</code>. Na engenharia prática, para representação visual nítida sem distorção, adota-se <code>fs &ge; 10·f</code> a <code>20·f</code> (ex: 20 kHz).
+      </p>
+
+      <h3>9.3 O Arquivo de Workspace Binário: Octave/01</h3>
+      <p>
+        O arquivo <code>Octave/01</code> presente no repositório (com 44.143 bytes) não é código-fonte, mas uma <strong>imagem binária da memória do Octave</strong> gravada com o comando nativo <code>save</code>. Para inspecionar e extrair as variáveis salvas:
+      </p>
+      <div class="code-wrapper">
+        <div class="code-header"><span>Terminal Octave: Carregando e Inspecionando o Workspace 01</span><div style="display:flex; gap:8px; align-items:center;"><button class="btn-action" style="padding:0.15rem 0.5rem; font-size:0.72rem;" onclick="copyCode(this)">📋 Copiar</button><span class="code-lang-badge">Octave</span></div></div>
+        <pre><code><span class="fn">load</span>(<span class="str">'Octave/01'</span>);  <span class="cm">% Carrega o estado de variáveis</span>
+<span class="fn">whos</span>;               <span class="cm">% Lista as variáveis restauradas:</span>
+<span class="cm">% Variáveis encontradas:</span>
+<span class="cm">% Amplitude_Sinal_Senoide   (1x1)     double</span>
+<span class="cm">% Frequencia_Amostragem      (1x1)     double (8103.08)</span>
+<span class="cm">% Frequencia_Sinal_Senoide  (1x1)     double (1000)</span>
+<span class="cm">% Senoide                   (1x8104)  double</span>
+<span class="cm">% Valor_Medio_Senoide       (1x1)     double (0.5)</span>
+<span class="cm">% t                         (1x8104)  double</span>
+<span class="fn">plot</span>(<span class="var">t</span>, <span class="var">Senoide</span>); <span class="fn">grid</span> <span class="var">on</span>;</code></pre>
+      </div>
+    </section>
+
+    <!-- MÓDULO 10: FÍSICA, QUÍMICA E FARMACOCINÉTICA -->
+    <section id="modulo-aplicacoes" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">10.0</span> Físico-Química Quântica e Modelagem Farmacocinética</h2>
+      </div>
+      <p class="section-desc">
+        Além dos algoritmos fundamentais, o repositório contém modelos aplicados à física da matéria condensada, química de coordenação e farmacocinética compartimental.
+      </p>
+
+      <h3>10.1 Energia Reticular de Cristais Iônicos (Eq_BornMayer.m)</h3>
+      <p>
+        Em sólidos iônicos (como o Cloreto de Sódio, NaCl), a <strong>Energia Reticular (U)</strong> mede a estabilidade termodinâmica da rede cristalina cristalizada em relação aos íons isolados no estado gasoso.
+      </p>
+      <p>
+        O modelo teórico de Born-Mayer equilibra a atração coulombiana de longo alcance (ponderada pela <strong>Constante de Madelung M</strong>) com a repulsão quântica de curto alcance entre as nuvens eletrônicas (Princípio de Exclusão de Pauli), governada pelo raio de repulsão <code>&rho;</code>:
+      </p>
+      <div class="math-block">
+        <div>U = -\frac{N_A \cdot |z_+ z_-| \cdot M \cdot e^2}{4 \pi \varepsilon_0 \cdot r_0} \left( 1 - \frac{\rho}{r_0} \right)</div>
+        <div class="formula-tag">Equação Eletrostática de Born-Mayer com Correção Repulsiva</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Parâmetro</th>
+              <th>Símbolo / Variável</th>
+              <th>Valor Utilizado no Script (NaCl)</th>
+              <th>Unidade Física</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Constante de Avogadro</td>
+              <td class="mono">n (N_A)</td>
+              <td class="mono">6.02214 &times; 10²³</td>
+              <td>mol⁻¹</td>
+            </tr>
+            <tr>
+              <td>Cargas dos Íons Na⁺ e Cl⁻</td>
+              <td class="mono">Za, Zb</td>
+              <td class="mono">+1, -1</td>
+              <td>adimensional</td>
+            </tr>
+            <tr>
+              <td>Constante de Madelung (Halita)</td>
+              <td class="mono">m (M)</td>
+              <td class="mono">1.74756</td>
+              <td>adimensional</td>
+            </tr>
+            <tr>
+              <td>Carga Fundamental do Elétron</td>
+              <td class="mono">eletron (e)</td>
+              <td class="mono">1.6021 &times; 10⁻¹⁹</td>
+              <td>Coulombs (C)</td>
+            </tr>
+            <tr>
+              <td>Permissividade do Vácuo</td>
+              <td class="mono">ConstDie (&epsilon;₀)</td>
+              <td class="mono">8.854 &times; 10⁻¹²</td>
+              <td>F/m (C²/(N·m²))</td>
+            </tr>
+            <tr>
+              <td>Distância Interiônica de Equilíbrio</td>
+              <td class="mono">Rio (r₀)</td>
+              <td class="mono">102 + 181 = 283</td>
+              <td>picômetros (10⁻¹² m)</td>
+            </tr>
+            <tr>
+              <td>Constante de Repulsão de Born</td>
+              <td class="mono">r (&rho;)</td>
+              <td class="mono">34.5</td>
+              <td>picômetros (pm)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        O script calcula <code>U = -753.208 kJ/mol</code>, valor que coincide com excelente precisão com as medições experimentais do Ciclo de Born-Haber para o cloreto de sódio (-787 kJ/mol, considerando contribuições de van der Waals adicionais).
+      </p>
+
+      <h3>10.2 Magnetoquímica e Elétrons Desemparelhados (SuscepMag.m e EletonsDesemp.m)</h3>
+      <p>
+        Na química de complexos de metais de transição, a presença de elétrons desemparelhados em orbitais <em>d</em> confere propriedades paramagnéticas. O <strong>momento magnético efetivo de spin puro (spin-only)</strong> em magnetons de Bohr (&mu;_B) e a susceptibilidade magnética molar corrigida &chi;_M (em cm³/mol) a uma temperatura <em>T</em> são calculados por:
+      </p>
+      <div class="math-block">
+        <div>\mu_{\text{eff}} = \sqrt{n(n + 2)} \quad (\mu_B), \qquad \chi_M = \frac{\mu_{\text{eff}}^2}{8.0656 \cdot T} = \frac{n(n + 2)}{8.0656 \cdot T}</div>
+        <div class="formula-tag">Relações de Curie para Complexos Paramagnéticos Spin-Only</div>
+      </div>
+      <p>
+        O script <code>SuscepMag.m</code> calcula <code>&mu;</code> e <code>&chi;_M</code> a partir de <code>n = 4</code> elétrons desemparelhados a 298.15 K.
+      </p>
+      <p>
+        Por outro lado, o script <code>EletonsDesemp.m</code> executa a operação inversa: dado um valor medido experimentalmente <code>&chi;_M = 3.33 &times; 10⁻² cm³/mol</code>, deseja-se determinar o número de elétrons desemparelhados <em>n</em>. Reorganizando algebricamente:
+      </p>
+      <div class="math-block">
+        <div>n^2 + 2n - (8.0656 \cdot \chi_M \cdot T) = 0 \implies \text{Raízes do Polinômio via } \text{roots}([1, \, 2, \, -C])</div>
+      </div>
+      <p>
+        O comando <code>max(round(roots(X)))</code> extrai a raiz física positiva inteira, identificando o estado de spin do complexo.
+      </p>
+
+      <h3>10.3 Modelagem Farmacocinética de Doses Repetidas (pessoal/)</h3>
+      <p>
+        A pasta <code>pessoal/</code> contém simulações da concentração de um medicamento no plasma sanguíneo ao longo de 90 a 120 dias, com passo de tempo discreto de 1 hora.
+      </p>
+
+      <!-- Pharmacokinetics Diagram -->
+      <div class="svg-diagram-card">
+        <div class="svg-diagram-title">💊 Modelo Farmacocinético Compartimental com Absorção e Meia-Vida</div>
+<svg viewBox="0 0 850 250" xmlns="http://www.w3.org/2000/svg" style="background:#080d1a; border-radius:12px; border:1px solid #1e293b; width:100%;">
+  <g transform="translate(40, 40)">
+    <rect x="0" y="40" width="160" height="80" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="2"/>
+    <text x="80" y="70" fill="#fbbf24" font-family="system-ui, sans-serif" font-weight="700" font-size="12" text-anchor="middle">Depósito Gastrointestinal</text>
+    <text x="80" y="90" fill="#94a3b8" font-family="monospace" font-size="11" text-anchor="middle">DoseNA (mg)</text>
+
+    <line x1="160" y1="80" x2="240" y2="80" stroke="#38bdf8" stroke-width="2"/>
+    <text x="200" y="70" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Absorção ka</text>
+
+    <rect x="250" y="30" width="200" height="100" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="2"/>
+    <text x="350" y="65" fill="#34d399" font-family="system-ui, sans-serif" font-weight="700" font-size="13" text-anchor="middle">Compartimento Plasmático</text>
+    <text x="350" y="85" fill="#f1f5f9" font-family="monospace" font-size="12" text-anchor="middle">Concentração C(t)</text>
+    <text x="350" y="105" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">Meia-vida T_1/2 = 7 dias</text>
+
+    <line x1="450" y1="80" x2="530" y2="80" stroke="#f87171" stroke-width="2"/>
+    <text x="490" y="70" fill="#f87171" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Metabolismo</text>
+
+    <rect x="540" y="40" width="130" height="80" rx="8" fill="#1e293b" stroke="#f87171" stroke-width="1.5"/>
+    <text x="605" y="75" fill="#f87171" font-family="system-ui, sans-serif" font-weight="700" font-size="12" text-anchor="middle">Eliminação</text>
+    <text x="605" y="95" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Renal / Hepática</text>
+  </g>
+
+  <g transform="translate(100, 160)">
+    <text x="325" y="20" fill="#38bdf8" font-family="system-ui, sans-serif" font-weight="600" font-size="12" text-anchor="middle">Regime Multidose: Doses a cada τ horas levam ao Estado de Equilíbrio (Steady-State)</text>
+    <line x1="50" y1="50" x2="600" y2="50" stroke="#334155" stroke-width="1"/>
+    <path d="M 50 50 Q 70 30, 90 40 Q 110 25, 130 35 Q 150 20, 170 30 Q 190 18, 210 27 Q 230 16, 250 25 L 600 25" fill="none" stroke="#34d399" stroke-width="2"/>
+    <line x1="250" y1="25" x2="600" y2="25" stroke="#fbbf24" stroke-dasharray="3,3"/>
+    <text x="610" y="28" fill="#fbbf24" font-family="monospace" font-size="10">Média Móvel (Steady-State)</text>
+  </g>
+</svg>
+      </div>
+
+      <h4>A. Modelo Monocompartimental em Bolus (ConcentPlasm_SemAbs.m)</h4>
+      <p>
+        Simula a administração de uma dose instantânea a cada <code>Intervalo_Adm_h = 4*24 = 96 h</code> (4 dias). A cada hora, o fármaco é eliminado de acordo com a sua meia-vida biológica de 7 dias (<code>Meia_Vida_h = 7*24 = 168 h</code>).
+      </p>
+      <p>
+        O decaimento contínuo exato <code>C(t) = C₀ &middot; e^(-k_e &middot; t)</code> com <code>k_e = ln(2) / T_{1/2} &approx; 0.693 / T_{1/2}</code> foi discretizado no código como uma taxa horária:
+      </p>
+      <div class="math-block">
+        <div>C(t + 1) = C(t) - [ (C(t) / 2) / T_{1/2} ]</div>
+        <div class="formula-tag">Aproximação Linear Discreta da Eliminação Metabólica</div>
+      </div>
+
+      <h4>B. Modelo com Absorção de 1ª Ordem (ConcentPlasm_ComAbs.m)</h4>
+      <p>
+        Acrescenta um compartimento de depósito (gastrointestinal/muscular) com taxa de absorção <code>TaxaDeAbs_porhora = 1/24 h⁻¹</code>. A cada hora, uma fração <code>DoseNA &times; TaxaDeAbs_porhora</code> é transferida do depósito para a circulação plasmática.
+      </p>
+
+      <h4>C. Varredura da Razão de Dosagem (intXConc.m)</h4>
+      <p>
+        Executa uma análise de sensibilidade variando o intervalo de administração entre 12 e 120 horas e plota a curva:
+      </p>
+      <div class="math-block">
+        <div>Eixo X = (\text{Intervalo de Administração} / \text{Tempo de Meia-Vida}) \quad \times \quad Eixo Y = (\text{Concentração no Estado de Equilíbrio} / \text{Dose})</div>
+      </div>
+      <p>
+        Essa curva demonstra o princípio clínico fundamental da posologia: se o intervalo de dosagem for muito menor que a meia-vida (<code>&tau; &lt;&lt; T_{1/2}</code>), o fármaco se acumula maciçamente, correndo risco de toxicidade; se for muito maior (<code>&tau; &gt;&gt; T_{1/2}</code>), a concentração cai a zero entre as doses, perdendo a eficácia terapêutica.
+      </p>
+    </section>
+
+
+    <!-- MÓDULO 11: AUDITORIA FORENSE DE BUGS -->
+    <section id="modulo-auditoria" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">11.0</span> Auditoria Forense de Código, Bugs e Compatibilidade</h2>
+      </div>
+      <p class="section-desc">
+        A engenharia de software rigorosa exige identificar falhas sutis de implementação que podem alterar silenciosamente os resultados numéricos. 
+        Abaixo apresentamos o inventário exaustivo das 15 armadilhas e bugs catalogados no repositório, com os respectivos códigos corrigidos (drop-in replacements).
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Arquivo Afetado</th>
+              <th>Linha / Trecho</th>
+              <th>Causa Raiz do Erro</th>
+              <th>Impacto Numérico em Tempo de Execução</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td class="mono">PosFalsa.m (raiz e pasta)</td>
+              <td class="mono">Fa = F(a); Fb = F(b);</td>
+              <td>Valores calculados antes do <code>for</code> e nunca atualizados nas iterações.</td>
+              <td>A fórmula da reta usa sempre as extremidades iniciais, perdendo a convergência correta.</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td class="mono">EscalonamentoGAUSS.m</td>
+              <td class="mono">x(n) = b(n)/A(n/n);</td>
+              <td>Erro de digitação: barra <code>/</code> no lugar da vírgula <code>,</code>.</td>
+              <td><code>n/n = 1</code>, dividindo por <code>A(1)</code> em vez de <code>A(n,n)</code>. Solução final completamente errada.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td class="mono">EscalonamentoGAUSSJORDAM.m</td>
+              <td class="mono">Todo o script + disp(i)</td>
+              <td>Nome anuncia Gauss-Jordan, mas o algoritmo só faz eliminação triangular.</td>
+              <td>Não resolve o sistema e polui a tela com impressões de <code>i</code> a cada ciclo.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td class="mono">EscalonamentoGAUSSJORDAM2.m</td>
+              <td class="mono">t = M(1,:); M(1,:) = M(z,:);</td>
+              <td>Na detecção de pivô nulo, permuta sempre com a linha 1 e atribui a variável inexistente <code>a</code>.</td>
+              <td>Falha catastrófica caso ocorra um pivô nulo (funciona no exemplo apenas porque nenhum pivô é zero).</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td class="mono">Newton.m e Secante.m (raiz)</td>
+              <td class="mono">abs(xi - x0) / x0 &lt; Tol</td>
+              <td>Falta de módulo no denominador do teste de tolerância relativa.</td>
+              <td>Se a raiz for negativa (<code>x₀ &lt; 0</code>), o quociente se torna negativo, abortando o laço na primeira iteração!</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td class="mono">Newton, Secante, PontoFixo</td>
+              <td class="mono">fprintf('... xz = %f', xz)</td>
+              <td>A variável <code>xz</code> só é criada se o <code>if</code> de convergência for atingido.</td>
+              <td>Se o método atingir <code>iMax</code> sem convergir, o Octave emite erro fatal: <em>'xz' undefined</em>.</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td class="mono">Coseno.m</td>
+              <td class="mono">if (i/2 == 0)</td>
+              <td>Divisão em ponto flutuante: <code>i/2</code> só é igual a zero para <code>i=0</code>.</td>
+              <td>Todos os termos a partir de <code>i=2</code> recebem sinal negativo, distorcendo a aproximação de Maclaurin.</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td class="mono">Diferenciacao/Progressiva3Pontos.m</td>
+              <td class="mono">... / 2 * h;</td>
+              <td>Precedência de operadores: avalia como <code>(... / 2) * h</code>.</td>
+              <td>Multiplica por <code>h</code> em vez de dividir por <code>2h</code>, errando a derivada por um fator de <code>4h²</code>.</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td class="mono">SItoING.m (raiz)</td>
+              <td class="mono">Massa * 2,205</td>
+              <td>Uso de vírgula em vez de ponto decimal.</td>
+              <td>No Octave, a vírgula separa comandos ou colunas, gerando vetores imprevisíveis ou erro de sintaxe.</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td class="mono">Octave/rmssaw.m</td>
+              <td class="mono">Y = A * sawtooth(0.5);</td>
+              <td>Chamada escalar de <code>sawtooth()</code> sem vetor de tempo nem frequência.</td>
+              <td>Gera um único escalar fixo em vez de uma forma de onda; as variáveis <code>X</code> e <code>F</code> são ignoradas.</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td class="mono">Octave/Gerador de função.m</td>
+              <td class="mono">Amostragem = 1000 Hz p/ 1000 Hz</td>
+              <td>Subamostragem violando estritamente o Teorema de Nyquist (fs = f).</td>
+              <td>Gera <em>aliasing</em> total: todas as amostras colapsam no zero exato da senoide.</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td class="mono">Octave/func_generator.m</td>
+              <td class="mono">set(L3, "fontsize", 20);</td>
+              <td>Na Figura 4, a legenda criada foi atribuída à variável <code>L4</code>, mas alterou <code>L3</code>.</td>
+              <td>Ajusta o tamanho da fonte da figura errada e deixa a legenda da Figura 4 com o padrão.</td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td class="mono">pessoal/ConcentPlasm_ComAbs.m</td>
+              <td class="mono">... - horasmedia) / Dose;</td>
+              <td>A variável foi declarada no topo como <code>AmostragemMediaMovel_h</code>.</td>
+              <td>Erro de execução na penúltima linha: <em>error: 'horasmedia' undefined near line 59</em>.</td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td class="mono">EDO/edoEULERimpNewton.m</td>
+              <td class="mono">F = @(X,Y)(... + 10*X(1)*...)</td>
+              <td>Script incompleto: laço executa Euler explícito simples e a função EDO referencia <code>X(1)</code>.</td>
+              <td>Não implementa o método implícito anunciado nem o algoritmo de Newton para a raiz da EDO.</td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td class="mono">testeRK.m</td>
+              <td class="mono">Corpo de função sem function</td>
+              <td>Cabeçalho <code>function</code> comentado; depende de <code>fun, alpha, a, b, N</code> no workspace.</td>
+              <td>Se executado isoladamente, aborta imediatamente com erro de variáveis indefinidas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>11.1 Destaques de Correção: Antes & Depois</h3>
+      <div class="diff-container">
+        <div class="diff-col diff-orig">
+          <div class="diff-header">❌ PosFalsa.m (Código Original com Bug)</div>
+          <pre><code>Fa = F(a);
+Fb = F(b);
+for i = 1:iMax
+  ZeroReta = (a*Fb - b*Fa) / (Fb - Fa);
+  Erro = (b - a)/2;  % Erro da bisseção!
+  
+  if F(a)*F(ZeroReta) &lt; 0
+    b = ZeroReta;
+  else
+    a = ZeroReta;
+  endif
+  % Fa e Fb NUNCA são atualizados aqui dentro!
+endfor</code></pre>
+        </div>
+        <div class="diff-col diff-fixed">
+          <div class="diff-header">✅ PosFalsa.m (Código Corrigido e Otimizado)</div>
+          <pre><code>ZeroRetaAnt = a;
+for i = 1:iMax
+  Fa = F(a);  % Recalcula Fa e Fb a cada ciclo!
+  Fb = F(b);
+  ZeroReta = (a*Fb - b*Fa) / (Fb - Fa);
+  Erro = abs(ZeroReta - ZeroRetaAnt); % Erro real!
+  
+  if Erro &lt;= Tolerancia || abs(F(ZeroReta)) &lt; Tolerancia
+    break;
+  endif
+  
+  if F(a)*F(ZeroReta) &lt; 0
+    b = ZeroReta;
+  else
+    a = ZeroReta;
+  endif
+  ZeroRetaAnt = ZeroReta;
+endfor</code></pre>
+        </div>
+      </div>
+
+      <div class="diff-container">
+        <div class="diff-col diff-orig">
+          <div class="diff-header">❌ Progressiva3Pontos.m (Bug de Precedência)</div>
+          <pre><code>% Multiplica por h em vez de dividir por 2h!
+for i = 1 : n-2
+  dx(i) = (-3*u(i) + 4*u(i+1) - u(i+2))/2*h;
+endfor</code></pre>
+        </div>
+        <div class="diff-col diff-fixed">
+          <div class="diff-header">✅ Progressiva3Pontos.m (Corrigido com Parênteses)</div>
+          <pre><code>% Parênteses garantem divisão pelo produto (2*h):
+for i = 1 : n-2
+  dx(i) = (-3*u(i) + 4*u(i+1) - u(i+2)) / (2*h);
+endfor</code></pre>
+        </div>
+      </div>
+
+      <h3>11.2 Codificação de Caracteres (Latin-1) e Finalizadores de Linha (CR)</h3>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">🔤 Caracteres Acentuados Corrompidos</div>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            A quase totalidade dos scripts originais foi gravada na codificação <strong>ISO-8859-1 (Latin-1 / Windows-1252)</strong>. Quando abertos em editores configurados para UTF-8 moderno, palavras como <em>"função"</em>, <em>"iteração"</em> e <em>"tolerância"</em> aparecem corrompidas (<code>funo</code>). Para converter todos os arquivos para UTF-8 nativo no Linux:
+          </p>
+          <div class="code-wrapper" style="margin-top:0.5rem;">
+            <pre><code>iconv -f latin1 -t utf-8 arquivo_orig.m -o arquivo_utf8.m</code></pre>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">📄 Quebras de Linha em Uma Linha Só (CR Clássico)</div>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;">
+            Três arquivos do repositório — <code>Eq_BornMayer.m</code>, <code>Integração/Simpson13composto.m</code> e <code>EDO/edoEULERimpNewton.m</code> — utilizam finalizador de linha <strong>CR isolado (\r, byte 0x0D)</strong>, herança histórica do sistema operacional Macintosh pré-OSX. Editores modernos esperam <code>LF (\n)</code> ou <code>CRLF (\r\n)</code> e mostram todo o código colapsado em uma única linha horizontal. Correção:
+          </p>
+          <div class="code-wrapper" style="margin-top:0.5rem;">
+            <pre><code>sed -i 's/\r/\n/g' Eq_BornMayer.m</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <h3>11.3 Dicionário de Portabilidade: GNU Octave &times; MATLAB</h3>
+      <p>
+        O código deste repositório foi escrito utilizando extensões de sintaxe exclusivas do GNU Octave. Para rodar esses mesmos scripts no MathWorks MATLAB sem erros, siga o roteiro de tradução:
+      </p>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Recurso de Sintaxe</th>
+              <th>GNU Octave (Usado no Repositório)</th>
+              <th>MathWorks MATLAB (Equivalente Padrão)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fechamento de Blocos</td>
+              <td class="mono">endfor, endif, endfunction</td>
+              <td class="mono" style="color:var(--accent-emerald);">end (sempre genérico)</td>
+            </tr>
+            <tr>
+              <td>Impressão Formatada</td>
+              <td class="mono">printf('...\n', val)</td>
+              <td class="mono" style="color:var(--accent-emerald);">fprintf('...\n', val)</td>
+            </tr>
+            <tr>
+              <td>Operadores de Incremento</td>
+              <td class="mono">i++, x += 1, x -= 1</td>
+              <td class="mono" style="color:var(--accent-emerald);">i = i + 1; x = x + 1;</td>
+            </tr>
+            <tr>
+              <td>Comentários de Bloco</td>
+              <td class="mono">## Comentário estilo shell</td>
+              <td class="mono" style="color:var(--accent-emerald);">% Comentário padrão</td>
+            </tr>
+            <tr>
+              <td>Constante de Euler</td>
+              <td class="mono">e (variável reservada = 2.71828)</td>
+              <td class="mono" style="color:var(--accent-emerald);">exp(1)</td>
+            </tr>
+            <tr>
+              <td>Aspas em Strings</td>
+              <td class="mono">"texto" ou 'texto'</td>
+              <td class="mono" style="color:var(--accent-emerald);">'texto' (aspas simples para vetores char)</td>
+            </tr>
+            <tr>
+              <td>Carregamento de Pacotes</td>
+              <td class="mono">pkg load signal</td>
+              <td class="mono" style="color:var(--accent-emerald);">Remover a linha (Toolbox embutida)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- MÓDULO 12: AUTOAVALIAÇÃO E PERGUNTAS DE ENTREVISTA -->
+    <section id="modulo-questoes" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">12.0</span> Banco de Questões de Autoavaliação e Entrevista Técnica</h2>
+      </div>
+      <p class="section-desc">
+        Utilize estas 10 questões aprofundadas para testar o seu domínio sobre a teoria e a implementação dos algoritmos. Clique em cada pergunta para revelar a resposta comentada com fundamentação matemática.
+      </p>
+
+      <!-- Question 1 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 1 &bull; Raízes</span>Por que o Método de Newton-Raphson possui convergência quadrática, enquanto a Bisseção possui apenas convergência linear?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            A velocidade de convergência é definida pela relação assintótica do erro entre iterações consecutivas: <code>|e_{k+1}| &approx; C &middot; |e_k|^p</code>, onde <em>p</em> é a ordem de convergência.
+          </p>
+          <ul>
+            <li><strong>Bisseção (p = 1):</strong> A cada passo, o erro é estritamente cortado pela metade: <code>e_{k+1} = 0.5 &middot; e_k</code>. A ordem é linear (<code>p = 1</code>), exigindo cerca de 3,32 iterações para ganhar 1 casa decimal exata.</li>
+            <li><strong>Newton-Raphson (p = 2):</strong> Pela expansão em Série de Taylor com resto de Lagrange em torno da raiz exata &xi;:
+              <br><code>0 = f(&xi;) = f(x_k) + f'(x_k)(&xi; - x_k) + [f''(&eta;) / 2] &middot; (&xi; - x_k)²</code>.
+              <br>Dividindo por <code>f'(x_k)</code> e aplicando a definição <code>x_{k+1} = x_k - f(x_k)/f'(x_k)</code>, obtém-se:
+              <br><code>|e_{k+1}| &approx; |f''(&xi;) / (2 f'(&xi;))| &middot; |e_k|²</code>.
+              <br>Como o expoente é 2, o número de casas decimais corretas <strong>aproximadamente dobra a cada ciclo</strong> na vizinhança da raiz.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 2 &bull; Álgebra Linear</span>Qual é a consequência numérica de não aplicar pivoteamento parcial ao resolver um sistema linear por Eliminação de Gauss?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            Sem pivoteamento parcial, se um elemento diagonal for zero (<code>A_{kk} = 0</code>), o cálculo do multiplicador <code>m_{ik} = A_{ik} / A_{kk}</code> causa divisão por zero. 
+            Mais criticamente, se <code>|A_{kk}|</code> for muito pequeno em relação aos elementos abaixo dele, o multiplicador será muito grande. Na operação de linha <code>L_i = L_i - m_{ik} L_k</code>, multiplica-se a linha por uma grandeza enorme, provocando <strong>cancelamento catastrófico e perda de significância</strong> na aritmética de ponto flutuante de precisão finita. 
+            O pivoteamento parcial garante que o pivô escolhido seja o de maior módulo na coluna (<code>max |A_{l:n, k}|</code>), forçando que todos os multiplicadores satisfaçam estritamente <code>|m_{ik}| &le; 1</code>, amortecendo a propagação de erros.
+          </p>
+        </div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 3 &bull; Integração</span>Por que a Regra de Simpson 1/3 Composta exige obrigatoriamente que o número de intervalos (n) seja par?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            A Regra de Simpson 1/3 simples aproxima a função integranda através de uma parábola (polinômio de 2º grau <code>p_2(x) = Ax² + Bx + C</code>). Pela geometria analítica, uma parábola requer <strong>3 pontos</strong> para ser unicamente determinada. Três pontos consecutivos <code>(x_0, x_1, x_2)</code> delimitam exatamente <strong>2 subintervalos</strong> contíguos. 
+            Ao compor a regra para <em>m</em> parábolas consecutivas cobrindo todo o intervalo <code>[a, b]</code>, o número total de subintervalos será necessariamente <code>n = 2 &middot; m</code>, o que é, por definição matemática, um número estritamente <strong>par</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Question 4 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 4 &bull; Diferenciação</span>Por que a linha 'dx(i) = (-3*u(i)+4*u(i+1)-u(i+2))/2*h' no script de diferenciação gera valores completamente distorcidos?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            Trata-se de uma falha de <strong>precedência e associatividade de operadores</strong>. Na linguagem Octave/MATLAB (assim como em C, Python e Fortran), as operações de divisão (<code>/</code>) e multiplicação (<code>*</code>) possuem igual precedência e são avaliadas rigorosamente da esquerda para a direita. 
+            Portanto, a máquina computa <code>[Numerador / 2] * h</code>. Em vez de dividir pelo denominador matemático <code>2h</code>, ela divide por 2 e em seguida multiplica o resultado pelo passo <em>h</em>. Para um passo <code>h = 0.002</code>, o resultado calculado fica <code>4h² = 1.6 &times; 10⁻⁵</code> vezes menor do que a derivada verdadeira. A correção requer parênteses explícitos: <code>/ (2 * h)</code>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Question 5 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 5 &bull; EDOs</span>O que diferencia o erro de truncamento local do erro de truncamento global no Método de Euler Explícito?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            O <strong>erro local de truncamento</strong> é o erro incorrido em um único passo, presumindo que o ponto anterior estava rigorosamente correto. Pela Série de Taylor, <code>y(x_i + h) = y(x_i) + h y'(x_i) + (h²/2) y''(&xi;)</code>. Como o método de Euler retém apenas os dois primeiros termos, o erro local é de ordem <code>O(h²)</code>.
+            <br>
+            No entanto, para cobrir um intervalo fixo <code>[a, b]</code>, são necessários <code>N = (b - a)/h</code> passos. A cada passo, o erro local é somado aos erros acumulados anteriormente. Multiplicando o número de passos <code>N &prop; 1/h</code> pelo erro de cada passo <code>O(h²)</code>, obtém-se o <strong>erro global acumulado</strong> de ordem <code>O(h)</code>:
+            <br><code>\text{Erro Global} &approx; N &middot; O(h²) = [(b - a) / h] &middot; O(h²) &isin; O(h)</code>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Question 6 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 6 &bull; Sinais</span>O que aconteceu fisicamente no script 'Gerador de função.m' para que a senoide de 1000 Hz virasse uma linha plana?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            Ocorreu o fenômeno de <strong>Aliasing Estático por Subamostragem</strong>. O sinal possui frequência <code>f = 1000 Hz</code> (período de 1 ms). A frequência de amostragem foi configurada como <code>fs = 1000 Hz</code> (intervalo de amostragem <code>Ts = 1 ms</code>). O instante da k-ésima amostra é <code>t_k = k &middot; Ts = k / 1000</code> segundos. 
+            Ao avaliar a função senoidal em cada ponto de amostragem:
+            <br><code>y(t_k) = \sin(2\pi \cdot 1000 \cdot t_k) = \sin(2\pi \cdot 1000 \cdot \frac{k}{1000}) = \sin(2\pi k) = 0</code> para todo <em>k</em> inteiro.
+            <br>Como o sinal sempre cruzava exatamente pelo zero nos instantes em que o computador colhia uma amostra, a representação discreta resultante foi uma sequência contínua de zeros.
+          </p>
+        </div>
+      </div>
+
+      <!-- Question 7 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 7 &bull; Físico-Química</span>Como o script 'EletonsDesemp.m' utiliza métodos numéricos para determinar a configuração eletrônica de um íon?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            A susceptibilidade magnética molar medida experimentalmente <code>&chi;_M</code> relaciona-se com o número de elétrons desemparelhados <em>n</em> através da relação de Curie <code>\chi_M = \frac{n(n + 2)}{8.0656 \cdot T}</code>. Multiplicando ambos os lados e expandindo o produto, obtém-se uma <strong>equação quadrática</strong>:
+            <br><code>n² + 2n - (8.0656 \cdot \chi_M \cdot T) = 0</code>.
+            <br>O script modela esse polinômio através do vetor de coeficientes <code>X = [1, 2, -C]</code> e invoca a rotina numérica <code>roots(X)</code> (que calcula os autovalores da matriz companheira do polinômio). Como o número de elétrons físicos deve ser inteiro e positivo, a função <code>max(round(roots(X)))</code> extrai a solução correta.
+          </p>
+        </div>
+      </div>
+
+      <!-- Question 8 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 8 &bull; Farmacocinética</span>Por que a relação entre o intervalo de administração (&tau;) e a meia-vida (T½) é o parâmetro mais crítico em intXConc.m?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            Em regimes terapêuticos de doses múltiplas, o fármaco administrado na dose <em>k</em> soma-se ao resíduo que ainda não foi metabolizado das doses anteriores. 
+            O <strong>fator de acúmulo no estado de equilíbrio (steady-state)</strong> é analiticamente dado por <code>R = 1 / [1 - e^(-k_e &middot; &tau;)] = 1 / [1 - 2^(-&tau; / T_{1/2})]</code>.
+            <br>
+            Se <code>&tau; / T_{1/2} &lt;&lt; 1</code> (doses frequentes em relação à meia-vida), <em>R</em> tende a infinito, acumulando concentrações plasmáticas tóxicas no paciente. 
+            Se <code>&tau; / T_{1/2} &gt;&gt; 1</code>, <em>R</em> aproxima-se de 1, significando que o medicamento é quase totalmente eliminado antes da próxima dose, gerando oscilações imensas e períodos com concentração abaixo da janela terapêutica mínima eficaz.
+          </p>
+        </div>
+      </div>
+
+      <!-- Question 9 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 9 &bull; Programação</span>Por que o teste condicional 'if (i/2 == 0)' em Coseno.m não alterna os sinais dos termos da série de Maclaurin?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            No Octave e no MATLAB, todos os números padrão são tratados como ponto flutuante de precisão dupla (padrão IEEE 754 de 64 bits). 
+            A operação <code>i/2</code> não é uma divisão inteira truncada, mas sim uma divisão real. 
+            Portanto: para <code>i=0</code>, <code>0/2 = 0</code> (igual a zero); para <code>i=1</code>, <code>1/2 = 0.5</code> (&ne; 0); para <code>i=2</code>, <code>2/2 = 1.0</code> (&ne; 0); para <code>i=3</code>, <code>3/2 = 1.5</code> (&ne; 0), etc. 
+            O único valor no laço que resulta em exatamente zero é <code>i=0</code>. Todos os termos posteriores (<code>i = 1, 2, 3, 4, 5</code>) caem obrigatoriamente no bloco <code>else</code>, subtraindo os termos em vez de alternar os sinais <code>(+ - + - + -)</code>. 
+            A verificação correta da paridade de um número inteiro requer a função resto da divisão: <code>mod(i, 2) == 0</code>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Question 10 -->
+      <div class="quiz-item">
+        <div class="quiz-header">
+          <div><span class="quiz-badge">Questão 10 &bull; Arquitetura</span>Qual é o risco prático de salvar variáveis de simulação em formato binário nativo (Octave/01) em vez de scripts ou arquivos de texto estruturado (CSV/JSON)?</div>
+          <span class="quiz-toggle-icon">▼</span>
+        </div>
+        <div class="quiz-content">
+          <p><strong>Resposta Técnica Fundamentada:</strong></p>
+          <p>
+            Arquivos binários de workspace (como <code>Octave/01</code>) dependem estritamente do motor interno de serialização da versão específica do GNU Octave. 
+            Eles não podem ser inspecionados ou versionados por ferramentas de controle de versão como o Git (que os trata como blobs opacos, impedindo <em>diffs</em> linha por linha), sofrem riscos de incompatibilidade com o MATLAB comercial (a menos que tenham sido salvos com a flag <code>-mat-binary</code>), e tornam-se inacessíveis para outras linguagens comuns em ciência de dados (como Python/NumPy, Julia ou R) sem bibliotecas especializadas de engenharia reversa. 
+            Em boas práticas de engenharia de software científico, resultados devem ser exportados em formatos abertos e universais como CSV (para matrizes) ou HDF5 (para grandes volumes de dados multidimensionais).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUIA DE EXECUÇÃO E CLI -->
+    <section id="comandos-execucao" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-number">13.0</span> Guia de Execução no Terminal e Scripts de Automação</h2>
+      </div>
+      <p class="section-desc">
+        Abaixo estão os comandos prontos para execução direta via terminal Linux, dispensando a interface gráfica e agilizando baterias de testes.
+      </p>
+
+      <div class="code-wrapper">
+        <div class="code-header"><span>Terminal Bash: Executando os Scripts Diretamente</span><div style="display:flex; gap:8px; align-items:center;"><button class="btn-action" style="padding:0.15rem 0.5rem; font-size:0.72rem;" onclick="copyCode(this)">📋 Copiar</button><span class="code-lang-badge">Bash</span></div></div>
+        <pre><code><span class="cm"># 1. Executar o método de Bisseção (versão recomendada)</span>
+octave --no-gui "Raizes Reais/Bissecao.m"
+
+<span class="cm"># 2. Executar Newton-Raphson com tolerância 1e-6</span>
+octave --no-gui "Raizes Reais/Newton.m"
+
+<span class="cm"># 3. Executar o Escalonamento de Gauss canônico (Ax = b)</span>
+octave --no-gui "EscalonamentoGAUSScomSubst.m"
+
+<span class="cm"># 4. Executar Gauss-Jordan</span>
+octave --no-gui "EscalonamentoGAUSSJORDAM2.m"
+
+<span class="cm"># 5. Executar Integração da Catenária (Simpson 1/3)</span>
+octave --no-gui "Integração/Simpson13composto.m"
+
+<span class="cm"># 6. Executar o Modelo de EDO (Euler Chapra)</span>
+octave --no-gui "EDO/edoEULER.m"
+
+<span class="cm"># 7. Executar a Simulação Farmacocinética Monocompartimental</span>
+octave --no-gui "pessoal/ConcentPlasm_SemAbs.m"</code></pre>
+      </div>
+
+      <div class="code-wrapper">
+        <div class="code-header"><span>Terminal Bash: Conversão em Lote de Encodings e Quebras de Linha</span><div style="display:flex; gap:8px; align-items:center;"><button class="btn-action" style="padding:0.15rem 0.5rem; font-size:0.72rem;" onclick="copyCode(this)">📋 Copiar</button><span class="code-lang-badge">Bash</span></div></div>
+        <pre><code><span class="cm"># Normalizar quebras de linha Macintosh antigas (CR isolado) para LF Unix:</span>
+find . -name "*.m" -exec sed -i 's/\r/\n/g' {} +
+
+<span class="cm"># Converter arquivos Latin-1 para UTF-8 nativo com segurança:</span>
+for f in $(find . -name "*.m"); do
+  if ! iconv -f utf-8 -t utf-8 "$f" >/dev/null 2>&1; then
+    echo "Convertendo $f para UTF-8..."
+    iconv -f latin1 -t utf-8 "$f" -o "${f}.tmp" && mv "${f}.tmp" "$f"
+  fi
+done</code></pre>
+      </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer style="margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <strong>Repositório MetodosNumericos</strong> &bull; Ramo <code>main</code> &bull; Universidade de Brasília (UnB)
+      </div>
+      <div>
+        Autor: Davi Monteiro Alves (16/0049156) &bull; Guia Técnico Standalone 100% Offline
+      </div>
+    </footer>
+  </main>
+</div>
+
+
+<script>
+// State & Theme Management
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initProgressBar();
+  initSidebarSpy();
+  initSearch();
+  initQuiz();
+  initSimRaizes();
+  initSimGauss();
+  initSimEDO();
+});
+
+function initTheme() {
+  const saved = localStorage.getItem('mn_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  updateThemeIcon(saved);
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('mn_theme', next);
+  updateThemeIcon(next);
+  if (window.redrawSimRaizes) window.redrawSimRaizes();
+  if (window.redrawSimEDO) window.redrawSimEDO();
+}
+
+function updateThemeIcon(theme) {
+  const icon = document.getElementById('theme-toggle-icon');
+  if (icon) {
+    icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+}
+
+// Reading Progress Bar
+function initProgressBar() {
+  window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    const pb = document.getElementById('reading-progress');
+    if (pb) pb.style.width = scrolled + '%';
+  });
+}
+
+// Sidebar Scrollspy
+function initSidebarSpy() {
+  const sections = document.querySelectorAll('.doc-section');
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '#' + id) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(sec => observer.observe(sec));
+}
+
+// Search & Filter
+function initSearch() {
+  const searchInput = document.getElementById('search-input');
+  if (!searchInput) return;
+
+  searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    const sections = document.querySelectorAll('.doc-section');
+    
+    sections.forEach(sec => {
+      if (!term) {
+        sec.style.display = '';
+        return;
+      }
+      const text = sec.innerText.toLowerCase();
+      if (text.includes(term)) {
+        sec.style.display = '';
+      } else {
+        sec.style.display = 'none';
+      }
+    });
+  });
+}
+
+// Quiz Accordion
+function initQuiz() {
+  document.querySelectorAll('.quiz-header').forEach(hdr => {
+    hdr.addEventListener('click', () => {
+      const parent = hdr.parentElement;
+      const content = parent.querySelector('.quiz-content');
+      parent.classList.toggle('open');
+      content.classList.toggle('show');
+    });
+  });
+}
+
+function toggleAllAccordions() {
+  const items = document.querySelectorAll('.quiz-item');
+  const anyOpen = Array.from(items).some(i => i.classList.contains('open'));
+  items.forEach(item => {
+    const content = item.querySelector('.quiz-content');
+    if (anyOpen) {
+      item.classList.remove('open');
+      content.classList.remove('show');
+    } else {
+      item.classList.add('open');
+      content.classList.add('show');
+    }
+  });
+}
+
+function copyCode(btn) {
+  const wrapper = btn.closest('.code-wrapper');
+  const code = wrapper.querySelector('pre code').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    const orig = btn.innerText;
+    btn.innerText = 'Copiado!';
+    setTimeout(() => { btn.innerText = orig; }, 2000);
+  });
+}
+
+// ==========================================
+// SIMULATOR 1: RAÍZES (Bisseção & Newton)
+// ==========================================
+function initSimRaizes() {
+  const btn = document.getElementById('btn-run-raizes');
+  if (btn) btn.addEventListener('click', runSimRaizes);
+  runSimRaizes();
+}
+
+function runSimRaizes() {
+  const funcChoice = document.getElementById('sim-func').value;
+  const methodChoice = document.getElementById('sim-method').value;
+  const tol = parseFloat(document.getElementById('sim-tol').value) || 1e-4;
+  const maxIter = parseInt(document.getElementById('sim-maxiter').value) || 30;
+  
+  let f, df, a, b, x0;
+  if (funcChoice === 'f1') {
+    f = (x) => Math.pow(x, 2) - Math.exp(-x);
+    df = (x) => 2 * x + Math.exp(-x);
+    a = 0.0; b = 1.0; x0 = 0.5;
+  } else if (funcChoice === 'f2') {
+    f = (x) => Math.pow(x, 3) + 3.8 * Math.pow(x, 2) - 8.6 * x - 24.4;
+    df = (x) => 3 * Math.pow(x, 2) + 7.6 * x - 8.6;
+    a = 2.0; b = 4.0; x0 = 4.0;
+  } else {
+    f = (x) => 8 - 4.5 * (x - Math.sin(x));
+    df = (x) => -4.5 * (1 - Math.cos(x));
+    a = 2.0; b = 3.0; x0 = 2.5;
+  }
+
+  const tableBody = document.querySelector('#table-sim-raizes tbody');
+  tableBody.innerHTML = '';
+  
+  const history = [];
+  let root = null;
+  let statusMsg = '';
+
+  if (methodChoice === 'bissecao') {
+    let curA = a, curB = b;
+    if (f(curA) * f(curB) > 0) {
+      statusMsg = 'Erro: f(a) e f(b) possuem o mesmo sinal!';
+    } else {
+      for (let i = 1; i <= maxIter; i++) {
+        const pm = (curA + curB) / 2;
+        const fpm = f(pm);
+        const err = (curB - curA) / 2;
+        history.push({ iter: i, a: curA, b: curB, x: pm, fx: fpm, err: err });
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${i}</td><td>${curA.toFixed(5)}</td><td>${curB.toFixed(5)}</td><td class="mono" style="color:var(--accent-cyan)">${pm.toFixed(6)}</td><td>${fpm.toExponential(4)}</td><td>${err.toExponential(3)}</td>`;
+        tableBody.appendChild(tr);
+
+        if (err <= tol || Math.abs(fpm) < 1e-12) {
+          root = pm;
+          statusMsg = `Convergiu na iteração ${i}: x ≈ ${pm.toFixed(6)}`;
+          break;
+        }
+
+        if (f(curA) * fpm < 0) {
+          curB = pm;
+        } else {
+          curA = pm;
+        }
+      }
+      if (!root) statusMsg = `Limite de ${maxIter} iterações atingido sem convergência completa.`;
+    }
+  } else {
+    // Newton-Raphson
+    let curX = x0;
+    for (let i = 1; i <= maxIter; i++) {
+      const fx = f(curX);
+      const dfx = df(curX);
+      if (Math.abs(dfx) < 1e-14) {
+        statusMsg = 'Erro: Derivada nula encontrada!';
+        break;
+      }
+      const nextX = curX - fx / dfx;
+      const err = Math.abs((nextX - curX) / (curX || 1));
+      history.push({ iter: i, a: curX, b: nextX, x: nextX, fx: fx, err: err });
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${i}</td><td>${curX.toFixed(5)}</td><td>-</td><td class="mono" style="color:var(--accent-cyan)">${nextX.toFixed(6)}</td><td>${fx.toExponential(4)}</td><td>${err.toExponential(3)}</td>`;
+      tableBody.appendChild(tr);
+
+      if (Math.abs(fx) < tol || err < tol) {
+        root = nextX;
+        statusMsg = `Convergiu na iteração ${i}: x ≈ ${nextX.toFixed(6)}`;
+        break;
+      }
+      curX = nextX;
+    }
+    if (!root && !statusMsg) statusMsg = `Limite de ${maxIter} iterações atingido.`;
+  }
+
+  document.getElementById('sim-raizes-status').innerText = statusMsg;
+  drawCanvasRaizes(f, a, b, history, root);
+  window.redrawSimRaizes = () => drawCanvasRaizes(f, a, b, history, root);
+}
+
+function drawCanvasRaizes(f, minX, maxX, history, root) {
+  const canvas = document.getElementById('canvas-raizes');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+
+  const W = rect.width;
+  const H = rect.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Range setup
+  const pad = (maxX - minX) * 0.25;
+  const xStart = minX - pad;
+  const xEnd = maxX + pad;
+  
+  // Sample f to find Y bounds
+  let minY = 0, maxY = 0;
+  const samples = 100;
+  for (let i = 0; i <= samples; i++) {
+    const x = xStart + (i / samples) * (xEnd - xStart);
+    const y = f(x);
+    if (i === 0) { minY = y; maxY = y; }
+    else {
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+    }
+  }
+  const yPad = Math.max(Math.abs(maxY - minY) * 0.2, 1);
+  minY -= yPad;
+  maxY += yPad;
+
+  const toScreenX = (x) => ((x - xStart) / (xEnd - xStart)) * (W - 60) + 40;
+  const toScreenY = (y) => H - 30 - ((y - minY) / (maxY - minY)) * (H - 50);
+
+  // Draw axes
+  ctx.strokeStyle = '#334155';
+  ctx.lineWidth = 1;
+  // X axis (y = 0)
+  const yZero = toScreenY(0);
+  ctx.beginPath();
+  ctx.moveTo(30, yZero);
+  ctx.lineTo(W - 20, yZero);
+  ctx.stroke();
+
+  // Draw f(x)
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  for (let i = 0; i <= samples; i++) {
+    const x = xStart + (i / samples) * (xEnd - xStart);
+    const y = f(x);
+    const sx = toScreenX(x);
+    const sy = toScreenY(y);
+    if (i === 0) ctx.moveTo(sx, sy);
+    else ctx.lineTo(sx, sy);
+  }
+  ctx.stroke();
+
+  // Draw iterations
+  if (history.length > 0) {
+    history.slice(0, 8).forEach((h, idx) => {
+      const sx = toScreenX(h.x);
+      const sy = toScreenY(0);
+      ctx.fillStyle = idx === history.length - 1 ? '#34d399' : '#f87171';
+      ctx.beginPath();
+      ctx.arc(sx, sy, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  // Label Root
+  if (root !== null) {
+    const rx = toScreenX(root);
+    const ry = toScreenY(0);
+    ctx.fillStyle = '#34d399';
+    ctx.font = 'bold 12px monospace';
+    ctx.fillText(`Raiz: ${root.toFixed(5)}`, rx - 35, ry - 12);
+  }
+}
+
+// ==========================================
+// SIMULATOR 2: SISTEMAS LINEARES (Gauss)
+// ==========================================
+function initSimGauss() {
+  const btn = document.getElementById('btn-run-gauss');
+  if (btn) btn.addEventListener('click', runSimGauss);
+  const presetSel = document.getElementById('sim-gauss-preset');
+  if (presetSel) {
+    presetSel.addEventListener('change', () => {
+      if (presetSel.value === 'p1') {
+        setGaussInputs([[4, 3, 2, 960], [1, 3, 1, 510], [2, 1, 3, 610]]);
+      } else {
+        setGaussInputs([[55, 0, 1, 499.55], [75, 1, -1, 687.75], [60, -1, 0, 528.60]]);
+      }
+      runSimGauss();
+    });
+  }
+  runSimGauss();
+}
+
+function setGaussInputs(matrix) {
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 4; j++) {
+      const inp = document.getElementById(`g_${i}_${j}`);
+      if (inp) inp.value = matrix[i][j];
+    }
+  }
+}
+
+function runSimGauss() {
+  const M = [];
+  for (let i = 0; i < 3; i++) {
+    const row = [];
+    for (let j = 0; j < 4; j++) {
+      row.push(parseFloat(document.getElementById(`g_${i}_${j}`).value) || 0);
+    }
+    M.push(row);
+  }
+
+  const stepsDiv = document.getElementById('sim-gauss-steps');
+  stepsDiv.innerHTML = '';
+
+  const addStep = (title, mat, note) => {
+    const box = document.createElement('div');
+    box.style.background = 'var(--bg-tertiary)';
+    box.style.padding = '0.75rem';
+    box.style.borderRadius = '8px';
+    box.style.marginBottom = '0.75rem';
+    box.style.fontSize = '0.85rem';
+    
+    let tableHtml = '<table style="margin:0.5rem 0; width:100%; border:1px solid var(--border-color); text-align:center;">';
+    for (let i = 0; i < 3; i++) {
+      tableHtml += '<tr>';
+      for (let j = 0; j < 4; j++) {
+        const isB = j === 3;
+        const color = isB ? 'color:var(--accent-amber); font-weight:bold;' : '';
+        const borderL = isB ? 'border-left: 2px solid var(--border-focus);' : '';
+        tableHtml += `<td style="padding:4px 8px; ${color} ${borderL}">${mat[i][j].toFixed(2)}</td>`;
+      }
+      tableHtml += '</tr>';
+    }
+    tableHtml += '</table>';
+
+    box.innerHTML = `<strong>${title}</strong>: ${note}${tableHtml}`;
+    stepsDiv.appendChild(box);
+  };
+
+  addStep('Matriz Inicial [A | b]', M, 'Sistema original montado em matriz aumentada.');
+
+  // Pivoteamento e Eliminação
+  const n = 3;
+  for (let k = 0; k < n - 1; k++) {
+    let maxVal = Math.abs(M[k][k]);
+    let maxRow = k;
+    for (let i = k + 1; i < n; i++) {
+      if (Math.abs(M[i][k]) > maxVal) {
+        maxVal = Math.abs(M[i][k]);
+        maxRow = i;
+      }
+    }
+    if (maxRow !== k) {
+      const tmp = M[k];
+      M[k] = M[maxRow];
+      M[maxRow] = tmp;
+      addStep(`Pivoteamento Coluna ${k+1}`, M, `Troca Linha ${k+1} ↔ Linha ${maxRow+1} (maior pivô em módulo = ${maxVal.toFixed(2)})`);
+    }
+
+    for (let i = k + 1; i < n; i++) {
+      const mult = M[i][k] / M[k][k];
+      for (let j = k; j < 4; j++) {
+        M[i][j] = M[i][j] - mult * M[k][j];
+      }
+    }
+    addStep(`Eliminação Coluna ${k+1}`, M, `Zerados elementos abaixo do pivô M[${k+1},${k+1}].`);
+  }
+
+  // Retrossubstituição
+  const x = [0, 0, 0];
+  x[2] = M[2][3] / M[2][2];
+  for (let i = 1; i >= 0; i--) {
+    let s = 0;
+    for (let j = i + 1; j < 3; j++) {
+      s += M[i][j] * x[j];
+    }
+    x[i] = (M[i][3] - s) / M[i][i];
+  }
+
+  const solDiv = document.getElementById('sim-gauss-sol');
+  solDiv.innerHTML = `
+    <div style="background:rgba(52, 211, 153, 0.15); border:1px solid var(--accent-emerald); padding:1rem; border-radius:8px; color:var(--accent-emerald); font-weight:bold; font-size:1.05rem;">
+      ✅ Solução Encontrada (Retrossubstituição):<br>
+      <span style="font-family:var(--font-mono); font-size:1.15rem;">
+        x₁ = ${x[0].toFixed(4)} &nbsp;|&nbsp; 
+        x₂ = ${x[1].toFixed(4)} &nbsp;|&nbsp; 
+        x₃ = ${x[2].toFixed(4)}
+      </span>
+    </div>
+  `;
+}
+
+// ==========================================
+// SIMULATOR 3: EDO (Euler vs Analítica)
+// ==========================================
+function initSimEDO() {
+  const btn = document.getElementById('btn-run-edo');
+  if (btn) btn.addEventListener('click', runSimEDO);
+  const hSel = document.getElementById('sim-edo-h');
+  if (hSel) hSel.addEventListener('change', runSimEDO);
+  runSimEDO();
+}
+
+function runSimEDO() {
+  const h = parseFloat(document.getElementById('sim-edo-h').value) || 0.1;
+  const x0 = 0.0, xEnd = 4.0;
+  const y0 = 1.0;
+  
+  const f = (x, y) => -2 * Math.pow(x, 3) + 12 * Math.pow(x, 2) - 20 * x + 8.5;
+  const exact = (x) => -0.5 * Math.pow(x, 4) + 4 * Math.pow(x, 3) - 10 * Math.pow(x, 2) + 8.5 * x + 1;
+
+  const N = Math.round((xEnd - x0) / h);
+  const eulerPts = [{ x: x0, y: y0 }];
+  
+  let curX = x0;
+  let curY = y0;
+  for (let i = 0; i < N; i++) {
+    curY = curY + h * f(curX, curY);
+    curX = curX + h;
+    eulerPts.push({ x: curX, y: curY });
+  }
+
+  const finalExact = exact(xEnd);
+  const finalEuler = eulerPts[eulerPts.length - 1].y;
+  const errGlobal = Math.abs(finalEuler - finalExact);
+  const pctErr = (errGlobal / Math.abs(finalExact)) * 100;
+
+  const statBox = document.getElementById('sim-edo-stats');
+  statBox.innerHTML = `
+    <div style="font-size:0.9rem; line-height:1.7;">
+      Passo <strong>h = ${h}</strong> (N = ${N} passos)<br>
+      Valor Exato em x=4: <strong style="color:var(--accent-cyan);">${finalExact.toFixed(4)}</strong><br>
+      Valor de Euler em x=4: <strong style="color:var(--accent-rose);">${finalEuler.toFixed(4)}</strong><br>
+      Erro Absoluto Final: <strong style="color:var(--accent-amber);">${errGlobal.toFixed(4)}</strong> (${pctErr.toFixed(2)}%)
+    </div>
+  `;
+
+  drawCanvasEDO(exact, eulerPts);
+  window.redrawSimEDO = () => drawCanvasEDO(exact, eulerPts);
+}
+
+function drawCanvasEDO(exact, eulerPts) {
+  const canvas = document.getElementById('canvas-edo');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+
+  const W = rect.width;
+  const H = rect.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const minX = 0, maxX = 4;
+  let minY = 0, maxY = 8;
+  for (let x = 0; x <= 4; x += 0.1) {
+    const y = exact(x);
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+  }
+  minY = Math.floor(minY - 0.5);
+  maxY = Math.ceil(maxY + 0.5);
+
+  const toScreenX = (x) => ((x - minX) / (maxX - minX)) * (W - 70) + 45;
+  const toScreenY = (y) => H - 35 - ((y - minY) / (maxY - minY)) * (H - 55);
+
+  ctx.strokeStyle = '#334155';
+  ctx.lineWidth = 1;
+  const y0Screen = toScreenY(0);
+  ctx.beginPath();
+  ctx.moveTo(35, y0Screen);
+  ctx.lineTo(W - 15, y0Screen);
+  ctx.stroke();
+
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  for (let i = 0; i <= 100; i++) {
+    const x = minX + (i / 100) * (maxX - minX);
+    const y = exact(x);
+    const sx = toScreenX(x);
+    const sy = toScreenY(y);
+    if (i === 0) ctx.moveTo(sx, sy);
+    else ctx.lineTo(sx, sy);
+  }
+  ctx.stroke();
+
+  ctx.strokeStyle = '#f87171';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  eulerPts.forEach((pt, i) => {
+    const sx = toScreenX(pt.x);
+    const sy = toScreenY(pt.y);
+    if (i === 0) ctx.moveTo(sx, sy);
+    else ctx.lineTo(sx, sy);
+  });
+  ctx.stroke();
+
+  ctx.fillStyle = '#fbbf24';
+  eulerPts.forEach(pt => {
+    const sx = toScreenX(pt.x);
+    const sy = toScreenY(pt.y);
+    ctx.beginPath();
+    ctx.arc(sx, sy, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#38bdf8';
+  ctx.fillText('— Solução Analítica Exata', W - 180, 20);
+  ctx.fillStyle = '#f87171';
+  ctx.fillText('— Método de Euler Explícito', W - 180, 36);
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCTAVE.NUM // TERMINAL WIKI [HARDCODED]</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+
+    :root {
+      --bg: #030508;
+      --bg-panel: #060b12;
+      --bg-card: #09121d;
+      --border: #1a324d;
+      --border-bright: #00ff66;
+      --green: #00ff66;
+      --green-glow: rgba(0, 255, 102, 0.55);
+      --green-dim: #008f3b;
+      --cyan: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.55);
+      --amber: #ffb700;
+      --amber-glow: rgba(255, 183, 0, 0.5);
+      --red: #ff3366;
+      --text: #e2f0fc;
+      --text-dim: #7da5c9;
+      --text-bright: #ffffff;
+      --font: 'JetBrains Mono', 'Courier New', Courier, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* CRT SCANLINE SUAVE (NÃO CORTA AS LETRAS GRANDES) */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 70%, rgba(0, 0, 0, 0.35) 70%);
+      background-size: 100% 6px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    /* STATUS HEADER TUI */
+    .term-header {
+      background: #020407;
+      border-bottom: 2px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+    }
+    .term-brand {
+      color: var(--green);
+      font-weight: 800;
+      font-size: 19px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-shadow: 0 0 12px var(--green-glow);
+    }
+    .term-meta {
+      display: flex;
+      gap: 28px;
+      color: var(--text-dim);
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .term-meta span strong {
+      color: var(--cyan);
+      text-shadow: 0 0 8px var(--cyan-glow);
+    }
+
+    /* MAIN TUI SPLIT */
+    .tui-workspace {
+      display: grid;
+      grid-template-columns: 370px 1fr;
+      flex: 1;
+      height: calc(100vh - 75px);
+      overflow: hidden;
+    }
+    @media (max-width: 1200px) {
+      .tui-workspace { grid-template-columns: 1fr; height: auto; }
+    }
+
+    /* SIDEBAR: TREE DIRECTORY */
+    .tui-sidebar {
+      background: var(--bg-panel);
+      border-right: 2px solid var(--border);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .tree-title {
+      font-size: 13px;
+      color: var(--text-dim);
+      border-bottom: 2px dashed var(--border);
+      padding-bottom: 8px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    .tree-group {
+      margin-top: 10px;
+    }
+    .tree-label {
+      color: var(--amber);
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: 0.06em;
+      text-shadow: 0 0 8px var(--amber-glow);
+    }
+    .tree-node {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      border-left: 4px solid transparent;
+      transition: all 0.12s;
+      border-radius: 3px;
+      margin-bottom: 3px;
+    }
+    .tree-node:hover {
+      background: rgba(0, 240, 255, 0.12);
+      color: var(--cyan);
+      border-left-color: var(--cyan);
+    }
+    .tree-node.active {
+      background: rgba(0, 255, 102, 0.18);
+      color: var(--green);
+      border-left-color: var(--green);
+      font-weight: 800;
+      text-shadow: 0 0 10px var(--green-glow);
+    }
+    .tree-tag {
+      font-size: 12px;
+      color: var(--text-dim);
+      background: #020406;
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      font-weight: 700;
+    }
+
+    .tui-sidebar-footer {
+      margin-top: auto;
+      border-top: 2px dashed var(--border);
+      padding-top: 14px;
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .tui-sidebar-footer span { color: var(--green); font-weight: 800; }
+
+    /* VIEWPORT PRINCIPAL */
+    .tui-main {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background: var(--bg);
+      overflow-y: auto;
+    }
+
+    /* TOP STRIP DO MÉTODO ATIVO */
+    .method-strip {
+      background: #050911;
+      border-bottom: 2px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+    .method-name {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-bright);
+    }
+    .method-name span.chip {
+      background: rgba(0, 255, 102, 0.18);
+      color: var(--green);
+      border: 2px solid var(--green);
+      font-size: 13px;
+      padding: 4px 10px;
+      text-shadow: 0 0 8px var(--green-glow);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+    .method-metrics {
+      display: flex;
+      gap: 24px;
+      font-size: 15px;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+    .method-metrics strong { color: var(--cyan); text-shadow: 0 0 6px var(--cyan-glow); }
+
+    /* CONTAINER CENTRAL: DISPLAY VETORIAL + TELEMETRIA */
+    .vector-station {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      border-bottom: 2px solid var(--border);
+      min-height: 460px;
+      background: #020306;
+    }
+    @media (max-width: 1350px) {
+      .vector-station { grid-template-columns: 1fr; }
+    }
+
+    .crt-viewport {
+      position: relative;
+      background: radial-gradient(circle at 45% 50%, #0a1b2d 0%, #010305 85%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 2px solid var(--border);
+      overflow: hidden;
+    }
+    #crtCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .crt-overlay-label {
+      position: absolute;
+      font-size: 15px;
+      color: var(--text-dim);
+      pointer-events: none;
+      padding: 12px 20px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .crt-overlay-label.top-left { top: 0; left: 0; color: var(--green); font-size: 15px; text-shadow: 0 0 8px var(--green-glow); }
+    .crt-overlay-label.bottom-right { bottom: 0; right: 0; }
+
+    /* TELEMETRY HUD LATERAL */
+    .telemetry-deck {
+      background: #03060a;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-size: 15px;
+    }
+    .telemetry-deck-title {
+      font-size: 13px;
+      color: var(--amber);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px var(--amber-glow);
+    }
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 8px;
+      align-items: center;
+    }
+    .telemetry-row .label { color: var(--text-dim); font-size: 15px; font-weight: 600; }
+    .telemetry-row .val { color: var(--cyan); font-weight: 800; font-size: 18px; text-shadow: 0 0 8px var(--cyan-glow); }
+    .telemetry-row .val.green { color: var(--green); text-shadow: 0 0 10px var(--green-glow); font-size: 20px; }
+    .telemetry-row .val.amber { color: var(--amber); text-shadow: 0 0 8px var(--amber-glow); font-size: 18px; }
+
+    .formula-badge {
+      background: #070e1a;
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--cyan);
+      padding: 14px 18px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-bright);
+      margin: 8px 0;
+      letter-spacing: 0.04em;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+    .formula-badge small {
+      display: block;
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .opcode-box {
+      background: #010204;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      font-size: 15px;
+      color: var(--green);
+      border-left: 4px solid var(--green);
+      white-space: nowrap;
+      overflow-x: auto;
+      font-weight: 700;
+      text-shadow: 0 0 6px var(--green-glow);
+    }
+
+    /* CONTROLES DO PLAYER (TUI BAR) */
+    .player-tui-bar {
+      background: #040810;
+      border-top: 2px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 15px;
+    }
+    .btn-key {
+      background: #081320;
+      border: 2px solid var(--border);
+      color: var(--text-bright);
+      padding: 8px 18px;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.12s;
+      font-weight: 700;
+    }
+    .btn-key:hover {
+      background: var(--green);
+      color: #000;
+      border-color: var(--green);
+      box-shadow: 0 0 16px var(--green-glow);
+    }
+    .btn-key kbd {
+      background: #000;
+      color: var(--cyan);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .slider-rail {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .slider-rail input {
+      flex: 1;
+      height: 8px;
+      background: #11253a;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    /* PAINEL INFERIOR: ABAS DE CÓDIGO & LOG */
+    .lower-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 2px solid var(--border);
+      min-height: 280px;
+      background: #020407;
+    }
+    @media (max-width: 1100px) {
+      .lower-split { grid-template-columns: 1fr; }
+    }
+
+    .panel-box {
+      border-right: 2px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .panel-header {
+      background: #050b14;
+      border-bottom: 2px solid var(--border);
+      padding: 10px 20px;
+      font-size: 14px;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+    .panel-body {
+      padding: 18px 20px;
+      overflow: auto;
+      flex: 1;
+      font-size: 16px;
+    }
+
+    /* CÓDIGO OCTAVE COM FONTE GRANDE */
+    pre.code-view {
+      color: #aed1f0;
+      line-height: 1.6;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    pre.code-view .kw { color: var(--red); font-weight: 800; }
+    pre.code-view .fn { color: var(--cyan); text-shadow: 0 0 6px var(--cyan-glow); }
+    pre.code-view .num { color: var(--amber); }
+    pre.code-view .str { color: var(--green); }
+    pre.code-view .comment { color: #5f84a8; font-style: italic; }
+
+    /* TABELA DE STREAMING DE LOG COM FONTE GRANDE */
+    .log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+    .log-table th {
+      text-align: left;
+      color: var(--cyan);
+      border-bottom: 2px solid var(--border);
+      padding: 8px 10px;
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .log-table td {
+      padding: 8px 10px;
+      border-bottom: 1px dashed rgba(26, 50, 77, 0.7);
+      color: var(--text);
+    }
+    .log-table tr.active td {
+      background: rgba(0, 255, 102, 0.18);
+      color: var(--green);
+      font-weight: 800;
+      text-shadow: 0 0 8px var(--green-glow);
+    }
+
+    /* STATUS FOOTER */
+    .term-footer {
+      background: #010305;
+      border-top: 2px solid var(--border);
+      padding: 10px 24px;
+      font-size: 14px;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+    .term-footer span.ok { color: var(--green); font-weight: 800; text-shadow: 0 0 6px var(--green-glow); }
+    .term-footer kbd {
+      background: #09121d;
+      border: 1px solid var(--border);
+      color: var(--cyan);
+      padding: 2px 7px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STATUS BAR SUPERIOR -->
+  <header class="term-header">
+    <div class="term-brand">
+      <span>● HARDCODED://OCTAVE.NUM</span>
+      <span style="color:var(--text-dim); font-size:14px; font-weight:normal;">[REMOTION_VECTORSCOPE v2.4]</span>
+    </div>
+    <div class="term-meta">
+      <span>IFRAME: <strong>/apps/metodos-numericos/</strong></span>
+      <span>REPO: <strong>MetodosNumericos</strong></span>
+      <span>RUNTIME: <strong>IEEE-754 FP64</strong></span>
+    </div>
+  </header>
+
+  <div class="tui-workspace">
+    <!-- BARRA LATERAL (MENU COMPACTO COM FONTES BEM GRANDES) -->
+    <aside class="tui-sidebar">
+      <div class="tree-title">SUB-ROTINAS DO REPOSITÓRIO</div>
+
+      <div class="tree-group">
+        <div class="tree-label">01 // ZEROS DE FUNÇÕES</div>
+        <div class="tree-node active" id="btnNewton" onclick="setMethod('newton')">
+          <span>├── 01. Newton-Raphson</span>
+          <span class="tree-tag">O(h²)</span>
+        </div>
+        <div class="tree-node" id="btnBissecao" onclick="setMethod('bissecao')">
+          <span>├── 02. Bisseção</span>
+          <span class="tree-tag">Linear</span>
+        </div>
+        <div class="tree-node" onclick="setMethod('secante')">
+          <span>├── 03. Secante</span>
+          <span class="tree-tag">p=1.62</span>
+        </div>
+        <div class="tree-node" onclick="setMethod('posfalsa')">
+          <span>├── 04. Falsa Posição</span>
+          <span class="tree-tag">Linear</span>
+        </div>
+        <div class="tree-node" onclick="setMethod('pontofixo')">
+          <span>└── 05. Ponto Fixo (MPF)</span>
+          <span class="tree-tag">g(x)</span>
+        </div>
+      </div>
+
+      <div class="tree-group">
+        <div class="tree-label">02 // SISTEMAS LINEARES</div>
+        <div class="tree-node">
+          <span>├── 06. Gauss c/ Pivoteamento</span>
+          <span class="tree-tag">Ax=b</span>
+        </div>
+        <div class="tree-node">
+          <span>└── 07. Gauss-Jordan</span>
+          <span class="tree-tag">Diag</span>
+        </div>
+      </div>
+
+      <div class="tree-group">
+        <div class="tree-label">03 // INTEGRAÇÃO & EDOS</div>
+        <div class="tree-node">
+          <span>├── 08. Simpson 1/3 Composto</span>
+          <span class="tree-tag">O(h⁴)</span>
+        </div>
+        <div class="tree-node">
+          <span>└── 09. Runge-Kutta 2 (Heun)</span>
+          <span class="tree-tag">RK2</span>
+        </div>
+      </div>
+
+      <div class="tui-sidebar-footer">
+        STATUS: <span>ONLINE (REMOTION ENGINE)</span><br>
+        ATALHOS: <kbd>SPACE</kbd> RUN/STOP &nbsp; <kbd>1-2</kbd> MÉTODO
+      </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL DO TERMINAL -->
+    <main class="tui-main">
+      
+      <!-- FAIXA DO MÉTODO ATIVO -->
+      <section class="method-strip">
+        <div class="method-name">
+          <span class="chip" id="dispCode">ALG.01</span>
+          <span id="dispName">NEWTON-RAPHSON</span>
+          <span style="font-size:15px; color:var(--text-dim);" id="dispFile">Raizes Reais/Newton.m</span>
+        </div>
+        <div class="method-metrics">
+          <span>ORDEM: <strong id="dispOrder">O(h²) QUADRÁTICA</strong></span>
+          <span>ESTABILIDADE: <strong id="dispStab">LOCAL (f'≠0)</strong></span>
+          <span>CRITÉRIO: <strong>|Δx| &lt; 1e-06</strong></span>
+        </div>
+      </section>
+
+      <!-- OSCILOSCÓPIO VETORIAL + HUD TELEMÉTRICO -->
+      <section class="vector-station">
+        <div class="crt-viewport">
+          <span class="crt-overlay-label top-left" id="dispCanvasFunc">CANAL A: f(x) = x² - 2 // DERIVADA: f'(x) = 2x</span>
+          <span class="crt-overlay-label bottom-right">REMOTION CRT DISPLAY // 60 FPS</span>
+          <canvas id="crtCanvas" width="800" height="460"></canvas>
+        </div>
+
+        <!-- HUD DE TELEMETRIA -->
+        <div class="telemetry-deck">
+          <div class="telemetry-deck-title">TELEMETRIA DO PASSO ITERATIVO</div>
+
+          <div class="telemetry-row">
+            <span class="label">ITERAÇÃO [k]:</span>
+            <span class="val green" id="hudIter">k = 1</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="label">PONTO ATUAL [x_k]:</span>
+            <span class="val" id="hudX">3.0000000000</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="label">RESÍDUO |f(x_k)|:</span>
+            <span class="val amber" id="hudFx">7.0000000000</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="label">PRÓXIMO [x_k+1]:</span>
+            <span class="val green" id="hudNext">1.8333333333</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="label">PASSO CONTRAÇÃO Δx:</span>
+            <span class="val" id="hudDelta">-1.1666666667</span>
+          </div>
+
+          <div class="formula-badge" id="hudFormula">
+            x_{k+1} = x_k - [ f(x_k) / f'(x_k) ]
+            <small>Expansão Taylor truncation O(Δx²)</small>
+          </div>
+
+          <div>
+            <div style="font-size:14px; color:var(--text-dim); margin-bottom:6px; font-weight:800;">LINHA OCTAVE EXECUTANDO:</div>
+            <div class="opcode-box" id="hudOpcode">
+              xi = x0 - (F(x0)/dF(x0));
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BARRA DE CONTROLE REMOTION -->
+      <section class="player-tui-bar">
+        <button class="btn-key" id="btnPlay" onclick="togglePlay()"><kbd>SPACE</kbd> <span>PAUSAR</span></button>
+        <button class="btn-key" onclick="stepBack()"><kbd>[</kbd> <span>STEP-</span></button>
+        <button class="btn-key" onclick="stepForward()"><kbd>]</kbd> <span>STEP+</span></button>
+        <button class="btn-key" onclick="resetSim()"><kbd>R</kbd> <span>RESET</span></button>
+
+        <div class="slider-rail">
+          <span style="font-size:14px; color:var(--text-dim); font-weight:800;">TIMELINE</span>
+          <input type="range" id="timeSlider" min="0" max="100" value="0" oninput="seekSim(this.value)">
+          <span style="font-size:14px; color:var(--cyan); width:80px; font-weight:800;" id="frameText">F: 0024</span>
+        </div>
+      </section>
+
+      <!-- DIVISÃO INFERIOR: CÓDIGO FONTE & STREAMING DE LOG -->
+      <section class="lower-split">
+        <!-- PAINEL 1: CÓDIGO OCTAVE -->
+        <div class="panel-box">
+          <div class="panel-header">
+            <span id="codeTitle">OCTAVE SCRIPT // Raizes Reais/Newton.m</span>
+            <span>MEM: 1.2 KB</span>
+          </div>
+          <div class="panel-body">
+            <pre class="code-view" id="codeContainer"><code><span class="kw">clc</span>; <span class="kw">clear all</span>;
+F  = @(x)(x^<span class="num">2</span> - <span class="num">2</span>);     <span class="comment">% Alvo: raiz sqrt(2)</span>
+dF = @(x)(<span class="num">2</span>*x);         <span class="comment">% Gradiente analítico</span>
+
+x0 = <span class="num">3.0</span>; Tolerancia = <span class="num">1e-6</span>; iMax = <span class="num">50</span>;
+
+<span class="kw">for</span> i = <span class="num">1</span>:iMax
+  xi = x0 - (F(x0)/dF(x0));
+  <span class="kw">if</span> abs(F(x0)) &lt; Tolerancia || abs(xi-x0) &lt; Tolerancia
+    xz = xi; <span class="kw">break</span>;
+  <span class="kw">endif</span>
+  x0 = xi;
+<span class="kw">endfor</span>
+fprintf(<span class="str">'Raiz = %.10f em %i passos\n'</span>, xz, i);</code></pre>
+          </div>
+        </div>
+
+        <!-- PAINEL 2: TABELA DE STREAMING DE CONVERGÊNCIA -->
+        <div class="panel-box" style="border-right:none;">
+          <div class="panel-header">
+            <span>CONVERGENCE STREAM // DADOS DE COMPUTAÇÃO</span>
+            <span style="color:var(--green)">CONVERGÊNCIA: QUADRÁTICA</span>
+          </div>
+          <div class="panel-body">
+            <table class="log-table">
+              <thead>
+                <tr>
+                  <th>k</th>
+                  <th>x_k</th>
+                  <th>f(x_k)</th>
+                  <th>Δx</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="logBody">
+                <tr id="row-0" class="active">
+                  <td>0</td>
+                  <td>3.000000</td>
+                  <td>+7.000000</td>
+                  <td>-1.166667</td>
+                  <td>STEPPING</td>
+                </tr>
+                <tr id="row-1">
+                  <td>1</td>
+                  <td>1.833333</td>
+                  <td>+1.361111</td>
+                  <td>-0.371212</td>
+                  <td>STEPPING</td>
+                </tr>
+                <tr id="row-2">
+                  <td>2</td>
+                  <td>1.462121</td>
+                  <td>+0.137798</td>
+                  <td>-0.047123</td>
+                  <td>STEPPING</td>
+                </tr>
+                <tr id="row-3">
+                  <td>3</td>
+                  <td>1.414998</td>
+                  <td>+0.002221</td>
+                  <td>-0.000785</td>
+                  <td>STEPPING</td>
+                </tr>
+                <tr id="row-4">
+                  <td>4</td>
+                  <td>1.414214</td>
+                  <td>+5.89e-07</td>
+                  <td>-2.18e-07</td>
+                  <td style="color:var(--green);">CONVERGED</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- STATUS FOOTER -->
+  <footer class="term-footer">
+    <div>HARDCODED HOST: LINK DIRETO VIA SERVICE BINDING <span class="ok">● OK</span></div>
+    <div>NAVEGAÇÃO: <kbd>1</kbd> NEWTON &nbsp; <kbd>2</kbd> BISSEÇÃO &nbsp; <kbd>SPACE</kbd> PAUSA</div>
+  </footer>
+
+  <script>
+    // ========================================================
+    // MOTOR DE DADOS DOS MÉTODOS (NEWTON E BISSEÇÃO)
+    // ========================================================
+    const methodsData = {
+      newton: {
+        code: "ALG.01",
+        name: "NEWTON-RAPHSON",
+        file: "Raizes Reais/Newton.m",
+        order: "O(h²) QUADRÁTICA",
+        stability: "LOCAL (f'≠0)",
+        funcLabel: "CANAL A: f(x) = x² - 2 // DERIVADA: f'(x) = 2x",
+        formula: "x_{k+1} = x_k - [ f(x_k) / f'(x_k) ]",
+        formulaSub: "Expansão Taylor truncation O(Δx²)",
+        target: Math.SQRT2,
+        steps: [
+          { x: 3.0, fx: 7.0, dfx: 6.0, xNext: 1.833333, line: "xi = x0 - (F(x0)/dF(x0));" },
+          { x: 1.833333, fx: 1.361111, dfx: 3.666667, xNext: 1.462121, line: "xi = x0 - (F(x0)/dF(x0));" },
+          { x: 1.462121, fx: 0.137798, dfx: 2.924242, xNext: 1.414998, line: "xi = x0 - (F(x0)/dF(x0));" },
+          { x: 1.414998, fx: 0.002221, dfx: 2.829997, xNext: 1.414214, line: "if abs(F(x0)) < Tolerancia -> BREAK" }
+        ],
+        codeText: `<span class="kw">clc</span>; <span class="kw">clear all</span>;
+F  = @(x)(x^<span class="num">2</span> - <span class="num">2</span>);     <span class="comment">% Alvo: raiz sqrt(2)</span>
+dF = @(x)(<span class="num">2</span>*x);         <span class="comment">% Gradiente analítico</span>
+
+x0 = <span class="num">3.0</span>; Tolerancia = <span class="num">1e-6</span>; iMax = <span class="num">50</span>;
+
+<span class="kw">for</span> i = <span class="num">1</span>:iMax
+  xi = x0 - (F(x0)/dF(x0));
+  <span class="kw">if</span> abs(F(x0)) &lt; Tolerancia || abs(xi-x0) &lt; Tolerancia
+    xz = xi; <span class="kw">break</span>;
+  <span class="kw">endif</span>
+  x0 = xi;
+<span class="kw">endfor</span>
+fprintf(<span class="str">'Raiz = %.10f em %i passos\\n'</span>, xz, i);`
+      },
+
+      bissecao: {
+        code: "ALG.02",
+        name: "MÉTODO DA BISSEÇÃO",
+        file: "Raizes Reais/Bissecao.m",
+        order: "O(h) LINEAR (1/2)",
+        stability: "GLOBAL (f(a)·f(b) < 0)",
+        funcLabel: "CANAL A: f(x) = x² - 2 // INTERVALO [a, b]",
+        formula: "x_m = (a + b) / 2 // Erro: (b - a)/2",
+        formulaSub: "Teorema do Valor Intermediário (Bolzano)",
+        target: Math.SQRT2,
+        steps: [
+          { a: 0.5, b: 2.5, xm: 1.5, fx: 0.25, xNext: 1.5, line: "PontoMedio = (a+b)/2;" },
+          { a: 0.5, b: 1.5, xm: 1.0, fx: -1.0, xNext: 1.0, line: "if F(a)*F(PMed) < 0 -> b=PMed; else a=PMed;" },
+          { a: 1.0, b: 1.5, xm: 1.25, fx: -0.4375, xNext: 1.25, line: "PontoMedio = (a+b)/2;" },
+          { a: 1.25, b: 1.5, xm: 1.375, fx: -0.1093, xNext: 1.375, line: "PontoMedio = (a+b)/2;" }
+        ],
+        codeText: `<span class="kw">clc</span>; <span class="kw">clear all</span>;
+F = @(x)(x^<span class="num">2</span> - <span class="num">2</span>);
+a = <span class="num">0.5</span>; b = <span class="num">2.5</span>; Tolerancia = <span class="num">1e-4</span>;
+
+<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">50</span>
+  PontoMedio = (a + b) / <span class="num">2</span>;
+  Erro = (b - a) / <span class="num">2</span>;
+  <span class="kw">if</span> Erro &lt;= Tolerancia, <span class="kw">break</span>; <span class="kw">endif</span>;
+  <span class="kw">if</span> F(a)*F(PontoMedio) &lt; <span class="num">0</span>
+    b = PontoMedio;
+  <span class="kw">else</span>
+    a = PontoMedio;
+  <span class="kw">endif</span>;
+<span class="kw">endfor</span>`
+      }
+    };
+
+    let activeMethod = 'newton';
+    let currentStep = 0;
+    let animProgress = 0;
+    let isPlaying = true;
+    let frame = 0;
+
+    const canvas = document.getElementById('crtCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function F(x) { return x * x - 2; }
+
+    const originX = 140;
+    const originY = 340;
+    const scaleX = 180;
+    const scaleY = 38;
+
+    function toScreenX(x) { return originX + x * scaleX; }
+    function toScreenY(y) { return originY - y * scaleY; }
+
+    function drawScreen() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // RETÍCULO TUI (CRT)
+      ctx.strokeStyle = '#0e2033';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < canvas.width; x += 35) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += 35) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      // EIXOS
+      ctx.strokeStyle = '#294f77';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(30, originY); ctx.lineTo(canvas.width - 30, originY);
+      ctx.moveTo(originX, 20); ctx.lineTo(originX, canvas.height - 20);
+      ctx.stroke();
+
+      // CURVA
+      ctx.strokeStyle = '#00f0ff';
+      ctx.lineWidth = 3.5;
+      ctx.shadowColor = '#00f0ff';
+      ctx.shadowBlur = 14;
+      ctx.beginPath();
+      for (let px = 0.4; px <= 3.6; px += 0.05) {
+        const sx = toScreenX(px);
+        const sy = toScreenY(F(px));
+        if (px === 0.4) ctx.moveTo(sx, sy);
+        else ctx.lineTo(sx, sy);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // ALVO RAIZ (√2)
+      const targetSX = toScreenX(Math.SQRT2);
+      ctx.fillStyle = '#00ff66';
+      ctx.shadowColor = '#00ff66';
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.arc(targetSX, originY, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = '#00ff66';
+      ctx.font = 'bold 15px "JetBrains Mono"';
+      ctx.fillText("TARGET ZERO [√2 ≈ 1.4142]", targetSX - 25, originY + 28);
+
+      // DESENHO ESPECÍFICO DO MÉTODO ATIVO
+      const m = methodsData[activeMethod];
+      const cur = m.steps[currentStep];
+
+      if (activeMethod === 'newton') {
+        const sx0 = toScreenX(cur.x);
+        const sy0 = toScreenY(0);
+        const sfx0 = toScreenY(cur.fx);
+        const sxNext = toScreenX(cur.xNext);
+
+        // Ponto X_k
+        ctx.fillStyle = '#ffb700';
+        ctx.shadowColor = '#ffb700';
+        ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.arc(sx0, sy0, 7, 0, Math.PI*2); ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.font = 'bold 15px "JetBrains Mono"';
+        ctx.fillText(`x_${currentStep}`, sx0 - 12, sy0 + 26);
+
+        // Projeção Vertical
+        const vertProg = Math.min(1, animProgress * 2.2);
+        ctx.strokeStyle = '#ffb700';
+        ctx.lineWidth = 2.5;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(sx0, sy0);
+        ctx.lineTo(sx0, sy0 + (sfx0 - sy0) * vertProg);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        if (vertProg >= 0.85) {
+          ctx.fillStyle = '#ffffff';
+          ctx.shadowColor = '#ffffff';
+          ctx.shadowBlur = 12;
+          ctx.beginPath(); ctx.arc(sx0, sfx0, 7, 0, Math.PI*2); ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+
+        // Tangente descendo até x_k+1
+        if (animProgress > 0.35) {
+          const tangProg = Math.min(1, (animProgress - 0.35) / 0.65);
+          ctx.strokeStyle = '#ff3366';
+          ctx.lineWidth = 3.5;
+          ctx.shadowColor = '#ff3366';
+          ctx.shadowBlur = 16;
+          ctx.beginPath();
+          ctx.moveTo(sx0, sfx0);
+          ctx.lineTo(sx0 + (sxNext - sx0) * tangProg, sfx0 + (sy0 - sfx0) * tangProg);
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+
+          if (tangProg >= 0.95) {
+            ctx.fillStyle = '#00ff66';
+            ctx.shadowColor = '#00ff66';
+            ctx.shadowBlur = 10;
+            ctx.beginPath(); ctx.arc(sxNext, sy0, 8, 0, Math.PI*2); ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.fillText(`x_${currentStep + 1}`, sxNext - 12, sy0 - 16);
+          }
+        }
+
+        // Atualizar HUD
+        document.getElementById('hudIter').textContent = `k = ${currentStep}`;
+        document.getElementById('hudX').textContent = cur.x.toFixed(10);
+        document.getElementById('hudFx').textContent = cur.fx.toFixed(10);
+        document.getElementById('hudNext').textContent = cur.xNext.toFixed(10);
+        document.getElementById('hudDelta').textContent = (cur.xNext - cur.x).toFixed(10);
+        document.getElementById('hudOpcode').textContent = cur.line;
+      } 
+      else if (activeMethod === 'bissecao') {
+        const sa = toScreenX(cur.a);
+        const sb = toScreenX(cur.b);
+        const sxm = toScreenX(cur.xm);
+        const sy0 = toScreenY(0);
+
+        // Faixa do intervalo [a, b]
+        ctx.fillStyle = 'rgba(0, 240, 255, 0.18)';
+        ctx.fillRect(sa, 30, sb - sa, canvas.height - 60);
+
+        // Linhas de a e b
+        ctx.strokeStyle = '#00f0ff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(sa, 30); ctx.lineTo(sa, canvas.height - 30);
+        ctx.moveTo(sb, 30); ctx.lineTo(sb, canvas.height - 30);
+        ctx.stroke();
+
+        ctx.fillStyle = '#00f0ff';
+        ctx.font = 'bold 15px "JetBrains Mono"';
+        ctx.fillText(`a = ${cur.a.toFixed(2)}`, sa - 25, 26);
+        ctx.fillText(`b = ${cur.b.toFixed(2)}`, sb - 25, 26);
+
+        // Linha do ponto médio cortando
+        if (animProgress > 0.3) {
+          ctx.strokeStyle = '#ffb700';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(sxm, 40); ctx.lineTo(sxm, canvas.height - 40);
+          ctx.stroke();
+
+          ctx.fillStyle = '#ffb700';
+          ctx.fillText(`x_m = ${cur.xm.toFixed(3)}`, sxm - 30, canvas.height - 18);
+        }
+
+        // Atualizar HUD
+        document.getElementById('hudIter').textContent = `k = ${currentStep}`;
+        document.getElementById('hudX').textContent = `[${cur.a.toFixed(4)}, ${cur.b.toFixed(4)}]`;
+        document.getElementById('hudFx').textContent = cur.fx.toFixed(10);
+        document.getElementById('hudNext').textContent = cur.xm.toFixed(10);
+        document.getElementById('hudDelta').textContent = `Δ = ${(cur.b - cur.a).toFixed(4)}`;
+        document.getElementById('hudOpcode').textContent = cur.line;
+      }
+
+      // Atualizar slider e frame
+      const totalProg = ((currentStep + animProgress) / m.steps.length) * 100;
+      document.getElementById('timeSlider').value = totalProg;
+      document.getElementById('frameText').textContent = `F: ${String(frame).padStart(4, '0')}`;
+
+      // Linhas ativas da tabela
+      for (let i = 0; i < 5; i++) {
+        const row = document.getElementById(`row-${i}`);
+        if (row) {
+          if (i === currentStep) row.classList.add('active');
+          else row.classList.remove('active');
+        }
+      }
+    }
+
+    function loop() {
+      if (isPlaying) {
+        animProgress += 0.015;
+        frame = (frame + 1) % 300;
+        const m = methodsData[activeMethod];
+        if (animProgress >= 1) {
+          animProgress = 0;
+          currentStep = (currentStep + 1) % m.steps.length;
+        }
+      }
+      drawScreen();
+      requestAnimationFrame(loop);
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      document.getElementById('btnPlay').querySelector('span').textContent = isPlaying ? "PAUSAR" : "RETOMAR";
+    }
+
+    function stepForward() {
+      isPlaying = false;
+      document.getElementById('btnPlay').querySelector('span').textContent = "RETOMAR";
+      const m = methodsData[activeMethod];
+      currentStep = (currentStep + 1) % m.steps.length;
+      animProgress = 0.99;
+      drawScreen();
+    }
+
+    function stepBack() {
+      isPlaying = false;
+      document.getElementById('btnPlay').querySelector('span').textContent = "RETOMAR";
+      const m = methodsData[activeMethod];
+      currentStep = (currentStep - 1 + m.steps.length) % m.steps.length;
+      animProgress = 0.99;
+      drawScreen();
+    }
+
+    function resetSim() {
+      currentStep = 0;
+      animProgress = 0;
+      frame = 0;
+      drawScreen();
+    }
+
+    function seekSim(val) {
+      isPlaying = false;
+      document.getElementById('btnPlay').querySelector('span').textContent = "RETOMAR";
+      const m = methodsData[activeMethod];
+      const stepFloat = (val / 100) * m.steps.length;
+      currentStep = Math.min(m.steps.length - 1, Math.floor(stepFloat));
+      animProgress = stepFloat - currentStep;
+      drawScreen();
+    }
+
+    function setMethod(name) {
+      if (!methodsData[name]) return;
+      activeMethod = name;
+      currentStep = 0;
+      animProgress = 0;
+      const m = methodsData[name];
+
+      document.getElementById('dispCode').textContent = m.code;
+      document.getElementById('dispName').textContent = m.name;
+      document.getElementById('dispFile').textContent = m.file;
+      document.getElementById('dispOrder').textContent = m.order;
+      document.getElementById('dispStab').textContent = m.stability;
+      document.getElementById('dispCanvasFunc').textContent = m.funcLabel;
+      document.getElementById('hudFormula').innerHTML = `${m.formula}<small>${m.formulaSub}</small>`;
+      document.getElementById('codeContainer').innerHTML = `<code>${m.codeText}</code>`;
+      document.getElementById('codeTitle').textContent = `OCTAVE SCRIPT // ${m.file}`;
+
+      document.getElementById('btnNewton').classList.toggle('active', name === 'newton');
+      document.getElementById('btnBissecao').classList.toggle('active', name === 'bissecao');
+
+      drawScreen();
+    }
+
+    // HOTKEYS DE TERMINAL
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') { e.preventDefault(); togglePlay(); }
+      else if (e.key === 'r' || e.key === 'R') { resetSim(); }
+      else if (e.key === ']' || e.key === 'ArrowRight') { stepForward(); }
+      else if (e.key === '[' || e.key === 'ArrowLeft') { stepBack(); }
+      else if (e.key === '1') { setMethod('newton'); }
+      else if (e.key === '2') { setMethod('bissecao'); }
+    });
+
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

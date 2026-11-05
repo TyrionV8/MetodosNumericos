@@ -1,1045 +1,879 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Métodos Numéricos — Visualizador do README</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- KaTeX -->
+  <title>Matemática Computacional // Compêndio de Métodos Numéricos</title>
+
+  <!-- Tipografia JetBrains Mono, Cinzel e Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cinzel+Decorative:wght@700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- KaTeX para Notação Matemática Precisa -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '1531781', right: '1531781', display: true}, {left: '$', right: '$', display: false}]});"></script>
-  <!-- Highlight.js -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/matlab.min.js"></script>
-  <script>document.addEventListener('DOMContentLoaded', (event) => { hljs.highlightAll(); });</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Folha de Estilos Arcano-Digital (/make-it-glow) -->
+  <link rel="stylesheet" href="./assets/theme.css">
   <style>
-    body {
-      background-color: #0d1117;
-      color: #c9d1d9;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-    }
-    .markdown-body {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 32px 24px;
-    }
-    .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
-      color: #f0f6fc;
-      font-weight: 600;
-      border-bottom: 1px solid #21262d;
-      padding-bottom: 0.3em;
-      margin-top: 1.5em;
-      margin-bottom: 1em;
-    }
-    .markdown-body h1 { font-size: 2em; }
-    .markdown-body h2 { font-size: 1.5em; }
-    .markdown-body h3 { font-size: 1.25em; border-bottom: none; }
-    .markdown-body p, .markdown-body ul, .markdown-body ol {
-      margin-top: 0;
-      margin-bottom: 16px;
-      line-height: 1.6;
-    }
-    .markdown-body table {
-      border-spacing: 0;
-      border-collapse: collapse;
+    /* Ajustes complementares para integração fluida da Árvore de Decisão no Modal */
+    #decisionTreeModalHost {
       width: 100%;
-      margin-top: 16px;
-      margin-bottom: 24px;
-      border: 1px solid #30363d;
+      min-height: 720px;
+      background: var(--bg-codex-deep, #040810);
       border-radius: 6px;
       overflow: hidden;
     }
-    .markdown-body th, .markdown-body td {
-      padding: 10px 14px;
-      border: 1px solid #30363d;
+    .modal-decision-card {
+      width: 95vw;
+      max-width: 1680px;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
     }
-    .markdown-body th {
-      background-color: #161b22;
-      font-weight: 600;
-      color: #f0f6fc;
-      text-align: left;
-    }
-    .markdown-body tr:nth-child(2n) {
-      background-color: #161b22;
-    }
-    .markdown-body code {
-      font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-      padding: 0.2em 0.4em;
-      margin: 0;
-      font-size: 85%;
-      background-color: rgba(110,118,129,0.4);
-      border-radius: 6px;
-    }
-    .markdown-body pre code {
-      background-color: transparent;
-      padding: 0;
-    }
-    .markdown-body pre {
-      padding: 16px;
+    .modal-decision-card .decision-tree-body {
+      flex: 1;
+      padding: 12px;
       overflow: auto;
-      font-size: 85%;
-      line-height: 1.45;
-      background-color: #161b22;
-      border-radius: 6px;
-      border: 1px solid #30363d;
-      margin-bottom: 16px;
     }
-    .markdown-body a {
-      color: #58a6ff;
-      text-decoration: none;
+    .badge-core {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid var(--green-foster, #00ff66);
+      color: var(--green-foster, #00ff66);
+      font-weight: 700;
     }
-    .markdown-body a:hover {
-      text-decoration: underline;
-    }
-    .markdown-body hr {
-      height: 0.25em;
-      padding: 0;
-      margin: 24px 0;
-      background-color: #30363d;
-      border: 0;
-    }
-    .markdown-body img {
-      max-width: 100%;
-      box-sizing: content-box;
-      border-radius: 8px;
+    .badge-util {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid var(--sky-neon, #38bdf8);
+      color: var(--sky-neon, #38bdf8);
+      font-weight: 700;
     }
   </style>
 </head>
-<body>
-  <div class="sticky top-0 z-50 bg-[#161b22]/90 backdrop-blur border-b border-[#30363d] px-6 py-3 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-900/60 text-emerald-400 border border-emerald-700/50">Branch dev</span>
-      <span class="text-sm text-slate-300 font-medium">Métodos Numéricos — Visualizador do README</span>
+<body class="crt-active glow-active">
+
+  <!-- CAMADA DE TEXTURA CRT SCANLINES (COMUTÁVEL) -->
+  <div class="scanline-layer" id="scanlineOverlay"></div>
+
+  <!-- STATUS BAR SUPERIOR // CÓDICE TÁTICO -->
+  <header class="term-header">
+    <div class="header-brand-group">
+      <div class="header-sigil" onclick="toggleCoverModal()" title="Inspecionar Códice Oficial (Atalho: C)" role="button" tabindex="0" aria-label="Abrir Capa Oficial">
+        MC
+      </div>
+      <div class="header-title-box">
+        <div class="main-title">
+          <span>Matemática Computacional</span>
+          <span class="version-chip">CÓDICE v2.4</span>
+        </div>
+        <div class="sub-title">Compêndio de Métodos Numéricos // Rotinas Canônicas em GNU Octave</div>
+      </div>
     </div>
-    <div class="text-xs text-slate-400">
-      Atualizado: Diagramas Científicos Matplotlib • GNU Octave &amp; MATLAB
+
+    <!-- TELEMETRIA DE SISTEMA EM TEMPO REAL -->
+    <div class="header-telemetry-cluster">
+      <div class="telemetry-pill">
+        <span class="indicator-dot"></span>
+        <span>STATUS: <strong>SISTEMA NOMINAL</strong></span>
+      </div>
+      <div class="telemetry-pill">
+        <span>PRECISÃO: <strong>IEEE-754 FP64</strong></span>
+      </div>
+      <div class="telemetry-pill">
+        <span>CICLO: <strong id="clockCycle">0x8F4E // 60 FPS</strong></span>
+      </div>
+    </div>
+
+    <!-- AÇÕES RÁPIDAS & SELETORES DE EFEITO -->
+    <div class="header-actions">
+      <button class="btn-header toggle-btn active" id="btnToggleCRT" onclick="toggleCRT()" title="Alternar Scanlines CRT (Atalho: S)">
+        <span>CRT SCANLINES</span>
+      </button>
+      <button class="btn-header toggle-btn active" id="btnToggleGlow" onclick="toggleGlow()" title="Alternar Brilho Neon (Atalho: G)">
+        <span>GLOW</span>
+      </button>
+      <button class="btn-header" onclick="toggleDecisionModal()" title="Abrir Árvore de Decisão Taxonômica (Atalho: D)">
+        <span>ÁRVORE DE DECISÃO</span>
+      </button>
+      <button class="btn-header" onclick="toggleCoverModal()" title="Visualizar Capa Oficial do Códice (Atalho: C)">
+        <span>CÓDICE</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ESTRUTURA PRINCIPAL: BARRA LATERAL + PAINEL DE COMANDO -->
+  <div class="tui-container">
+
+    <!-- BARRA LATERAL ESQUERDA: TAXONOMIA E NAVEGAÇÃO -->
+    <aside class="sidebar-taxonomy">
+      <div class="sidebar-header">
+        <div class="sidebar-title">Taxonomia Algorítmica</div>
+        <div class="sidebar-subtitle" id="methodsCount">25 ROTINAS CANÔNICAS</div>
+      </div>
+
+      <!-- CAMPO DE BUSCA INSTANTÂNEA -->
+      <div class="search-box">
+        <input type="text" id="methodSearch" placeholder="Filtrar por nome, ordem ou arquivo..." oninput="filterMethods(this.value)">
+      </div>
+
+      <!-- LISTA DE MÉTODOS AGRUPADOS PELAS 10 CATEGORIAS OFICIAIS -->
+      <div class="taxonomy-scroll" id="taxonomyList">
+
+        <!-- MÓDULO 01: RAÍZES DE EQUAÇÕES -->
+        <div class="tree-group" data-module="raizes">
+          <div class="tree-label">01 // RAÍZES DE EQUAÇÕES f(x) = 0</div>
+          <div class="tree-node active" id="node-newton-raphson" onclick="selectMethod('newton-raphson')" role="button" tabindex="0">
+            <span>├── 01. Newton-Raphson</span>
+            <span class="tree-tag">O(h²)</span>
+          </div>
+          <div class="tree-node" id="node-bissecao" onclick="selectMethod('bissecao')" role="button" tabindex="0">
+            <span>├── 02. Bisseção</span>
+            <span class="tree-tag">Linear</span>
+          </div>
+          <div class="tree-node" id="node-secante" onclick="selectMethod('secante')" role="button" tabindex="0">
+            <span>├── 03. Secante</span>
+            <span class="tree-tag">p=1.62</span>
+          </div>
+          <div class="tree-node" id="node-falsa-posicao" onclick="selectMethod('falsa-posicao')" role="button" tabindex="0">
+            <span>├── 04. Falsa Posição</span>
+            <span class="tree-tag">Linear</span>
+          </div>
+          <div class="tree-node" id="node-ponto-fixo" onclick="selectMethod('ponto-fixo')" role="button" tabindex="0">
+            <span>└── 05. Ponto Fixo (MPF)</span>
+            <span class="tree-tag">g(x)</span>
+          </div>
+        </div>
+
+        <!-- MÓDULO 02: SISTEMAS LINEARES -->
+        <div class="tree-group" data-module="sistemas">
+          <div class="tree-label">02 // SISTEMAS LINEARES Ax = b</div>
+          <div class="tree-node" id="node-gauss-pivoteamento" onclick="selectMethod('gauss-pivoteamento')" role="button" tabindex="0">
+            <span>├── 06. Gauss c/ Pivoteamento</span>
+            <span class="tree-tag">Ax=b</span>
+          </div>
+          <div class="tree-node" id="node-gauss-jordan" onclick="selectMethod('gauss-jordan')" role="button" tabindex="0">
+            <span>└── 07. Gauss-Jordan Inversa</span>
+            <span class="tree-tag">Diag</span>
+          </div>
+        </div>
+
+        <!-- MÓDULO 03: INTEGRAÇÃO NUMÉRICA -->
+        <div class="tree-group" data-module="integracao">
+          <div class="tree-label">03 // INTEGRAÇÃO NUMÉRICA</div>
+          <div class="tree-node" id="node-trapezio-composto" onclick="selectMethod('trapezio-composto')" role="button" tabindex="0">
+            <span>├── 08. Trapézio Composto</span>
+            <span class="tree-tag">O(h²)</span>
+          </div>
+          <div class="tree-node" id="node-simpson-13-composto" onclick="selectMethod('simpson-13-composto')" role="button" tabindex="0">
+            <span>└── 09. Simpson 1/3 Composto</span>
+            <span class="tree-tag">O(h⁴)</span>
+          </div>
+        </div>
+
+        <!-- MÓDULO 04: DIFERENCIAÇÃO NUMÉRICA -->
+        <div class="tree-group" data-module="diferenciacao">
+          <div class="tree-label">04 // DIFERENCIAÇÃO NUMÉRICA</div>
+          <div class="tree-node" id="node-diferenca-progressiva-3pontos" onclick="selectMethod('diferenca-progressiva-3pontos')" role="button" tabindex="0">
+            <span>└── 10. Dif. Progressiva 3 Pontos</span>
+            <span class="tree-tag">O(h²)</span>
+          </div>
+        </div>
+
+        <!-- MÓDULO 05: EQUAÇÕES DIFERENCIAIS -->
+        <div class="tree-group" data-module="edos">
+          <div class="tree-label">05 // EQUAÇÕES DIFERENCIAIS (PVI)</div>
+          <div class="tree-node" id="node-euler-explicito" onclick="selectMethod('euler-explicito')" role="button" tabindex="0">
+            <span>├── 11. Euler Explícito</span>
+            <span class="tree-tag">O(h)</span>
+          </div>
+          <div class="tree-node" id="node-euler-implicito-newton" onclick="selectMethod('euler-implicito-newton')" role="button" tabindex="0">
+            <span>├── 12. Euler Implícito (Newton)</span>
+            <span class="tree-tag">A-Estável</span>
+          </div>
+          <div class="tree-node" id="node-rk2-individual" onclick="selectMethod('rk2-individual')" role="button" tabindex="0">
+            <span>├── 13. Runge-Kutta 2 (Heun Escalar)</span>
+            <span class="tree-tag">RK2</span>
+          </div>
+          <div class="tree-node" id="node-rk2-heun-sistema" onclick="selectMethod('rk2-heun-sistema')" role="button" tabindex="0">
+            <span>└── 14. Heun para Sistemas 2 EDOs</span>
+            <span class="tree-tag">Sistemas</span>
+          </div>
+        </div>
+
+        <!-- MÓDULO 06: SÉRIES DE APROXIMAÇÕES -->
+        <div class="tree-group" data-module="series">
+          <div class="tree-label">06 // SÉRIES & APROXIMAÇÕES</div>
+          <div class="tree-node" id="node-taylor-cosseno" onclick="selectMethod('taylor-cosseno')" role="button" tabindex="0">
+            <span>└── 15. Série de Taylor cos(x)</span>
+            <span class="tree-tag">Taylor</span>
+          </div>
+        </div>
+
+        <!-- MÓDULO 07: PROCESSAMENTO DE SINAIS -->
+        <div class="tree-group" data-module="sinais">
+          <div class="tree-label">07 // PROCESSAMENTO DE SINAIS</div>
+          <div class="tree-node" id="node-gerador-sinais-rms" onclick="selectMethod('gerador-sinais-rms')" role="button" tabindex="0">
+            <span>└── 16. Gerador de Sinais & RMS</span>
+            <span class="tree-tag">RMS</span>
+          </div>
+        </div>
+
+        <!-- MÓDULO 08: FÍSICO-QUÍMICA -->
+        <div class="tree-group" data-module="fisico-quimica">
+          <div class="tree-label">08 // FÍSICO-QUÍMICA & MAGNETOQUÍMICA</div>
+          <div class="tree-node" id="node-born-mayer-energia-reticular" onclick="selectMethod('born-mayer-energia-reticular')" role="button" tabindex="0">
+            <span>├── 17. Born-Mayer (Energia de Rede)</span>
+            <span class="tree-tag">kJ/mol</span>
+          </div>
+          <div class="tree-node" id="node-susceptibilidade-magnetica" onclick="selectMethod('susceptibilidade-magnetica')" role="button" tabindex="0">
+            <span>├── 18. Susceptibilidade de Curie</span>
+            <span class="tree-tag">Spin Puro</span>
+          </div>
+          <div class="tree-node" id="node-eletrons-desemparelhados" onclick="selectMethod('eletrons-desemparelhados')" role="button" tabindex="0">
+            <span>└── 19. Elétrons Desemparelhados</span>
+            <span class="tree-tag">Inversão</span>
+          </div>
+        </div>
+
+        <!-- MÓDULO 09: FARMACOCINÉTICA -->
+        <div class="tree-group" data-module="farmacocinetica">
+          <div class="tree-label">09 // FARMACOCINÉTICA COMPUTACIONAL</div>
+          <div class="tree-node" id="node-concentracao-dose-instantanea" onclick="selectMethod('concentracao-dose-instantanea')" role="button" tabindex="0">
+            <span>├── 20. Bolus Instantâneo (Sem Abs.)</span>
+            <span class="tree-tag">Bolus</span>
+          </div>
+          <div class="tree-node" id="node-concentracao-com-absorcao" onclick="selectMethod('concentracao-com-absorcao')" role="button" tabindex="0">
+            <span>├── 21. Modelo com Absorção (1ª Ordem)</span>
+            <span class="tree-tag">Bateman</span>
+          </div>
+          <div class="tree-node" id="node-estudo-intervalo-meia-vida" onclick="selectMethod('estudo-intervalo-meia-vida')" role="button" tabindex="0">
+            <span>└── 22. Estudo Paramétrico τ / t₁/₂</span>
+            <span class="tree-tag">Acúmulo</span>
+          </div>
+        </div>
+
+        <!-- MÓDULO 10: UTILITÁRIOS & ÁLGEBRA -->
+        <div class="tree-group" data-module="utilitarios">
+          <div class="tree-label">10 // UTILITÁRIOS & ÁLGEBRA LINEAR</div>
+          <div class="tree-node" id="node-operacoes-matrizes" onclick="selectMethod('operacoes-matrizes')" role="button" tabindex="0">
+            <span>├── 23. Álgebra Linear & Inversão</span>
+            <span class="tree-tag">κ(A)</span>
+          </div>
+          <div class="tree-node" id="node-conversao-si-imperial" onclick="selectMethod('conversao-si-imperial')" role="button" tabindex="0">
+            <span>├── 24. Conversor SI ↔ Imperial</span>
+            <span class="tree-tag">NIST</span>
+          </div>
+          <div class="tree-node" id="node-plotar-funcao" onclick="selectMethod('plotar-funcao')" role="button" tabindex="0">
+            <span>└── 25. Visualizador Didático 2D</span>
+            <span class="tree-tag">Plot</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="sidebar-bottom-seal">
+        MOTOR NUMÉRICO: <span>REMOTION CANVAS v2.4</span><br>
+        HOTKEYS: <kbd>SPACE</kbd> EXECUÇÃO &nbsp; <kbd>1-9</kbd> ROTINAS<br>
+        PASSOS: <kbd>[</kbd> <kbd>]</kbd> PASSO &nbsp; <kbd>R</kbd> RESET &nbsp; <kbd>D</kbd> FLUXO
+      </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL: SIMULADOR VETORIAL, HUD E SPLIT DE CÓDIGO -->
+    <main class="tui-main">
+
+      <!-- FAIXA SUPERIOR DO MÉTODO SELECIONADO -->
+      <section class="method-strip">
+        <div class="method-name-cluster">
+          <span class="chip-opcode" id="dispCode">ALG.01</span>
+          <span class="method-title" id="dispName">MÉTODO DE NEWTON-RAPHSON</span>
+          <a href="#" class="method-file-link" id="dispFile" onclick="return false;">raizes_equacoes/newton_raphson.m</a>
+        </div>
+        <div class="method-meta-chips">
+          <div class="meta-chip">
+            <span class="meta-chip-label">ORDEM ASSINTÓTICA</span>
+            <span class="meta-chip-val" id="dispOrder">O(h²) QUADRÁTICA</span>
+          </div>
+          <div class="meta-chip">
+            <span class="meta-chip-label">ESTABILIDADE</span>
+            <span class="meta-chip-val" id="dispStability">LOCAL (|f'| &ge; &epsilon; &gt; 0)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAIXA DA FÓRMULA MATEMÁTICA ANALÍTICA -->
+      <section class="formula-strip">
+        <div class="formula-equation" id="dispFormula">
+          $$x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}$$
+        </div>
+        <div class="formula-caption" id="dispFormulaSub">
+          Linearização local por expansão de Taylor truncada de segunda ordem: $f(x) \approx f(x_k) + f'(x_k)(x - x_k)$
+        </div>
+      </section>
+
+      <!-- OSCILOSCÓPIO VETORIAL CRT & TELEMETRIA HUD EM TEMPO REAL -->
+      <section class="vector-station">
+
+        <!-- DISPLAY DO OSCILOSCÓPIO VETORIAL (CANVAS) -->
+        <div class="crt-bezel-frame codex-frame">
+          <canvas id="crtCanvas" width="880" height="460"></canvas>
+          <div class="crt-channel-badge" id="dispChannel">
+            CANAL VETORIAL: f(x) = x² - 2 // SINAL NORMALIZADO
+          </div>
+        </div>
+
+        <!-- HUD DE TELEMETRIA DINÂMICA LATERAL -->
+        <div class="hud-telemetry-deck codex-frame">
+          <div class="hud-deck-title">TELEMETRIA DINÂMICA // SENSOR FP64</div>
+
+          <div class="hud-gauge-block">
+            <span class="hud-gauge-label">ESTIMATIVA ATUAL (x_k)</span>
+            <div class="hud-gauge-val" id="hudX">3.0000000000</div>
+          </div>
+
+          <div class="hud-gauge-block">
+            <span class="hud-gauge-label">RESÍDUO |f(x_k)|</span>
+            <div class="hud-gauge-val" id="hudFx">7.0000000000</div>
+          </div>
+
+          <div class="hud-gauge-block">
+            <span class="hud-gauge-label">VARIAÇÃO RELATIVA (|&Delta;x|)</span>
+            <div class="hud-gauge-val" id="hudDelta">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</div>
+          </div>
+
+          <div class="hud-gauge-block">
+            <span class="hud-gauge-label">PASSO ITERATIVO ATUAL</span>
+            <div class="hud-gauge-val" style="color:var(--amber-sun);" id="hudStep">00 / 04</div>
+          </div>
+
+          <div class="hud-gauge-block">
+            <span class="hud-gauge-label">STATUS DE CONVERGÊNCIA</span>
+            <div class="hud-gauge-val" style="font-size:16px; color:var(--text-bright);" id="hudStatus">PROCESSANDO CHUTE x₀</div>
+          </div>
+
+          <!-- LINHA DO SCRIPT OCTAVE SENDO EXECUTADA NESSE PASSO -->
+          <div class="hud-active-code-line">
+            <span class="hud-code-label">OPCODE OCTAVE EXECUTADO NO NÓ:</span>
+            <span id="hudActiveLine">x0 = 3.0; Tolerancia = 1e-6;</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- BARRA DE CONTROLE DO SIMULADOR (TUI PLAYER BAR) -->
+      <section class="player-tui-bar codex-frame">
+        <div class="player-btn-group">
+          <button class="player-btn" onclick="handleStepBack()" title="Recuar um Passo (Atalho: [)">
+            <span>◀ PASSO</span>
+          </button>
+          <button class="player-btn primary" id="btnPlayPause" onclick="handlePlayPause()" title="Iniciar ou Pausar Simulação (Atalho: SPACE)">
+            <span>PAUSAR</span>
+          </button>
+          <button class="player-btn" onclick="handleStepForward()" title="Avançar um Passo (Atalho: ])">
+            <span>PASSO ▶</span>
+          </button>
+          <button class="player-btn" onclick="handleReset()" title="Reinicializar Condição Inicial (Atalho: R)">
+            <span>RESET (x₀)</span>
+          </button>
+        </div>
+
+        <!-- CONTROLE DE VELOCIDADE DA ANIMAÇÃO -->
+        <div class="player-speed-selector">
+          <span class="speed-label">TAXA:</span>
+          <button class="speed-btn" onclick="setSimSpeed(0.5)">0.5x</button>
+          <button class="speed-btn active" id="spd1" onclick="setSimSpeed(1.0)">1.0x</button>
+          <button class="speed-btn" onclick="setSimSpeed(2.0)">2.0x</button>
+          <button class="speed-btn" onclick="setSimSpeed(5.0)">5.0x</button>
+        </div>
+
+        <!-- BARRA DESLIZANTE DE SCRUBBING TEMPORAL -->
+        <div class="player-timeline-box">
+          <input type="range" class="timeline-slider" id="timelineScrubber" min="0" max="100" value="0" oninput="handleSeek(this.value)">
+        </div>
+      </section>
+
+      <!-- SPLIT VIEW INFERIOR: SCRIPT OCTAVE REAL & TABELA DE CONVERGÊNCIA -->
+      <section class="lower-split">
+
+        <!-- LADO ESQUERDO: CÓDIGO OCTAVE CANÔNICO COM REALCE -->
+        <div class="split-card codex-frame">
+          <div class="split-card-header">
+            <span class="split-title">Rotina Canônica em GNU Octave</span>
+            <button class="btn-copy-code" onclick="copyActiveCode()" title="Copiar Script Completo">
+              COPIAR SCRIPT .M
+            </button>
+          </div>
+          <div class="code-view-body" id="codeEditorBody">
+            <!-- Injetado dinamicamente via catalog.js -->
+          </div>
+        </div>
+
+        <!-- LADO DIREITO: STREAMING DA TABELA DE CONVERGÊNCIA NUMÉRICA -->
+        <div class="split-card codex-frame">
+          <div class="split-card-header">
+            <span class="split-title">Telemetria de Convergência Passo a Passo</span>
+            <span class="telemetry-chip" id="tableStatusChip">ITERAÇÕES EM TEMPO REAL</span>
+          </div>
+          <div class="telemetry-table-wrap">
+            <table class="tui-table" id="convergenceTable">
+              <thead>
+                <tr id="tableHeaderRow">
+                  <th>#k</th>
+                  <th>x_k</th>
+                  <th>f(x_k)</th>
+                  <th>f'(x_k)</th>
+                  <th>x_{k+1}</th>
+                  <th>|&Delta;x|</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <!-- Injetado dinamicamente pela API do simulador -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- =========================================================================
+   * MODAL 1: VITRINE DA CAPA OFICIAL (CÓDICE DA VINCI + MANDALA DE SILÍCIO)
+   * ========================================================================= -->
+  <div class="modal-backdrop" id="modalCover" onclick="if(event.target === this) toggleCoverModal()">
+    <div class="cover-showcase-card codex-frame">
+      <button class="modal-close-btn" onclick="toggleCoverModal()" title="Fechar (ESC ou C)">✕</button>
+
+      <div class="cover-image-frame">
+        <img src="./assets/capa.png" alt="Capa Oficial: Matemática Computacional — Compêndio de Métodos Numéricos">
+      </div>
+
+      <div class="cover-dossier">
+        <div style="font-size:13px; color:var(--gold-bright); letter-spacing:0.12em; text-transform:uppercase;">
+          CÓDICE OFICIAL v2.4 // ESPECIFICAÇÃO DE IDENTIDADE
+        </div>
+        <h2 style="font-family:var(--font-codex); font-size:28px; color:var(--text-bright); line-height:1.2;">
+          Matemática Computacional
+        </h2>
+        <div style="font-size:16px; color:var(--cyan-mana); font-weight:700;" id="coverSubtitleText">
+          CÓDICE ARCANO-COMPUTACIONAL // VARIAÇÃO B2 OFICIAL
+        </div>
+
+        <p style="font-size:15px; color:var(--text-dim); line-height:1.6;">
+          Esta capa une a geometria analítica do renascimento de Da Vinci à mandala de microprocessamento de silício. Representa a computação numérica como alquimia do cálculo moderno: convergência assintótica rigorosa, algoritmos IEEE-754 e ausência de dependências opacas.
+        </p>
+
+        <div class="dossier-meta-grid">
+          <div class="meta-card">
+            <span class="meta-label">DIMENSÃO & PROPORÇÃO</span>
+            <span class="meta-val">1024 &times; 1536 px (2:3)</span>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">INTEGRAÇÃO HOSPEDEIRA</span>
+            <span class="meta-val">HardCoded / Panteão</span>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">ESTABILIDADE NUMÉRICA</span>
+            <span class="meta-val">Aritmética IEEE FP64</span>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">MOTOR VETORIAL</span>
+            <span class="meta-val">Remotion Canvas 60 FPS</span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:8px;">
+          <button class="btn-header" style="flex:1; justify-content:center;" onclick="toggleAlternativeCover()">
+            <span id="btnAltCoverText">VER SÍNTESE ARCANA (VARIAÇÃO AB)</span>
+          </button>
+          <button class="btn-header" style="flex:1; justify-content:center;" onclick="toggleCoverModal()">
+            <span>CONTINUAR EXPLORAÇÃO</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="markdown-body">
-<h1 id="metodos-numericos-gnu-octave-matlab">Métodos Numéricos — GNU Octave / MATLAB</h1>
-<p align="center">
-  <img src="https://img.shields.io/badge/GNU_Octave-6.4%2B-blue?style=for-the-badge&logo=gnu" alt="GNU Octave 6.4+">
-  <img src="https://img.shields.io/badge/MATLAB-R2020b%2B-orange?style=for-the-badge&logo=mathworks" alt="MATLAB Compatible">
-  <img src="https://img.shields.io/badge/Aritmética-IEEE_754_Double-success?style=for-the-badge" alt="IEEE 754">
-  <img src="https://img.shields.io/badge/Status-100%25_Refatorado_e_Validado-brightgreen?style=for-the-badge" alt="Status Validado">
-  <img src="https://img.shields.io/badge/Licen%C3%A7a-MIT-informational?style=for-the-badge" alt="Licença MIT">
-</p>
 
-<p align="center">
-  <img src="assets/animacao_convergencia.gif" alt="Animação de Convergência Numérica" width="85%">
-</p>
+  <!-- =========================================================================
+   * MODAL 2: ÁRVORE DE DECISÃO INTERATIVA DE MÉTODOS NUMÉRICOS
+   * ========================================================================= -->
+  <div class="modal-backdrop" id="modalDecision" onclick="if(event.target === this) toggleDecisionModal()">
+    <div class="modal-decision-card codex-frame">
+      <div class="decision-tree-header">
+        <div>
+          <div style="font-size:13px; color:var(--gold-bright); letter-spacing:0.12em; text-transform:uppercase;">
+            FLUXO HEURÍSTICO // ANÁLISE DE CONVERGÊNCIA
+          </div>
+          <h2 style="font-family:var(--font-codex); font-size:22px; color:var(--text-bright);">
+            Árvore de Decisão: Escolha da Sub-rotina Ideal
+          </h2>
+        </div>
+        <button class="modal-close-btn" style="position:static;" onclick="toggleDecisionModal()" title="Fechar (ESC ou D)">✕</button>
+      </div>
 
-<p>Repositório científico de referência técnica e consulta imediata para implementação, estudo e aplicação de <strong>Métodos Numéricos e Computação Científica</strong> em ambientes <strong>GNU Octave</strong> e <strong>MathWorks MATLAB</strong>. </p>
-<p>Todos os códigos foram integralmente refatorados com foco em estabilidade assintótica, clareza algorítmica, nomenclatura autoexplicativa, supressão de divergências numéricas, conformidade estrita com o padrão IEEE 754 e ausência de dependências proprietárias externas.</p>
-<hr />
-<h2 id="sumario-executivo">Sumário Executivo</h2>
-<ol>
-<li><a href="#guia-de-busca-rápida-quero-fazer-x--use-tal-método">Guia de Busca Rápida: "Quero Fazer X → Use Tal Método"</a></li>
-<li><a href="#mapa-arquitetural-do-repositório">Mapa Arquitetural do Repositório</a></li>
-<li><a href="#como-executar-e-ambientes-suportados">Como Executar e Ambientes Suportados</a></li>
-<li><a href="#1-raízes-de-equações-não-lineares-fx--0">1. Raízes de Equações Não Lineares ($f(x) = 0$)</a></li>
-<li><a href="#2-sistemas-de-equações-lineares-ax--b">2. Sistemas de Equações Lineares ($Ax = b$)</a></li>
-<li><a href="#3-integração-numérica-quadratura-de-newton-cotes">3. Integração Numérica (Quadratura de Newton-Cotes)</a></li>
-<li><a href="#4-diferenciação-numérica-e-diferenças-finitas">4. Diferenciação Numérica e Diferenças Finitas</a></li>
-<li><a href="#5-equações-diferenciais-ordinárias-pvi">5. Equações Diferenciais Ordinárias (PVI)</a></li>
-<li><a href="#6-séries-de-funções-e-aproximações-polinomiais">6. Séries de Funções e Aproximações Polinomiais</a></li>
-<li><a href="#7-processamento-de-sinais-e-métricas-estatísticas">7. Processamento de Sinais e Métricas Estatísticas</a></li>
-<li><a href="#8-físico-química-e-modelagem-molecular">8. Físico-Química e Modelagem Molecular</a></li>
-<li><a href="#9-farmacocinética-e-modelagem-compartimental">9. Farmacocinética e Modelagem Compartimental</a></li>
-<li><a href="#10-utilitários-conversões-e-visualização-gráfica">10. Utilitários, Conversões e Visualização Gráfica</a></li>
-<li><a href="#guia-fundamental-de-boas-práticas-numéricas">Guia Fundamental de Boas Práticas Numéricas</a></li>
-<li><a href="#-histórico-de-correções-críticas-da-refatoração">Histórico de Correções Críticas da Refatoração</a></li>
-<li><a href="#-guia-sintático-octave-vs-matlab">Guia Sintático Octave vs. MATLAB</a></li>
-</ol>
-<hr />
-<h2 id="guia-de-busca-rapida-quero-fazer-x-use-tal-metodo">Guia de Busca Rápida: "Quero Fazer X → Use Tal Método"</h2>
-<p>Consulte o fluxo de decisão a seguir para determinar instantaneamente a rota algorítmica ótima para seu problema de engenharia ou cálculo científico:</p>
-<p align="center">
-  <img src="assets/diagrama_fluxo_decisao.svg" alt="Diagrama de Fluxo de Decisão" width="95%">
-</p>
-
-<h3 id="tabela-mestra-de-decisao">Tabela Mestra de Decisão</h3>
-<table>
-<thead>
-<tr>
-<th>O que você quer calcular?</th>
-<th>Método Recomendado</th>
-<th>O que precisa ter (Entradas)</th>
-<th>O que entrega (Saídas)</th>
-<th>Arquivo no Repositório</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Raiz real com garantia de convergência em intervalo com troca de sinal</td>
-<td><strong>Bisseção</strong></td>
-<td>Função contínua $f(x)$, intervalo $[a, b]$ com $f(a) \cdot f(b) &lt; 0$, tolerância</td>
-<td>Raiz aproximada, tabela iterativa passo a passo, resíduo $|f(x)|$</td>
-<td><a href="raizes_equacoes/bissecao.m"><code>raizes_equacoes/bissecao.m</code></a></td>
-</tr>
-<tr>
-<td>Raiz em intervalo com interpolação linear rápida</td>
-<td><strong>Falsa Posição (Regula Falsi)</strong></td>
-<td>Função contínua $f(x)$, intervalo $[a, b]$ com $f(a) \cdot f(b) &lt; 0$, tolerância</td>
-<td>Raiz estimada, erro relativo entre retas secantes, tabela</td>
-<td><a href="raizes_equacoes/falsa_posicao.m"><code>raizes_equacoes/falsa_posicao.m</code></a></td>
-</tr>
-<tr>
-<td>Raiz de altíssima convergência (quadrática) com derivada analítica disponível</td>
-<td><strong>Newton-Raphson</strong></td>
-<td>$f(x)$, derivada analítica $f'(x)$, chute inicial $x_0$ próximo da raiz</td>
-<td>Raiz refinada, taxa de convergência quadrática, tabela</td>
-<td><a href="raizes_equacoes/newton_raphson.m"><code>raizes_equacoes/newton_raphson.m</code></a></td>
-</tr>
-<tr>
-<td>Raiz rápida sem calcular derivada analítica nem troca de sinal prévia</td>
-<td><strong>Secante</strong></td>
-<td>Função $f(x)$, duas estimativas iniciais $x_0$ e $x_1$, tolerância</td>
-<td>Raiz aproximada (ordem $\approx 1{,}618$), histórico de iterações</td>
-<td><a href="raizes_equacoes/secante.m"><code>raizes_equacoes/secante.m</code></a></td>
-</tr>
-<tr>
-<td>Raiz transformando $f(x) = 0$ na forma equivalente $x = g(x)$</td>
-<td><strong>Ponto Fixo (Picard-Banach)</strong></td>
-<td>Função $g(x)$ com $|g'(x)| &lt; 1$ na vizinhança da raiz, chute $x_0$</td>
-<td>Ponto fixo $x^*$, verificação de contração, tabela iterativa</td>
-<td><a href="raizes_equacoes/ponto_fixo.m"><code>raizes_equacoes/ponto_fixo.m</code></a></td>
-</tr>
-<tr>
-<td>Solução de sistema linear determinado $Ax = b$ com máxima estabilidade numérica</td>
-<td><strong>Eliminação de Gauss com Pivoteamento Parcial</strong></td>
-<td>Matriz de coeficientes $A$ ($n \times n$), vetor $b$ ($n \times 1$)</td>
-<td>Matriz triangular superior, vetor solução $x$, resíduo $|Ax-b|_2$</td>
-<td><a href="sistemas_lineares/gauss_pivoteamento.m"><code>sistemas_lineares/gauss_pivoteamento.m</code></a></td>
-</tr>
-<tr>
-<td>Diagonalização direta e leitura imediata da solução do sistema</td>
-<td><strong>Gauss-Jordan com Normalização</strong></td>
-<td>Matriz $A$ ($n \times n$), vetor de termos independentes $b$</td>
-<td>Matriz identidade $[I \mid x]$, solução desacoplada, resíduo</td>
-<td><a href="sistemas_lineares/gauss_jordan.m"><code>sistemas_lineares/gauss_jordan.m</code></a></td>
-</tr>
-<tr>
-<td>Integral definida de função genérica ou dados tabulados</td>
-<td><strong>Regra do Trapézio Composta</strong></td>
-<td>Integrando $f(x)$, limites $[a, b]$, número de intervalos $n$</td>
-<td>Valor aproximado da integral, passo $h$, erro de ordem $O(h^2)$</td>
-<td><a href="integracao_numerica/trapezio_composto.m"><code>integracao_numerica/trapezio_composto.m</code></a></td>
-</tr>
-<tr>
-<td>Integral definida de alta ordem de exatidão</td>
-<td><strong>Simpson 1/3 Composta</strong></td>
-<td>Integrando $f(x)$, limites $[a, b]$, número <strong>par</strong> de intervalos $n$</td>
-<td>Quadratura numérica refinada, erro de truncamento $O(h^4)$</td>
-<td><a href="integracao_numerica/simpson_13_composto.m"><code>integracao_numerica/simpson_13_composto.m</code></a></td>
-</tr>
-<tr>
-<td>Derivada primeira de dados discretos ou função contínua</td>
-<td><strong>Diferença Finita Progressiva 3 Pontos</strong></td>
-<td>Vetor amostral $y$ ou função $f(x)$, espaçamento uniforme $h$</td>
-<td>Vetor com aproximação de $f'(x)$ de ordem $O(h^2)$</td>
-<td><a href="diferenciacao_numerica/diferenca_progressiva_3pontos.m"><code>diferenciacao_numerica/diferenca_progressiva_3pontos.m</code></a></td>
-</tr>
-<tr>
-<td>Solução de PVI escalar explícito de primeira ordem</td>
-<td><strong>Euler Explícito</strong></td>
-<td>EDO $y' = f(x, y)$, condição $y(x_0) = y_0$, passo $h$, intervalo</td>
-<td>Vetores $x$ e $y_{num}$, tabela comparativa, gráfico analítico vs. numérico</td>
-<td><a href="equacoes_diferenciais/euler_explicito.m"><code>equacoes_diferenciais/euler_explicito.m</code></a></td>
-</tr>
-<tr>
-<td>EDO não linear ou problema rígido (<em>stiff</em>) com estabilidade incondicional</td>
-<td><strong>Euler Implícito + Newton-Raphson</strong></td>
-<td>EDO $y' = f(x, y)$, jacobiana $\partial f/\partial y$, condição inicial</td>
-<td>Solução $A$-estável sem explosão numérica, resíduos iterativos</td>
-<td><a href="equacoes_diferenciais/euler_implicito_newton.m"><code>equacoes_diferenciais/euler_implicito_newton.m</code></a></td>
-</tr>
-<tr>
-<td>PVI escalar com precisão de segunda ordem</td>
-<td><strong>Runge-Kutta 2 (Heun Escalar)</strong></td>
-<td>EDO $y' = f(x, y)$, condição inicial $y(x_0) = y_0$, passo $h$</td>
-<td>Malha de pontos, predição e correção trapezoidal $O(h^2)$</td>
-<td><a href="equacoes_diferenciais/rk2_individual.m"><code>equacoes_diferenciais/rk2_individual.m</code></a></td>
-</tr>
-<tr>
-<td>Sistema acoplado de 2 EDOs de primeira ordem</td>
-<td><strong>Runge-Kutta 2 (Heun para Sistemas)</strong></td>
-<td>$y' = f(x, y, z)$, $z' = g(x, y, z)$, condições $y(x_0), z(x_0)$, $h$</td>
-<td>Curvas temporais simultâneas $y(x)$ e $z(x)$, gráfico de estados</td>
-<td><a href="equacoes_diferenciais/rk2_heun_sistema.m"><code>equacoes_diferenciais/rk2_heun_sistema.m</code></a></td>
-</tr>
-<tr>
-<td>Avaliação analítica de cosseno via expansão polinomial</td>
-<td><strong>Série de Taylor / Maclaurin</strong></td>
-<td>Ângulo $x$ (radianos), número de termos da expansão polinomial</td>
-<td>Aproximação numérica, erro relativo comparado ao valor real</td>
-<td><a href="series_aproximacoes/taylor_cosseno.m"><code>series_aproximacoes/taylor_cosseno.m</code></a></td>
-</tr>
-<tr>
-<td>Síntese de ondas periódicas e cálculo de valor médio e RMS</td>
-<td><strong>Gerador de Sinais e Cálculo de RMS</strong></td>
-<td>Frequências, amplitudes, offsets DC, frequência de amostragem</td>
-<td>Ondas senoidal, quadrada e triangular; valores médios e eficazes</td>
-<td><a href="processamento_sinais/gerador_sinais_rms.m"><code>processamento_sinais/gerador_sinais_rms.m</code></a></td>
-</tr>
-<tr>
-<td>Energia reticular cristalina via modelo eletrostático/quântico</td>
-<td><strong>Equação de Born-Mayer</strong></td>
-<td>Valências iônicas $z_+, z_-$, constante de Madelung, raios iônicos</td>
-<td>Energia de rede $U$ (kJ/mol), separação coulombiana e Pauli</td>
-<td><a href="fisico_quimica/born_mayer_energia_reticular.m"><code>fisico_quimica/born_mayer_energia_reticular.m</code></a></td>
-</tr>
-<tr>
-<td>Momento magnético <em>spin-only</em> e susceptibilidade molar</td>
-<td><strong>Equação de Curie / Spin Puro</strong></td>
-<td>Quantidade de elétrons desemparelhados $n$, temperatura $T$ (K)</td>
-<td>Momento $\mu_{so}$ ($\mu_B$), susceptibilidade magnética molar $\chi_M$</td>
-<td><a href="fisico_quimica/susceptibilidade_magnetica.m"><code>fisico_quimica/susceptibilidade_magnetica.m</code></a></td>
-</tr>
-<tr>
-<td>Problema inverso: elétrons desemparelhados a partir da susceptibilidade</td>
-<td><strong>Resolução Polinomial Magnetoquímica</strong></td>
-<td>Susceptibilidade magnética molar $\chi_M$, temperatura $T$ (K)</td>
-<td>Número inteiro de elétrons $n$, raízes físicas do polinômio</td>
-<td><a href="fisico_quimica/eletrons_desemparelhados.m"><code>fisico_quimica/eletrons_desemparelhados.m</code></a></td>
-</tr>
-<tr>
-<td>Cinética de fármaco em doses repetidas em bolus instantâneo</td>
-<td><strong>Farmacocinética sem Absorção</strong></td>
-<td>Dose, intervalo posológico $\tau$, meia-vida de eliminação $t_{1/2}$</td>
-<td>Perfil plasmático temporal, média móvel, fator de acúmulo no platô</td>
-<td><a href="farmacocinetica/concentracao_dose_instantanea.m"><code>farmacocinetica/concentracao_dose_instantanea.m</code></a></td>
-</tr>
-<tr>
-<td>Cinética com fase de absorção e liberação contínua</td>
-<td><strong>Farmacocinética com Absorção</strong></td>
-<td>Dose, taxa de absorção $k_a$, meia-vida, intervalo posológico</td>
-<td>Curva plasmática suave, concentração de pico e platô estacionário</td>
-<td><a href="farmacocinetica/concentracao_com_absorcao.m"><code>farmacocinetica/concentracao_com_absorcao.m</code></a></td>
-</tr>
-<tr>
-<td>Otimização posológica e acúmulo no equilíbrio</td>
-<td><strong>Estudo Paramétrico Intervalo/Meia-Vida</strong></td>
-<td>Meia-vida, dose padrão, vetor de intervalos de administração</td>
-<td>Curva do fator de acúmulo em função da razão adimensional $\tau/t_{1/2}$</td>
-<td><a href="farmacocinetica/estudo_intervalo_meia_vida.m"><code>farmacocinetica/estudo_intervalo_meia_vida.m</code></a></td>
-</tr>
-<tr>
-<td>Conversão de unidades físicas de engenharia SI ↔ Imperial</td>
-<td><strong>Conversor SI / Imperial</strong></td>
-<td>Massa em quilogramas [kg] e comprimento em metros [m]</td>
-<td>Estrutura com libras [lb], onças [oz], polegadas [in], pés [ft] e jardas</td>
-<td><a href="utilitarios/conversao_si_imperial.m"><code>utilitarios/conversao_si_imperial.m</code></a></td>
-</tr>
-<tr>
-<td>Diagnóstico de matrizes e resolução de expressões complexas</td>
-<td><strong>Álgebra Linear e Expressões Aritméticas</strong></td>
-<td>Valores numéricos escalares ou matriz quadrada inteira</td>
-<td>Determinante, inverso $A^{-1}$, número de condicionamento $\kappa(A)$</td>
-<td><a href="utilitarios/operacoes_matrizes.m"><code>utilitarios/operacoes_matrizes.m</code></a></td>
-</tr>
-<tr>
-<td>Visualização geométrica e cálculo de pontos críticos</td>
-<td><strong>Visualizador Gráfico de Funções</strong></td>
-<td>Equação da catenária ou polinômios de quadratura de Gauss</td>
-<td>Gráficos formatados com vértices, raízes e tangentes</td>
-<td><a href="utilitarios/plotar_funcao.m"><code>utilitarios/plotar_funcao.m</code></a></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="mapa-arquitetural-do-repositorio">Mapa Arquitetural do Repositório</h2>
-<p>O projeto adota estrutura modular canônica, onde cada categoria científica possui seu próprio diretório autossuficiente:</p>
-<pre><code class="language-text">MetodosNumericos/
-├── assets/                                 # Recursos gráficos, diagramas SVG vetoriais e animações
-│   ├── animacao_convergencia.gif           # GIF animado de convergência iterativa
-│   ├── diagrama_fluxo_decisao.svg / .png   # Árvore de decisão para escolha de algoritmos
-│   ├── diagrama_raizes.svg / .png          # Diagrama conceitual de raízes de equações
-│   ├── diagrama_sistemas.svg / .png        # Diagrama de decomposição e escalonamento linear
-│   └── diagrama_integracao.svg / .png      # Diagrama de partição geométrica de integração
-│
-├── raizes_equacoes/                        # Resolução de equações não lineares escalares f(x) = 0
-│   ├── bissecao.m                          # Bisseção intervalar (Teorema de Bolzano)
-│   ├── falsa_posicao.m                     # Falsa Posição (Regula Falsi com interpolação linear)
-│   ├── newton_raphson.m                    # Newton-Raphson com convergência quadrática
-│   ├── ponto_fixo.m                        # Iteração de Ponto Fixo (Picard-Banach)
-│   └── secante.m                           # Método da Secante com estimativa de derivadas finitas
-│
-├── sistemas_lineares/                      # Resolução direta de sistemas algébricos Ax = b
-│   ├── gauss_pivoteamento.m                # Eliminação Gaussiana com pivoteamento parcial e substituição
-│   └── gauss_jordan.m                      # Método de Gauss-Jordan com normalização diagonal unitária
-│
-├── integracao_numerica/                    # Quadratura numérica de Newton-Cotes
-│   ├── trapezio_composto.m                 # Regra do Trapézio Composta (convergência O(h²))
-│   └── simpson_13_composto.m               # Regra de Simpson 1/3 Composta (convergência O(h⁴))
-│
-├── diferenciacao_numerica/                 # Aproximação de derivadas por diferenças finitas
-│   └── diferenca_progressiva_3pontos.m     # Fórmula Progressiva de 3 Pontos (convergência O(h²))
-│
-├── equacoes_diferenciais/                  # Problemas de Valor Inicial (PVI) para EDOs
-│   ├── euler_explicito.m                   # Euler Explícito de 1º ordem
-│   ├── euler_implicito_newton.m            # Euler Implícito incondicionalmente estável + Newton-Raphson
-│   ├── rk2_individual.m                    # Runge-Kutta de 2ª ordem (Heun) para EDO escalar
-│   └── rk2_heun_sistema.m                  # Runge-Kutta de 2ª ordem para sistema acoplado de 2 EDOs
-│
-├── series_aproximacoes/                    # Séries analíticas e aproximações de funções
-│   └── taylor_cosseno.m                    # Expansão em Série de Taylor/Maclaurin para cos(x)
-│
-├── processamento_sinais/                   # Síntese de formas de onda e análise harmônica
-│   ├── gerador_sinais_rms.m                # Geração de senoidal, quadrada, triangular e cálculo de RMS
-│   └── workspace_senoide_exemplo.mat       # Matriz e dados pré-computados de amostragem
-│
-├── fisico_quimica/                         # Termodinâmica iônica e magnetoquímica quântica
-│   ├── born_mayer_energia_reticular.m      # Equação de Born-Mayer para cristais iônicos
-│   ├── susceptibilidade_magnetica.m        # Momento magnético e Lei de Curie para íons de transição
-│   └── eletrons_desemparelhados.m          # Problema inverso: determinação de n a partir de χ_M
-│
-├── farmacocinetica/                        # Modelagem compartimental de fármacos e posologia
-│   ├── concentracao_dose_instantanea.m     # Modelo monocompartimental em bolus sem absorção
-│   ├── concentracao_com_absorcao.m         # Cinética de 1ª ordem com taxa contínua de absorção
-│   └── estudo_intervalo_meia_vida.m        # Varredura paramétrica do acúmulo no platô estacionário
-│
-├── utilitarios/                            # Ferramentas auxiliares e rotinas matemáticas
-│   ├── conversao_si_imperial.m             # Função de conversão precisa SI ↔ Imperial
-│   ├── operacoes_matrizes.m                # Álgebra linear, precedência e condicionamento matricial
-│   └── plotar_funcao.m                     # Visualização comparativa de catenárias e polinômios
-│
-└── README.md                               # Manual técnico de referência
-</code></pre>
-<hr />
-<h2 id="como-executar-e-ambientes-suportados">Como Executar e Ambientes Suportados</h2>
-<p>Os scripts foram desenvolvidos primariamente para <strong>GNU Octave</strong> (versão 6.4 ou superior) e são integralmente compatíveis com <strong>MathWorks MATLAB</strong> (R2020b ou superior).</p>
-<h3 id="execucao-via-terminal-linux-macos-octave-cli">Execução via Terminal Linux / macOS (Octave CLI)</h3>
-<p>Para executar qualquer rotina diretamente sem carregar a interface gráfica:</p>
-<pre><code class="language-bash"># Navegue até a raiz do repositório
-cd /dev/shm/MetodosNumericos
-
-# Execução individual de um script
-octave --no-gui &quot;raizes_equacoes/bissecao.m&quot;
-octave --no-gui &quot;sistemas_lineares/gauss_pivoteamento.m&quot;
-octave --no-gui &quot;equacoes_diferenciais/euler_implicito_newton.m&quot;
-</code></pre>
-<h3 id="execucao-via-interface-grafica-octave-gui-ou-matlab">Execução via Interface Gráfica (Octave GUI ou MATLAB)</h3>
-<ol>
-<li>Abra o GNU Octave ou o MATLAB.</li>
-<li>Defina a pasta corrente como a raiz do projeto (<code>/dev/shm/MetodosNumericos</code>).</li>
-<li>Abra o arquivo desejado no Editor de Código.</li>
-<li>Pressione <strong>F5</strong> (ou clique no botão <strong>Run</strong>).</li>
-<li>Os gráficos serão instanciados em janelas independentes e as tabelas numéricas serão impressas formatadas no terminal.</li>
-</ol>
-<h3 id="dependencias-e-toolboxes">Dependências e Toolboxes</h3>
-<ul>
-<li><strong>GNU Octave:</strong> Todas as rotinas numéricas utilizam apenas o núcleo básico (<em>core</em>). Para síntese de formas de onda em <code>processamento_sinais/gerador_sinais_rms.m</code>, o código já possui rotinas analíticas nativas embutidas, funcionando perfeitamente sem exigir a instalação de pacotes externos. Se desejar instalar a biblioteca opcional do ecossistema Forge:<br />
-<code>octave
-  pkg install -forge signal
-  pkg load signal</code></li>
-<li><strong>MATLAB:</strong> Não requer nenhuma toolbox adicional paga (dispensa Signal Processing Toolbox ou Symbolic Math Toolbox).</li>
-</ul>
-<hr />
-<h2 id="1-raizes-de-equacoes-nao-lineares-fx-0">1. Raízes de Equações Não Lineares ($f(x) = 0$)</h2>
-<p>A determinação de raízes de equações transcendentais e algébricas consiste em encontrar $x^<em> \in \mathbb{R}$ tal que $f(x^</em>) = 0$.</p>
-<p align="center">
-  <img src="assets/diagrama_raizes.svg" alt="Diagrama de Métodos de Raízes" width="90%">
-</p>
-
-<h3 id="comparativo-tecnico-entre-metodos-de-raiz">Comparativo Técnico entre Métodos de Raiz</h3>
-<table>
-<thead>
-<tr>
-<th>Algoritmo</th>
-<th>Ordem de Convergência</th>
-<th>Requisitos de Entrada</th>
-<th>Garantia de Convergência</th>
-<th>Custo por Iteração</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Bisseção</strong></td>
-<td>Linear ($\approx 1{,}0$)</td>
-<td>Intervalo $[a, b]$ com $f(a) \cdot f(b) &lt; 0$</td>
-<td>Globalmente convergente</td>
-<td>1 avaliação funcional</td>
-</tr>
-<tr>
-<td><strong>Falsa Posição</strong></td>
-<td>Superlinear</td>
-<td>Intervalo $[a, b]$ com $f(a) \cdot f(b) &lt; 0$</td>
-<td>Globalmente convergente</td>
-<td>1 avaliação funcional</td>
-</tr>
-<tr>
-<td><strong>Ponto Fixo</strong></td>
-<td>Linear ($1{,}0$)</td>
-<td>Função $g(x)$ e estimativa inicial $x_0$</td>
-<td>Local ($|g'(x)| &lt; 1$)</td>
-<td>1 avaliação funcional</td>
-</tr>
-<tr>
-<td><strong>Secante</strong></td>
-<td>Superlinear ($\approx 1{,}618$)</td>
-<td>Dois chutes iniciais $x_0$ e $x_1$</td>
-<td>Local</td>
-<td>1 avaliação funcional</td>
-</tr>
-<tr>
-<td><strong>Newton-Raphson</strong></td>
-<td>Quadrática ($2{,}0$)</td>
-<td>Chute inicial $x_0$ e derivada $f'(x)$</td>
-<td>Local ($f'(x^*) \neq 0$)</td>
-<td>2 avaliações ($f$ e $f'$)</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="11-metodo-da-bissecao">1.1 Método da Bisseção</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="raizes_equacoes/bissecao.m"><code>raizes_equacoes/bissecao.m</code></a></li>
-<li><strong>O que calcula:</strong> Determina a raiz $x^*$ em um intervalo fechado $[a, b]$ com base no Teorema de Bolzano. A cada passo, calcula o ponto médio:<br />
-  $$x_m = \frac{a + b}{2}$$<br />
-  Atualiza o subintervalo verificando o sinal do produto $f(a) \cdot f(x_m)$. O limitante superior do erro absoluto na iteração $k$ é:<br />
-  $$\varepsilon_k = \frac{b_0 - a_0}{2^k}$$</li>
-<li><strong>O que entrega:</strong> Tabela formatada (<code>Iteração | Limite Inferior | Limite Superior | Ponto Médio | f(Ponto Médio) | Erro Estimado</code>), raiz refinada final e contador de iterações.</li>
-<li><strong>O que precisa ter:</strong> Função contínua $f(x)$, extremos $a$ e $b$ com $f(a) \cdot f(b) &lt; 0$, tolerância de parada e limite de iterações.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Parâmetros padrão: $f(x) = x^2 - e^{-x}$, intervalo $[0{,}0, \; 1{,}0]$, tolerância $\varepsilon = 10^{-4}$, $i_{max} = 100$.</li>
-<li>Resultado numérico obtido: <strong>$\text{Raiz} \approx 0{,}703491$</strong> obtida em <strong>14 iterações</strong> com erro absoluto $&lt; 6{,}10 \times 10^{-5}$.</li>
-</ul>
-<hr />
-<h3 id="12-metodo-da-falsa-posicao-regula-falsi">1.2 Método da Falsa Posição (Regula Falsi)</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="raizes_equacoes/falsa_posicao.m"><code>raizes_equacoes/falsa_posicao.m</code></a></li>
-<li><strong>O que calcula:</strong> Interpola linearmente a curva entre $(a, f(a))$ e $(b, f(b))$, calculando o zero da reta secante correspondente:<br />
-  $$x_r = \frac{a \cdot f(b) - b \cdot f(a)}{f(b) - f(a)} = b - \frac{f(b) \cdot (b - a)}{f(b) - f(a)}$$</li>
-<li><strong>O que entrega:</strong> Tabela detalhada passo a passo, raiz final convergida, verificação contínua dos sinais $f(a)$ e $f(b)$ a cada iteração (corrigindo o bug histórico das versões legadas) e erro relativo entre sucessivos pontos interpolados.</li>
-<li><strong>O que precisa ter:</strong> $f(x)$ contínua, $f(a) \cdot f(b) &lt; 0$, tolerância $\varepsilon$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Parâmetros padrão: $f(x) = x^2 - e^{-x}$, intervalo $[0{,}0, \; 1{,}0]$, tolerância $\varepsilon = 10^{-4}$.</li>
-<li>Resultado numérico obtido: <strong>$\text{Raiz} \approx 0{,}703467$</strong> convergindo em apenas <strong>5 iterações</strong>.</li>
-</ul>
-<hr />
-<h3 id="13-metodo-de-newton-raphson-metodo-das-tangentes">1.3 Método de Newton-Raphson (Método das Tangentes)</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="raizes_equacoes/newton_raphson.m"><code>raizes_equacoes/newton_raphson.m</code></a></li>
-<li><strong>O que calcula:</strong> Utiliza a expansão em Série de Taylor de primeira ordem em torno do ponto corrente $x_k$:<br />
-  $$x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}$$<br />
-  Apresenta convergência quadrática nas imediações de raízes simples onde $f'(x^*) \neq 0$.</li>
-<li><strong>O que entrega:</strong> Tabela de iterações com valores de $x_k$, $f(x_k)$, $f'(x_k)$, $x_{k+1}$ e erro relativo percentual, diagnóstico de convergência e alerta automático para derivadas nulas ($f'(x_k) \approx 0$).</li>
-<li><strong>O que precisa ter:</strong> Função $f(x)$, expressão analítica da derivada $f'(x)$, chute inicial $x_0$ e tolerância.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Parâmetros padrão: $f(x) = x^3 + 3{,}8x^2 - 8{,}6x - 24{,}4$, com $f'(x) = 3x^2 + 7{,}6x - 8{,}6$, estimativa inicial $x_0 = 4{,}0$, tolerância $\varepsilon = 10^{-6}$.</li>
-<li>Resultado numérico obtido: <strong>$\text{Raiz} \approx 2{,}706938$</strong> convergindo em <strong>5 iterações</strong> com resíduo $|f(x)| &lt; 1{,}42 \times 10^{-13}$.</li>
-</ul>
-<hr />
-<h3 id="14-metodo-da-secante">1.4 Método da Secante</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="raizes_equacoes/secante.m"><code>raizes_equacoes/secante.m</code></a></li>
-<li><strong>O que calcula:</strong> Substitui a derivada formal de Newton pela aproximação de diferenças finitas baseada nas duas iterações mais recentes:<br />
-  $$x_{k+1} = x_k - f(x_k) \cdot \frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}$$<br />
-  Não requer cálculo analítico de derivadas nem preservação estrita de troca de sinal. Ordem assintótica $\alpha = \frac{1 + \sqrt{5}}{2} \approx 1{,}618$.</li>
-<li><strong>O que entrega:</strong> Tabela formatada das iterações, valor da raiz aproximada final, erro relativo percentual rigoroso com proteção em módulo <code>abs((x_k - x_{k-1})/x_k)</code>.</li>
-<li><strong>O que precisa ter:</strong> Função $f(x)$, duas estimativas $x_0$ e $x_1$ suficientemente próximas, tolerância e número máximo de iterações.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Parâmetros padrão: $f(x) = 2x^3 - 11{,}7x^2 + 17{,}7x - 5$, chutes iniciais $x_0 = 0{,}0$ e $x_1 = 1{,}0$, tolerância $\varepsilon = 10^{-3}$.</li>
-<li>Resultado numérico obtido: <strong>$\text{Raiz} \approx 0{,}365099$</strong> em <strong>7 iterações</strong>.</li>
-</ul>
-<hr />
-<h3 id="15-metodo-do-ponto-fixo-iteracao-linear-de-picard-banach">1.5 Método do Ponto Fixo (Iteração Linear de Picard-Banach)</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="raizes_equacoes/ponto_fixo.m"><code>raizes_equacoes/ponto_fixo.m</code></a></li>
-<li><strong>O que calcula:</strong> Transforma algebricamente $f(x) = 0$ na relação equivalente $x = g(x)$. A convergência para o ponto fixo único $x^*$ é garantida pelo Teorema da Contração se:<br />
-  $$|g'(x)| \le L &lt; 1, \quad \forall x \in [a, b]$$<br />
-  Relação de recorrência: $x_{k+1} = g(x_k)$.</li>
-<li><strong>O que entrega:</strong> Tabela de iterações comparando $x_k$, $g(x_k)$, resíduo $|f(x_{k+1})|$, variação absoluta e diagnósticos de divergência.</li>
-<li><strong>O que precisa ter:</strong> Função de iteração $g(x)$, estimativa inicial $x_0$ no intervalo de contração e tolerância.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Parâmetros padrão: $f(x) = e^x - 4x^2 \implies g(x) = 0{,}5 \cdot e^{0{,}5x}$, chute inicial $x_0 = 0{,}5$, tolerância $\varepsilon = 10^{-3}$.</li>
-<li>Resultado numérico obtido: <strong>$\text{Raiz} \approx 0{,}714393$</strong> em <strong>6 iterações</strong>.</li>
-</ul>
-<blockquote>
-<p>[!TIP]<br />
-<strong>Validação Nativa Rápida:</strong> No console do Octave/MATLAB, você pode checar qualquer raiz usando:<br />
-<code>octave
-fzero(@(x) x.^2 - exp(-x), [0, 1])   % Raiz intervalar
-roots([1, 3.8, -8.6, -24.4])         % Todas as raízes polinomiais</code></p>
-</blockquote>
-<hr />
-<h2 id="2-sistemas-de-equacoes-lineares-ax-b">2. Sistemas de Equações Lineares ($Ax = b$)</h2>
-<p>Resolução de sistemas lineares determinados de ordem $n$ da forma matricial:<br />
-$$A \mathbf{x} = \mathbf{b}$$</p>
-<p align="center">
-  <img src="assets/diagrama_sistemas.svg" alt="Diagrama de Sistemas Lineares" width="90%">
-</p>
-
-<h3 id="21-eliminacao-gaussiana-com-pivoteamento-parcial-e-retrossubstituicao">2.1 Eliminação Gaussiana com Pivoteamento Parcial e Retrossubstituição</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="sistemas_lineares/gauss_pivoteamento.m"><code>sistemas_lineares/gauss_pivoteamento.m</code></a></li>
-<li><strong>O que calcula:</strong> Transforma a matriz original em uma matriz triangular superior equivalente através de combinações lineares entre linhas. Para mitigar erros de arredondamento causados por pivôs pequenos, realiza a troca sistemática de linhas:<br />
-  $$p = \arg\max_{l=k,\dots,n} |a_{lk}| \implies \text{Troca linha } k \leftrightarrow \text{linha } p$$<br />
-  Elimina os elementos abaixo do pivô via multiplicador $m_{ik} = \frac{a_{ik}}{a_{kk}}$. Em seguida, resolve as incógnitas por retrossubstituição regressiva:<br />
-  $$x_n = \frac{b_n}{a_{nn}}, \quad x_i = \frac{b_i - \sum_{j=i+1}^n a_{ij} x_j}{a_{ii}}$$</li>
-<li><strong>O que entrega:</strong> Matriz triangular superior escalonada, vetor solução final $\mathbf{x}$, norma euclidiana do resíduo $|\mathbf{r}|_2 = |A\mathbf{x} - \mathbf{b}|_2$.</li>
-<li><strong>O que precisa ter:</strong> Matriz quadrada $A$ não singular ($\det(A) \neq 0$) e vetor de termos independentes $b$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Sistema testado:<br />
-    $$\begin{bmatrix} 4 &amp; 3 &amp; 2 \ 1 &amp; 3 &amp; 1 \ 2 &amp; 1 &amp; 3 \end{bmatrix} \begin{bmatrix} x_1 \ x_2 \ x_3 \end{bmatrix} = \begin{bmatrix} 960 \ 510 \ 610 \end{bmatrix}$$</li>
-<li>Solução exata calculada: <strong>$x_1 = 120{,}000000$</strong>, <strong>$x_2 = 100{,}000000$</strong>, <strong>$x_3 = 90{,}000000$</strong>.</li>
-<li>Resíduo de máquina: $|\mathbf{r}|_2 = 0{,}00 \times 10^0$.</li>
-</ul>
-<hr />
-<h3 id="22-metodo-de-gauss-jordan-com-normalizacao-unitaria">2.2 Método de Gauss-Jordan com Normalização Unitária</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="sistemas_lineares/gauss_jordan.m"><code>sistemas_lineares/gauss_jordan.m</code></a></li>
-<li><strong>O que calcula:</strong> Estende a eliminação gaussiana zerando coeficientes tanto <strong>abaixo</strong> quanto <strong>acima</strong> da diagonal principal. A cada coluna pivô, normaliza a linha dividindo todos os termos por $a_{kk}$:<br />
-  $$[A \mid \mathbf{b}] \xrightarrow{\text{operações elementares}} [I_n \mid \mathbf{x}]$$<br />
-  A solução desacoplada é lida imediatamente na última coluna da matriz aumentada.</li>
-<li><strong>O que entrega:</strong> Matriz aumentada final na forma escalonada reduzida, solução do sistema e norma residual.</li>
-<li><strong>O que precisa ter:</strong> Matriz $A$ quadrada regular e vetor coluna $b$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Sistema de calibração paramétrica:<br />
-    $$\begin{bmatrix} 55 &amp; 0 &amp; 1 \ 75 &amp; 1 &amp; -1 \ 60 &amp; -1 &amp; 0 \end{bmatrix} \begin{bmatrix} a \ R \ T \end{bmatrix} = \begin{bmatrix} 499{,}55 \ 687{,}75 \ 528{,}60 \end{bmatrix}$$</li>
-<li>Solução obtida: <strong>$a = 9{,}031053$</strong>, <strong>$R = 13{,}263158$</strong>, <strong>$T = 2{,}842105$</strong>.</li>
-<li>Norma residual: $|\mathbf{r}|_2 &lt; 1{,}00 \times 10^{-12}$.</li>
-</ul>
-<hr />
-<h2 id="3-integracao-numerica-quadratura-de-newton-cotes">3. Integração Numérica (Quadratura de Newton-Cotes)</h2>
-<p>Aproximação da integral definida de uma função real:<br />
-$$I = \int_{a}^{b} f(x) \, dx$$</p>
-<p align="center">
-  <img src="assets/diagrama_integracao.svg" alt="Diagrama de Integração Numérica" width="90%">
-</p>
-
-<h3 id="31-regra-do-trapezio-composta">3.1 Regra do Trapézio Composta</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="integracao_numerica/trapezio_composto.m"><code>integracao_numerica/trapezio_composto.m</code></a></li>
-<li><strong>O que calcula:</strong> Subdivide o domínio $[a, b]$ em $n$ faixas uniformes de largura $h = \frac{b - a}{n}$, aproximando a curva por segmentos de reta (polinômios de 1º grau de Lagrange):<br />
-  $$I_{trap} = \frac{h}{2} \left[ f(x_0) + 2 \sum_{k=1}^{n-1} f(x_k) + f(x_n) \right]$$<br />
-  Erro global de truncamento proporcional a $O(h^2)$.</li>
-<li><strong>O que entrega:</strong> Valor aproximado da integral, passo $h$ adotado e relatório de integração de comprimento de arco de curva catenária.</li>
-<li><strong>O que precisa ter:</strong> Função contínua $f(x)$, limites de integração $[a, b]$ e número de subintervalos $n \ge 1$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Cálculo do comprimento de arco de catenária: $f(x) = \sqrt{1 + 0{,}5 \cdot \sinh^2(x/30)}$, limites $a = -91{,}0$ e $b = 91{,}0$, com $n = 4000$ faixas ($h = 0{,}0455$).</li>
-<li>Resultado numérico calculado: <strong>$\text{Comprimento} \approx 467{,}665083$ m</strong>.</li>
-</ul>
-<hr />
-<h3 id="32-regra-de-simpson-13-composta">3.2 Regra de Simpson 1/3 Composta</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="integracao_numerica/simpson_13_composto.m"><code>integracao_numerica/simpson_13_composto.m</code></a></li>
-<li><strong>O que calcula:</strong> Interpola parábolas de 2º grau sobre pares consecutivos de subintervalos. Exige obrigatoriamente que $n$ seja um número <strong>par</strong>:<br />
-  $$I_{simp} = \frac{h}{3} \left[ f(x_0) + 4 \sum_{k=1,3,\dots}^{n-1} f(x_k) + 2 \sum_{k=2,4,\dots}^{n-2} f(x_k) + f(x_n) \right]$$<br />
-  Erro de truncamento de 4ª ordem: $E_S = -\frac{(b - a) h^4}{180} f^{(4)}(\xi) = O(h^4)$.</li>
-<li><strong>O que entrega:</strong> Valor da integral de alta ordem, conversão dimensional automática (ex.: metros para pés) e verificação de paridade de $n$.</li>
-<li><strong>O que precisa ter:</strong> Função $f(x)$, limites $[a, b]$, $n$ <strong>par</strong> ($n \pmod 2 = 0$).</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Comprimento de arco de cabo suspenso: $f(x) = \sqrt{1 + 0{,}476454 \cdot \sinh^2(x/30{,}38)}$, no intervalo $[-91{,}21, \; +91{,}21]$ com $n = 20$ subintervalos ($h = 9{,}1210$).</li>
-<li>Resultado numérico: <strong>$\text{Integral} \approx 451{,}415938$ m</strong> (correspondendo a <strong>$1480{,}644278$ pés</strong> com o fator de escala $3{,}28$).</li>
-</ul>
-<hr />
-<h2 id="4-diferenciacao-numerica-e-diferencas-finitas">4. Diferenciação Numérica e Diferenças Finitas</h2>
-<ul>
-<li><strong>Arquivo:</strong> <a href="diferenciacao_numerica/diferenca_progressiva_3pontos.m"><code>diferenciacao_numerica/diferenca_progressiva_3pontos.m</code></a></li>
-<li><strong>O que calcula:</strong> Aproxima a primeira derivada $f'(x_0)$ combinando três amostras equidistantes para cancelar o termo de segunda derivada nas expansões de Taylor, alcançando precisão $O(h^2)$:<br />
-  $$f'(x_0) \approx \frac{-3 f(x_0) + 4 f(x_0 + h) - f(x_0 + 2h)}{2h}$$</li>
-<li><strong>O que entrega:</strong> Vetor discretizado da derivada numérica ao longo da malha, vetor analítico para validação direta, erro absoluto pontual e erro global máximo cometido.</li>
-<li><strong>O que precisa ter:</strong> Espaçamento uniforme $h &gt; 0$, vetor de dados amostrais com pelo menos 3 pontos.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Função analítica padrão: $f(x) = \sin(2x)$, com derivada analítica exata $f'(x) = 2\cos(2x)$, no domínio $[0, \pi]$ com $h = 0{,}05$.</li>
-<li>Para $x = 0{,}00$: Derivada exata = $2{,}000000$; Derivada numérica calculada = <strong>$2{,}006643$</strong>.</li>
-<li>Erro máximo no domínio: $\approx 6{,}66 \times 10^{-3}$, perfeitamente alinhado com o limitante teórico $O(h^2) = \frac{h^2}{3} \max |f'''(\xi)|$.</li>
-</ul>
-<h3 id="quadro-resumo-das-formulas-de-diferenciacao">Quadro Resumo das Fórmulas de Diferenciação</h3>
-<table>
-<thead>
-<tr>
-<th>Esquema</th>
-<th>Expressão Algébrica</th>
-<th>Ordem de Erro</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Progressiva 2 pontos</strong></td>
-<td>$\frac{f(x+h) - f(x)}{h}$</td>
-<td>$O(h)$</td>
-</tr>
-<tr>
-<td><strong>Regressiva 2 pontos</strong></td>
-<td>$\frac{f(x) - f(x-h)}{h}$</td>
-<td>$O(h)$</td>
-</tr>
-<tr>
-<td><strong>Central 2 pontos</strong></td>
-<td>$\frac{f(x+h) - f(x-h)}{2h}$</td>
-<td>$O(h^2)$</td>
-</tr>
-<tr>
-<td><strong>Progressiva 3 pontos (implementada)</strong></td>
-<td>$\frac{-3f(x) + 4f(x+h) - f(x+2h)}{2h}$</td>
-<td>$O(h^2)$</td>
-</tr>
-<tr>
-<td><strong>Regressiva 3 pontos</strong></td>
-<td>$\frac{3f(x) - 4f(x-h) + f(x-2h)}{2h}$</td>
-<td>$O(h^2)$</td>
-</tr>
-<tr>
-<td><strong>Segunda derivada central</strong></td>
-<td>$\frac{f(x+h) - 2f(x) + f(x-h)}{h^2}$</td>
-<td>$O(h^2)$</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="5-equacoes-diferenciais-ordinarias-pvi">5. Equações Diferenciais Ordinárias (PVI)</h2>
-<p>Aproximação de Problemas de Valor Inicial (PVI) da forma:<br />
-$$\frac{dy}{dx} = f(x, y), \quad y(x_0) = y_0$$</p>
-<h3 id="51-euler-explicito-primeira-ordem">5.1 Euler Explícito (Primeira Ordem)</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="equacoes_diferenciais/euler_explicito.m"><code>equacoes_diferenciais/euler_explicito.m</code></a></li>
-<li><strong>O que calcula:</strong> Avança a solução pela inclinação da reta tangente no início do intervalo:<br />
-  $$y_{i+1} = y_i + h \cdot f(x_i, y_i)$$<br />
-  Erro local $O(h^2)$, erro global acumulado $O(h)$.</li>
-<li><strong>O que entrega:</strong> Tabela passo a passo com $x$, $y_{num}$, $y_{exato}$ e erro relativo, além de gráfico comparativo entre curva teórica e numérica.</li>
-<li><strong>O que precisa ter:</strong> Função derivada $f(x, y)$, condição inicial $(x_0, y_0)$, passo $h$ e limite superior $x_f$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>PVI clássico de Chapra: $y' = -2x^3 + 12x^2 - 20x + 8{,}5$, $y(0) = 1{,}0$, intervalo $[0, 4]$, passo $h = 0{,}5$.</li>
-<li>No primeiro passo ($x = 0{,}5$): Euler calcula <strong>$y(0{,}5) = 5{,}2500$</strong> (solução exata: $y = 3{,}21875$).</li>
-</ul>
-<hr />
-<h3 id="52-euler-implicito-com-solucao-nao-linear-via-newton-raphson">5.2 Euler Implícito com Solução Não Linear via Newton-Raphson</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="equacoes_diferenciais/euler_implicito_newton.m"><code>equacoes_diferenciais/euler_implicito_newton.m</code></a></li>
-<li><strong>O que calcula:</strong> Avalia a derivada no ponto futuro $x_{i+1}$:<br />
-  $$y_{i+1} = y_i + h \cdot f(x_{i+1}, y_{i+1})$$<br />
-  Para resolver a equação algébrica implícita $G(u) = u - y_i - h \cdot f(x_{i+1}, u) = 0$, executa iterações de Newton-Raphson a cada passo:<br />
-  $$u^{(k+1)} = u^{(k)} - \frac{G(u^{(k)})}{1 - h \cdot \frac{\partial f}{\partial y}(x_{i+1}, u^{(k)})}$$<br />
-  Método incondicionalmente estável ($A$-estável), imune a oscilações divergentes em equações rígidas (<em>stiff</em>).</li>
-<li><strong>O que entrega:</strong> Malha de integração temporal, convergência interna do resíduo não linear $(&lt; 10^{-10})$ e curvas gráficas estilizadas.</li>
-<li><strong>O que precisa ter:</strong> Função $f(x, y)$, derivada parcial $\frac{\partial f}{\partial y}(x, y)$, condição inicial e passo $h$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>PVI não linear: $y' = 5(1 - y^2)$, $y(0) = 0$, domínio $[0, 1]$ com $h = 0{,}05$.</li>
-<li>Em $x = 0{,}05$: convergência atingida em 3 iterações internas de Newton resultando em <strong>$y(0{,}05) \approx 0{,}236068$</strong> (analítico exato: $\tanh(0{,}25) \approx 0{,}244919$).</li>
-</ul>
-<hr />
-<h3 id="53-runge-kutta-de-2a-ordem-metodo-de-heun-escalar">5.3 Runge-Kutta de 2ª Ordem (Método de Heun Escalar)</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="equacoes_diferenciais/rk2_individual.m"><code>equacoes_diferenciais/rk2_individual.m</code></a></li>
-<li><strong>O que calcula:</strong> Esquema preditor-corretor de segunda ordem ($O(h^2)$):<br />
-  $$k_1 = f(x_i, y_i)$$<br />
-  $$y_{pred} = y_i + h \cdot k_1$$<br />
-  $$k_2 = f(x_i + h, y_{pred})$$<br />
-  $$y_{i+1} = y_i + \frac{h}{2}(k_1 + k_2)$$</li>
-<li><strong>O que entrega:</strong> Tabela comparativa precisa, solução refinada em relação a Euler e gráfico estilizado.</li>
-<li><strong>O que precisa ter:</strong> Função escalar $f(x, y)$, ponto inicial e passo $h$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>PVI: $y' = -2y + 4x$, com $y(0) = 1$, $h = 0{,}1$ em $[0, 2]$. Solução exata: $y(x) = 2x - 1 + 2e^{-2x}$.</li>
-<li>Em $x = 0{,}1$: <strong>$y(0{,}1) = 0{,}840000$</strong> (solução exata: $0{,}837462$), erro relativo de apenas $0{,}30\%$.</li>
-</ul>
-<hr />
-<h3 id="54-runge-kutta-2-heun-para-sistema-acoplado-de-2-edos">5.4 Runge-Kutta 2 (Heun) para Sistema Acoplado de 2 EDOs</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="equacoes_diferenciais/rk2_heun_sistema.m"><code>equacoes_diferenciais/rk2_heun_sistema.m</code></a></li>
-<li><strong>O que calcula:</strong> Integra simultaneamente duas variáveis dependentes acopladas:<br />
-  $$\begin{cases} \frac{dy}{dx} = f(x, y, z), &amp; y(x_0) = y_0 \ \frac{dz}{dx} = g(x, y, z), &amp; z(x_0) = z_0 \end{cases}$$</li>
-<li><strong>O que entrega:</strong> Evolução temporal das duas variáveis em gráfico conjunto e tabela de estados em cada nó da malha.</li>
-<li><strong>O que precisa ter:</strong> Duas funções anônimas $f(x, y, z)$ e $g(x, y, z)$, condições iniciais $y_0, z_0$ e passo $h$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Sistema teste: $y' = -y + z$, $z' = y - 2z + x$, com $y(0) = 0{,}5$, $z(0) = 1{,}0$ e $h = 0{,}1$.</li>
-<li>No nó $x = 0{,}1$: <strong>$y(0{,}1) = 0{,}458000$</strong> e <strong>$z(0{,}1) = 1{,}107250$</strong>.</li>
-</ul>
-<hr />
-<h2 id="6-series-de-funcoes-e-aproximacoes-polinomiais">6. Séries de Funções e Aproximações Polinomiais</h2>
-<ul>
-<li><strong>Arquivo:</strong> <a href="series_aproximacoes/taylor_cosseno.m"><code>series_aproximacoes/taylor_cosseno.m</code></a></li>
-<li><strong>O que calcula:</strong> Expansão em Série de Maclaurin para o cosseno em torno da origem ($x_0 = 0$):<br />
-  $$\cos(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n} = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \dots$$<br />
-  A alternância de sinais é tratada de forma estrita via $(-1)^n$ ou paridade do índice <code>mod(n, 2) == 0</code>.</li>
-<li><strong>O que entrega:</strong> Tabela com contribuição individual de cada monômio, somatório acumulado e decaimento exponencial do erro relativo.</li>
-<li><strong>O que precisa ter:</strong> Ângulo $x$ (radianos) e quantidade de termos da série.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Avaliação para $x = \pi/3$ radianos ($60^\circ$) com $N = 6$ termos ($n = 0, \dots, 5$, grau polinomial até 10):<ul>
-<li>Termo $n=0$: $+1{,}000000000000000$ (Erro = $100{,}0\%$)</li>
-<li>Termo $n=1$: $-0{,}548311355616076 \implies \text{Soma} = 0{,}451688644383924$ (Erro = $9{,}66\%$)</li>
-<li>Termo $n=2$: $+0{,}050181517700207 \implies \text{Soma} = 0{,}501870162084131$ (Erro = $0{,}37\%$)</li>
-<li>Termo $n=3$: $-0{,}001886162391062 \implies \text{Soma} = 0{,}499984000305886$ (Erro = $0{,}003\%$)</li>
-<li>Termo $n=4$: $+0{,}000016027104036 \implies \text{Soma} = 0{,}500000027409922$ (Erro = $5{,}48 \times 10^{-6}\%$)</li>
-<li>Termo $n=5$: $-0{,}000000027414872 \implies \text{Soma} = \mathbf{0{,}499999999995050}$ (Erro = $9{,}89 \times 10^{-10}\%$, valor teórico exato $= 0{,}5$).</li>
-</ul>
-</li>
-</ul>
-<hr />
-<h2 id="7-processamento-de-sinais-e-metricas-estatisticas">7. Processamento de Sinais e Métricas Estatísticas</h2>
-<ul>
-<li><strong>Arquivo:</strong> <a href="processamento_sinais/gerador_sinais_rms.m"><code>processamento_sinais/gerador_sinais_rms.m</code></a></li>
-<li><strong>Arquivo de Dados:</strong> <a href="processamento_sinais/workspace_senoide_exemplo.mat"><code>processamento_sinais/workspace_senoide_exemplo.mat</code></a></li>
-<li><strong>O que calcula:</strong> Síntese temporal e métricas harmônicas fundamentais de três sinais:</li>
-<li>Senoide com offset: $x(t) = V_{dc} + A \sin(2\pi f t)$</li>
-<li>Onda Quadrada: $x(t) = V_{dc} + A \cdot \text{sgn}(\sin(2\pi f t))$</li>
-<li>Onda Triangular Simétrica: $x(t) = V_{dc} + A \cdot \text{sawtooth}(2\pi f t, 0{,}5)$</li>
-</ul>
-<p>Métricas calculadas por integração discreta:<br />
-  $$V_{médio} = \frac{1}{N} \sum_{i=1}^N x_i, \quad V_{rms} = \sqrt{\frac{1}{N} \sum_{i=1}^N x_i^2}$$<br />
-- <strong>O que entrega:</strong> Quatro gráficos estilizados com sinal no tempo, linhas de valor médio e RMS, além de tabela confrontando os valores medidos com os limites teóricos analíticos ($V_{rms} = \sqrt{V_{dc}^2 + A^2/2}$ para senoide; $\sqrt{V_{dc}^2 + A^2}$ para quadrada; $\sqrt{V_{dc}^2 + A^2/3}$ para triangular).<br />
-- <strong>O que precisa ter:</strong> Configuração de frequência $f$, amplitude $A$, nível DC $V_{dc}$ e taxa de amostragem respeitando o Teorema de Nyquist ($f_s \gg 2f$).<br />
-- <strong>Recuperação de Dados Salvos:</strong><br />
-<code>octave
-  load('processamento_sinais/workspace_senoide_exemplo.mat');
-  whos; % Exibe Senoide, t, Amplitude_Sinal, Frequencia_Sinal, etc.
-  plot(t, Senoide); grid on;</code></p>
-<hr />
-<h2 id="8-fisico-quimica-e-modelagem-molecular">8. Físico-Química e Modelagem Molecular</h2>
-<h3 id="81-equacao-de-born-mayer-para-energia-reticular">8.1 Equação de Born-Mayer para Energia Reticular</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="fisico_quimica/born_mayer_energia_reticular.m"><code>fisico_quimica/born_mayer_energia_reticular.m</code></a></li>
-<li><strong>O que calcula:</strong> A energia de ligação termodinâmica de uma rede cristalina iônica, combinando atração de Coulomb e repulsão quântica de Pauli:<br />
-  $$U = -\frac{N_A \cdot M \cdot |z_+ z_-| \cdot e^2}{4\pi \varepsilon_0 r_0} \left( 1 - \frac{\rho}{r_0} \right)$$</li>
-<li><strong>O que entrega:</strong> Balanço energético molar em kJ/mol, raio interiônico de equilíbrio $r_0$ e decomposição entre termos atrativos e repulsivos.</li>
-<li><strong>O que precisa ter:</strong> Cargas iônicas $z_+, z_-$, constante de Madelung $M$, raios iônicos dos cátions e ânions e parâmetro $\rho$ de compressibilidade.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Cristal de Cloreto de Sódio (NaCl): $z_+ = +1$, $z_- = -1$, $M = 1{,}74756$, raios $r_{Na^+} = 102$ pm, $r_{Cl^-} = 181$ pm ($r_0 = 283$ pm), $\rho = 34{,}5$ pm.</li>
-<li>Resultado numérico calculado: <strong>$U \approx -753{,}35$ kJ/mol</strong>.</li>
-</ul>
-<hr />
-<h3 id="82-momento-magnetico-e-susceptibilidade-molar">8.2 Momento Magnético e Susceptibilidade Molar</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="fisico_quimica/susceptibilidade_magnetica.m"><code>fisico_quimica/susceptibilidade_magnetica.m</code></a></li>
-<li><strong>O que calcula:</strong> Momento magnético de spin puro ($\mu_{so}$) e susceptibilidade paramagnética molar pela Lei de Curie:<br />
-  $$\mu_{so} = \sqrt{n(n + 2)} \, [\mu_B], \quad \chi_M = \frac{(\mu_{so} / 2{,}84)^2}{T} \, [\text{cm}^3/\text{mol}]$$</li>
-<li><strong>O que entrega:</strong> Momento em Magnetons de Bohr ($\mu_B$), número quântico de spin total $S = n/2$, multiplicidade $(2S + 1)$ e $\chi_M$ na temperatura especificada.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Para $n = 4$ elétrons desemparelhados ($\text{Fe}^{2+}$ $d^6$ spin alto) a $T = 298{,}15$ K:</li>
-<li><strong>$\mu_{so} = \sqrt{24} \approx 4{,}898979 \, \mu_B$</strong>, <strong>$\chi_M \approx 0{,}009980 \, \text{cm}^3/\text{mol}$</strong>.</li>
-</ul>
-<hr />
-<h3 id="83-determinacao-do-numero-de-eletrons-desemparelhados">8.3 Determinação do Número de Elétrons Desemparelhados</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="fisico_quimica/eletrons_desemparelhados.m"><code>fisico_quimica/eletrons_desemparelhados.m</code></a></li>
-<li><strong>O que calcula:</strong> Resolve o problema inverso da magnetoquímica: dado $\chi_M$ e $T$, determina as raízes do polinômio de segundo grau:<br />
-  $$n^2 + 2n - (8{,}0656 \cdot \chi_M \cdot T) = 0$$</li>
-<li><strong>O que entrega:</strong> Raízes do polinômio via comando nativo <code>roots</code>, selecionando a raiz física positiva e descartando a raiz espúria negativa.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Entrada: $\chi_M = 3{,}33 \times 10^{-2} \, \text{cm}^3/\text{mol}$ a $T = 298{,}15$ K.</li>
-<li>Raízes obtidas: $n_1 \approx +8{,}004$ e $n_2 \approx -10{,}004 \implies$ <strong>$n = 8$ elétrons desemparelhados</strong>.</li>
-</ul>
-<hr />
-<h2 id="9-farmacocinetica-e-modelagem-compartimental">9. Farmacocinética e Modelagem Compartimental</h2>
-<p>Modelagem temporal da concentração de fármacos sob regimes posológicos de doses repetidas com taxa horária de decaimento:<br />
-$$C(t + 1) = C(t) - \frac{C(t)}{2 \cdot t_{1/2}} + \Delta_{entrada}$$</p>
-<h3 id="91-doses-repetidas-em-bolus-instantaneo">9.1 Doses Repetidas em Bolus Instantâneo</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="farmacocinetica/concentracao_dose_instantanea.m"><code>farmacocinetica/concentracao_dose_instantanea.m</code></a></li>
-<li><strong>O que calcula:</strong> Cinética de injeções periódicas rápidas sem absorção preliminar. Aplica filtro de média móvel para quantificar a concentração do estado de equilíbrio (<em>steady-state</em>).</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Parâmetros: $\text{Dose} = 250$ mg, intervalo $\tau = 48$ h, meia-vida $t_{1/2} = 168$ h (7 dias), simulação por 3600 h.</li>
-<li>Razão $\tau / t_{1/2} = 0{,}2857$; <strong>Concentração média no platô $\approx 1749{,}5$ mg/L</strong>; <strong>Fator de acúmulo $R \approx 7{,}00$ vezes a dose</strong>.</li>
-</ul>
-<hr />
-<h3 id="92-doses-multiplas-com-cinetica-de-absorcao">9.2 Doses Múltiplas com Cinética de Absorção</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="farmacocinetica/concentracao_com_absorcao.m"><code>farmacocinetica/concentracao_com_absorcao.m</code></a></li>
-<li><strong>O que calcula:</strong> Simula a transferência gradual de um compartimento de depósito (gastrointestinal/intramuscular) para o plasma com constante de absorção contínua $k_a$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Parâmetros: $\text{Dose} = 100$ mg, taxa de absorção $k_a = 1/24 \, \text{h}^{-1}$, $\tau = 96$ h, $t_{1/2} = 168$ h, duração 90 dias.</li>
-<li><strong>Concentração média no platô $\approx 349{,}96$ mg/L</strong>; <strong>Fator de acúmulo $\approx 3{,}50$</strong>.</li>
-</ul>
-<hr />
-<h3 id="93-estudo-parametrico-intervalo-meia-vida">9.3 Estudo Paramétrico Intervalo / Meia-Vida</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="farmacocinetica/estudo_intervalo_meia_vida.m"><code>farmacocinetica/estudo_intervalo_meia_vida.m</code></a></li>
-<li><strong>O que calcula:</strong> Varre sistematicamente 10 valores de intervalo de administração $\tau$, correlacionando a razão adimensional $r = \tau / t_{1/2}$ com o fator de acúmulo no platô em regime estacionário:<br />
-  $$R_{teorico}(r) = \frac{2}{r}$$</li>
-<li><strong>O que entrega:</strong> Gráfico paramétrico confrontando simulações discretas de 120 dias com a curva hiperbólica teórica contínua.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Para $r = 0{,}25 \implies$ acúmulo massivo de <strong>$8 \times$ a dose</strong>.</li>
-<li>Para $r = 1{,}00 \implies$ acúmulo de <strong>$2 \times$ a dose</strong>.</li>
-<li>Para $r = 2{,}00 \implies$ acúmulo de <strong>$1 \times$ a dose</strong>.</li>
-</ul>
-<hr />
-<h2 id="10-utilitarios-conversoes-e-visualizacao-grafica">10. Utilitários, Conversões e Visualização Gráfica</h2>
-<h3 id="101-conversor-de-unidades-si-para-imperial">10.1 Conversor de Unidades SI para Imperial</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="utilitarios/conversao_si_imperial.m"><code>utilitarios/conversao_si_imperial.m</code></a></li>
-<li><strong>O que calcula:</strong> Converte grandezas de massa e comprimento pelo Acordo Internacional da Jarda e Libra de 1959 ($1 \text{ lb} = 0{,}45359237 \text{ kg}$; $1 \text{ in} = 0{,}0254 \text{ m}$):<br />
-  $$1 \text{ kg} \approx 2{,}204623 \text{ lb}, \quad 1 \text{ m} \approx 39{,}370079 \text{ in} \approx 3{,}280840 \text{ ft}$$</li>
-<li><strong>Modos de Operação:</strong></li>
-<li>Como função estruturada no workspace:<br />
-<code>octave
-    res = conversao_si_imperial(80.0, 1.82);
-    % Retorna: res.massa_libras = 176.37 lb; res.comprimento_polegadas = 71.65 in (5 ft 11.65 in)</code></li>
-<li>Como script autônomo interativo: execute <code>conversao_si_imperial</code> para ver o relatório completo no console.</li>
-</ul>
-<hr />
-<h3 id="102-algebra-linear-precedencia-e-condicionamento">10.2 Álgebra Linear, Precedência e Condicionamento</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="utilitarios/operacoes_matrizes.m"><code>utilitarios/operacoes_matrizes.m</code></a></li>
-<li><strong>O que calcula:</strong> Avalia expressões aritméticas encadeadas com raízes e potências fracionárias, gera matriz quadrada aleatória inteira $6 \times 6$, calcula transposta, determinante, número de condicionamento $\kappa(M)$ e inversão formal $M^{-1}$.</li>
-<li><strong>Exemplo e Resultado Esperado:</strong></li>
-<li>Questão 1A: $F_A \approx 3415520{,}4578$.</li>
-<li>Questão 1B: $F_B \approx 26873860{,}7620$.</li>
-<li>Erro residual de inversão: $|M \cdot M^{-1} - I| &lt; 10^{-14}$ (precisão de máquina IEEE 754).</li>
-</ul>
-<hr />
-<h3 id="103-visualizador-didatico-de-funcoes">10.3 Visualizador Didático de Funções</h3>
-<ul>
-<li><strong>Arquivo:</strong> <a href="utilitarios/plotar_funcao.m"><code>utilitarios/plotar_funcao.m</code></a></li>
-<li><strong>O que calcula:</strong> Constrói gráficos cartesianos de alta definição com eixos coordenados, vértices assinalados e relatórios analíticos para duas funções clássicas de engenharia:</li>
-<li>Catenária de linha de transmissão: $f(x) = 211{,}50 - 30{,}38 \cosh(x / 30{,}38)$</li>
-<li>Polinômio de Legendre de grau 5: $f(x) = x^5 - \frac{10}{9}x^3 + \frac{5}{21}x$</li>
-</ul>
-<hr />
-<h2 id="guia-fundamental-de-boas-praticas-numericas">Guia Fundamental de Boas Práticas Numéricas</h2>
-<h3 id="1-condicionamento-matricial-e-sensibilidade-a-perturbacoes">1. Condicionamento Matricial e Sensibilidade a Perturbações</h3>
-<p>Antes de confiar na solução de um sistema $Ax = b$, avalie o <strong>Número de Condicionamento</strong>:<br />
-$$\kappa(A) = |A| \cdot |A^{-1}|$$<br />
-- Se $\kappa(A) \approx 1$, a matriz é dita <strong>bem-condicionada</strong>.<br />
-- Se $\kappa(A) \gg 10^k$, o sistema é <strong>mal-condicionado</strong>, e você pode perder até $k$ dígitos significativos de precisão decimal na solução devido à propagação de erros de arredondamento.<br />
-- Sempre adote algoritmos com <strong>pivoteamento parcial</strong> para evitar divisões por elementos quase nulos.</p>
-<h3 id="2-aritmetica-de-ponto-flutuante-ieee-754">2. Aritmética de Ponto Flutuante IEEE 754</h3>
-<p>Em variáveis de precisão dupla (<em>double precision</em>), números reais são armazenados com 64 bits (53 bits de mantissa):<br />
-- Épsilon de máquina: $\varepsilon_{mach} = 2^{-52} \approx 2{,}2204 \times 10^{-16}$.<br />
-- <strong>Cancelamento Catastrófico:</strong> Evite subtrair dois números de grandezas quase idênticas ($a - b$ quando $a \approx b$), pois os dígitos mais significativos se cancelam, restando apenas ruído numérico na mantissa.</p>
-<h3 id="3-tolerancia-relativa-vs-tolerancia-absoluta">3. Tolerância Relativa vs. Tolerância Absoluta</h3>
-<ul>
-<li><strong>Tolerância Absoluta ($|f(x)| &lt; \text{tol}$):</strong> Mede o quão próximo de zero está o resíduo da equação. Pode ser enganosa quando a derivada da função na raiz é muito acentuada ou muito suave.</li>
-<li><strong>Tolerância Relativa ($\frac{|x_{k+1} - x_k|}{|x_{k+1}|} &lt; \text{tol}$):</strong> Mede a estabilização das coordenadas da solução independente da escala de grandeza do problema.</li>
-<li>Os algoritmos deste repositório combinam ambos os critérios para assegurar encerramento robusto.</li>
-</ul>
-<h3 id="4-amostragem-temporal-e-teorema-de-nyquist-shannon">4. Amostragem Temporal e Teorema de Nyquist-Shannon</h3>
-<p>Ao discretizar sinais contínuos ou resolver osciladores:<br />
-$$f_{amostragem} &gt; 2 \cdot f_{max}$$<br />
-Para obter curvas suaves sem distorção visual ou serrilhamento (<em>aliasing</em>), utilize taxas práticas entre $10 \times$ e $20 \times$ a maior componente harmônica.</p>
-<h3 id="5-estabilidade-em-equacoes-diferenciais-problemas-rigidos-stiff">5. Estabilidade em Equações Diferenciais (Problemas Rígidos / <em>Stiff</em>)</h3>
-<ul>
-<li>Métodos explícitos (como Euler Explícito) impõem restrições severas ao passo de integração: $|1 + h\lambda| \le 1$. Se $h &gt; 2/|\lambda|$, o método diverge exponencialmente para o infinito.</li>
-<li>Para sistemas rígidos com constantes de decaimento rápidas, utilize sempre formulações implícitas, como o <strong>Euler Implícito</strong> (<code>euler_implicito_newton.m</code>), cuja região de estabilidade cobre todo o semiplano complexo negativo.</li>
-</ul>
-<hr />
-<h2 id="historico-de-correcoes-criticas-da-refatoracao">Histórico de Correções Críticas da Refatoração</h2>
-<p>Durante o processo de auditoria e refatoração arquitetural, foram eliminadas inconsistências históricas presentes nos códigos originais:</p>
-<table>
-<thead>
-<tr>
-<th>Arquivo / Módulo</th>
-<th>Problema Identificado na Versão Legada</th>
-<th>Correção Implementada e Validada</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>falsa_posicao.m</code></td>
-<td>Avaliações $f(a)$ e $f(b)$ ocorriam uma única vez antes do laço, violando a atualização da reta secante. O cálculo de erro usava a fórmula da bisseção.</td>
-<td>Recálculo dinâmico estrito de $f(a)$ e $f(b)$ a cada iteração; erro avaliado pela variação da raiz estimada $|x_k - x_{k-1}|$.</td>
-</tr>
-<tr>
-<td><code>gauss_pivoteamento.m</code></td>
-<td>Indexação incorreta da diagonal no termo final: <code>x(n) = b(n)/A(n/n)</code> $\implies A(1)$.</td>
-<td>Correção de coordenadas bidimensionais para <code>A(n,n)</code> e pivoteamento parcial integral com vetor de permutação.</td>
-</tr>
-<tr>
-<td><code>gauss_jordan.m</code></td>
-<td>O algoritmo não realizava o pivoteamento ao trocar linhas com pivô nulo, forçando sempre a linha 1.</td>
-<td>Implementação completa de pivoteamento com busca do pivô máximo e normalização unitária por linha.</td>
-</tr>
-<tr>
-<td><code>diferenca_progressiva_3pontos.m</code></td>
-<td>Expressão continha erro de precedência <code>/2*h</code> (que multiplicava por $h$ em vez de dividir por $2h$).</td>
-<td>Expressão corrigida para <code>/ (2 * h)</code> com encapsulamento de rotina e dados de teste independentes.</td>
-</tr>
-<tr>
-<td><code>taylor_cosseno.m</code></td>
-<td>Condição de alternância de sinal <code>if (i/2 == 0)</code> só resultava verdadeiro para $i = 0$, corrompendo os termos subsequentes.</td>
-<td>Substituição rigorosa por operador de paridade <code>mod(n, 2) == 0</code> e termo analítico $(-1)^n$.</td>
-</tr>
-<tr>
-<td><code>concentracao_com_absorcao.m</code></td>
-<td>Utilizava a variável inexistente <code>horasmedia</code> na linha final, gerando interrupção de execução por erro de escopo.</td>
-<td>Substituição consistente pela variável configurável <code>janela_media_movel_horas</code>.</td>
-</tr>
-<tr>
-<td><code>gerador_sinais_rms.m</code></td>
-<td>Amostragem incorreta configurada como $e^9$, gerando aliasing severo; tentativa de RMS de serra em script separado que gerava escalar único.</td>
-<td>Síntese unificada de 3 ondas fundamentais em conformidade estrita com o Teorema de Nyquist e cálculo analítico de RMS.</td>
-</tr>
-<tr>
-<td><code>conversao_si_imperial.m</code></td>
-<td>Fatores de conversão digitados com vírgula decimal (<code>2,205</code> e <code>39,37</code>), interpretados pelo interpretador como vetores de 2 elementos.</td>
-<td>Padronização numérica internacional com ponto decimal (<code>2.20462</code> e <code>39.37007</code>) e interface dual script/função.</td>
-</tr>
-<tr>
-<td><code>newton_raphson.m</code> e <code>secante.m</code></td>
-<td>Denominador da tolerância relativa não utilizava valor absoluto, gerando erros para raízes negativas. Falta de valor padrão se esgotasse $i_{max}$.</td>
-<td>Inclusão de <code>abs()</code> no denominador de todos os critérios de parada e inicialização segura de variáveis de retorno.</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="guia-sintatico-octave-vs-matlab">Guia Sintático Octave vs. MATLAB</h2>
-<p>Se você estiver alternando entre o GNU Octave e o MathWorks MATLAB, atente-se às equivalências sintáticas:</p>
-<table>
-<thead>
-<tr>
-<th>Recurso Sintático</th>
-<th>GNU Octave (Recomendado)</th>
-<th>MathWorks MATLAB</th>
-<th>Observações</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Fechamento de Blocos</strong></td>
-<td><code>endfor</code>, <code>endif</code>, <code>endfunction</code>, <code>end</code></td>
-<td>Apenas <code>end</code></td>
-<td>O Octave aceita ambas as formas; o MATLAB rejeita <code>endif</code>/<code>endfor</code>.</td>
-</tr>
-<tr>
-<td><strong>Operadores Incrementais</strong></td>
-<td><code>i++</code>, <code>x += 1</code>, <code>x -= 2</code></td>
-<td><code>i = i + 1</code>, <code>x = x + 1</code></td>
-<td>Incrementos rápidos estilo C são exclusivos do Octave.</td>
-</tr>
-<tr>
-<td><strong>Comentários de Bloco/Linha</strong></td>
-<td><code>%</code> ou <code>##</code></td>
-<td>Apenas <code>%</code></td>
-<td>Use <code>%</code> para compatibilidade total universal.</td>
-</tr>
-<tr>
-<td><strong>Impressão Formatada</strong></td>
-<td><code>printf(...)</code> ou <code>fprintf(...)</code></td>
-<td>Apenas <code>fprintf(...)</code></td>
-<td><code>fprintf</code> funciona de forma idêntica em ambos os ambientes.</td>
-</tr>
-<tr>
-<td><strong>Constante de Euler</strong></td>
-<td><code>e</code> (nativo) ou <code>exp(1)</code></td>
-<td>Apenas <code>exp(1)</code></td>
-<td>No MATLAB, <code>e</code> é tratado como variável indefinida.</td>
-</tr>
-<tr>
-<td><strong>Aspas em Cadeias de Texto</strong></td>
-<td><code>"texto"</code> ou <code>'texto'</code></td>
-<td>Prefira <code>'texto'</code> (char array)</td>
-<td>Em versões antigas do MATLAB, aspas duplas exigem suporte a <code>string</code>.</td>
-</tr>
-<tr>
-<td><strong>Carregamento de Pacotes</strong></td>
-<td><code>pkg load signal</code></td>
-<td>Automático pela licença</td>
-<td>No MATLAB as Toolboxes são carregadas nativamente na inicialização.</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="autoria-e-licenca">Autoria e Licença</h2>
-<ul>
-<li><strong>Autor Original:</strong> Davi Monteiro Alves</li>
-<li><strong>Engenharia e Refatoração Científica:</strong> Arquitetura de Software Científico e Métodos Numéricos</li>
-<li><strong>Licença:</strong> MIT — Livre para uso acadêmico, científico e comercial com preservação de autoria.</li>
-</ul>
-<hr />
+      <div class="decision-tree-body">
+        <div id="decisionTreeModalHost"></div>
+      </div>
+    </div>
   </div>
+
+  <!-- SCRIPTS DO MOTOR NUMÉRICO, CATÁLOGO E ÁRVORE DE DECISÃO -->
+  <script src="./assets/catalog.js"></script>
+  <script src="./assets/engine.js"></script>
+  <script src="./assets/decision_tree.js"></script>
+
+  <!-- CONTROLADOR PRINCIPAL DA APLICAÇÃO -->
+  <script>
+    let engine = null;
+    let decisionTreeInstance = null;
+    let currentMethodKey = 'newton-raphson';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Inicializar o Motor Matemático e Canvas CRT
+      if (typeof window.NumericalEngineAPI !== 'undefined') {
+        engine = new window.NumericalEngineAPI('crtCanvas', {
+          onTick: updateTelemetryHUD,
+          onMethodLoaded: syncMethodMetadata
+        });
+      }
+
+      // 2. Inicializar a Árvore de Decisão Interativa dentro do Modal
+      if (typeof window.DecisionTreeComponent !== 'undefined') {
+        decisionTreeInstance = new window.DecisionTreeComponent('#decisionTreeModalHost', {
+          onSelectAlgorithm: (slug, algo) => {
+            selectMethod(slug);
+            toggleDecisionModal();
+          }
+        });
+      }
+
+      // 3. Ouvinte global para seleção de métodos
+      window.addEventListener('select-algorithm', (e) => {
+        if (e.detail && e.detail.slug) {
+          selectMethod(e.detail.slug);
+        }
+      });
+
+      // 4. Carregar método inicial ou ler da URL (#slug)
+      const hashSlug = window.location.hash.replace('#', '').trim();
+      const initialSlug = hashSlug || 'newton-raphson';
+      selectMethod(initialSlug);
+
+      // 5. Iniciar Relógio de Ciclo Tático
+      initCycleClock();
+
+      // 6. Renderizar notações KaTeX
+      renderMathNotation();
+    });
+
+    // MAPA DE COMPATIBILIDADE SLUG -> ENGINE KEY
+    const slugToEngineMap = {
+      'newton-raphson': 'newton',
+      'bissecao': 'bissecao',
+      'secante': 'secante',
+      'falsa-posicao': 'falsa_posicao',
+      'ponto-fixo': 'ponto_fixo',
+      'gauss-pivoteamento': 'gauss_pivoteamento',
+      'gauss-jordan': 'gauss_jordan',
+      'trapezio-composto': 'trapezio_composto',
+      'simpson-13-composto': 'simpson_13_composto',
+      'euler-explicito': 'euler_explicito',
+      'euler-implicito-newton': 'euler_implicito',
+      'rk2-individual': 'rk2_heun',
+      'rk2-heun-sistema': 'rk2_heun'
+    };
+
+    // SELEÇÃO E TROCA DINÂMICA DE MÉTODO
+    function selectMethod(slug) {
+      currentMethodKey = slug;
+
+      // Atualiza destaque na barra lateral
+      document.querySelectorAll('.tree-node').forEach(node => {
+        node.classList.remove('active');
+      });
+      const activeNode = document.getElementById(`node-${slug}`);
+      if (activeNode) activeNode.classList.add('active');
+
+      // Busca dados do método no Catálogo Unificado
+      let meta = null;
+      if (window.NUMERICAL_CATALOG && typeof window.NUMERICAL_CATALOG.getMethod === 'function') {
+        meta = window.NUMERICAL_CATALOG.getMethod(slug);
+      }
+
+      // Atualiza Metadados da Interface
+      if (meta) {
+        document.getElementById('dispCode').textContent = meta.id.toUpperCase();
+        document.getElementById('dispName').textContent = meta.title.toUpperCase();
+        document.getElementById('dispFile').textContent = meta.filePath;
+        document.getElementById('dispOrder').textContent = meta.order;
+        document.getElementById('dispStability').textContent = meta.stability;
+
+        // Fórmulas
+        document.getElementById('dispFormula').innerHTML = `$$${meta.formulaTex}$$`;
+        document.getElementById('dispFormulaSub').innerHTML = `<strong>O que precisa ter:</strong> ${meta.inputs} <br><strong>O que entrega:</strong> ${meta.outputs}`;
+
+        // Código Octave com Syntax Highlighting
+        document.getElementById('codeEditorBody').innerHTML = meta.code;
+
+        // Atualiza URL hash sem recarregar
+        if (history.replaceState) {
+          history.replaceState(null, '', `#${slug}`);
+        }
+      }
+
+      // Conecta ao motor de simulação gráfica
+      const engineKey = slugToEngineMap[slug] || 'newton';
+      if (engine && engine.loadMethod) {
+        engine.loadMethod(engineKey);
+      }
+
+      renderMathNotation();
+    }
+
+    // ATUALIZAÇÃO DA TELEMETRIA HUD CONFORME OS PASSOS AVANÇAM
+    function updateTelemetryHUD(data) {
+      if (!data) return;
+
+      if (data.x !== undefined) {
+        document.getElementById('hudX').textContent = typeof data.x === 'number' ? data.x.toFixed(10) : data.x;
+      }
+      if (data.fx !== undefined) {
+        document.getElementById('hudFx').textContent = typeof data.fx === 'number' ? data.fx.toExponential(6) : data.fx;
+      }
+      if (data.delta !== undefined) {
+        document.getElementById('hudDelta').textContent = typeof data.delta === 'number' ? data.delta.toExponential(6) : data.delta;
+      }
+      if (data.step !== undefined && data.totalSteps !== undefined) {
+        document.getElementById('hudStep').textContent = `${String(data.step).padStart(2, '0')} / ${String(data.totalSteps).padStart(2, '0')}`;
+      }
+      if (data.status) {
+        document.getElementById('hudStatus').textContent = data.status.toUpperCase();
+      }
+      if (data.line) {
+        document.getElementById('hudActiveLine').textContent = data.line;
+      }
+
+      // Atualiza o slider de timeline
+      if (data.progress !== undefined) {
+        const slider = document.getElementById('timelineScrubber');
+        if (slider) slider.value = Math.round(data.progress * 100);
+      }
+
+      // Sincroniza a Tabela de Convergência
+      updateConvergenceTable(data);
+    }
+
+    // SINCRONIZAÇÃO DE METADADOS DO MÉTODO NO HEADER DO SIMULADOR
+    function syncMethodMetadata(methodData) {
+      if (!methodData) return;
+      const chLabel = document.getElementById('dispChannel');
+      if (chLabel && methodData.funcLabel) {
+        chLabel.textContent = `CANAL VETORIAL: ${methodData.funcLabel}`;
+      }
+      const btn = document.getElementById('btnPlayPause');
+      if (btn) btn.innerHTML = '<span>PAUSAR</span>';
+    }
+
+    // ATUALIZAÇÃO DA TABELA DE CONVERGÊNCIA
+    function updateConvergenceTable(data) {
+      if (!data || !data.steps) return;
+      const tbody = document.getElementById('tableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      data.steps.forEach((st, idx) => {
+        const tr = document.createElement('tr');
+        if (idx === data.step) tr.className = 'active-step';
+
+        const k = st.k !== undefined ? st.k : (idx + 1);
+        const xVal = st.x !== undefined ? st.x.toFixed(6) : (st.xm !== undefined ? st.xm.toFixed(6) : '&mdash;');
+        const fxVal = st.fx !== undefined ? st.fx.toExponential(4) : '&mdash;';
+        const dfxVal = st.dfx !== undefined ? st.dfx.toFixed(4) : (st.err !== undefined ? st.err.toExponential(4) : '&mdash;');
+        const xNextVal = st.xNext !== undefined ? st.xNext.toFixed(6) : '&mdash;';
+        const deltaVal = st.delta !== undefined ? st.delta.toExponential(4) : '&mdash;';
+
+        tr.innerHTML = `
+          <td>${String(k).padStart(2, '0')}</td>
+          <td>${xVal}</td>
+          <td>${fxVal}</td>
+          <td>${dfxVal}</td>
+          <td>${xNextVal}</td>
+          <td>${deltaVal}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // RELÓGIO DE CICLO HEXADECIMAL
+    function initCycleClock() {
+      const clockEl = document.getElementById('clockCycle');
+      let cycle = 0x8F4E;
+      setInterval(() => {
+        cycle = (cycle + 1) & 0xFFFF;
+        const hex = '0x' + cycle.toString(16).toUpperCase().padStart(4, '0');
+        if (clockEl) clockEl.textContent = `${hex} // 60 FPS`;
+      }, 1000);
+    }
+
+    // CONTROLES DE EXECUÇÃO DO SIMULADOR
+    function handlePlayPause() {
+      if (!engine) return;
+      engine.togglePlay();
+      const btn = document.getElementById('btnPlayPause');
+      btn.innerHTML = engine.isPlaying ? '<span>PAUSAR</span>' : '<span>EXECUTAR</span>';
+    }
+
+    function handleStepForward() {
+      if (engine) engine.stepForward();
+    }
+
+    function handleStepBack() {
+      if (engine) engine.stepBackward();
+    }
+
+    function handleReset() {
+      if (engine) engine.reset();
+    }
+
+    function handleSeek(val) {
+      if (engine) engine.seek(parseFloat(val));
+    }
+
+    function setSimSpeed(spd) {
+      if (engine) engine.setSpeed(spd);
+      document.querySelectorAll('.speed-btn').forEach(btn => btn.classList.remove('active'));
+      if (event && event.target) event.target.classList.add('active');
+    }
+
+    // FILTRAGEM INSTANTÂNEA DA BARRA LATERAL
+    function filterMethods(term) {
+      const q = term.toLowerCase().trim();
+      const nodes = document.querySelectorAll('.tree-node');
+      let visible = 0;
+      nodes.forEach(node => {
+        const match = node.textContent.toLowerCase().includes(q);
+        node.style.display = match ? 'flex' : 'none';
+        if (match) visible++;
+      });
+      document.getElementById('methodsCount').textContent = `${visible} ROTINAS`;
+    }
+
+    // CÓPIA DO SCRIPT EM OCTAVE
+    function copyActiveCode() {
+      let meta = null;
+      if (window.NUMERICAL_CATALOG && typeof window.NUMERICAL_CATALOG.getMethod === 'function') {
+        meta = window.NUMERICAL_CATALOG.getMethod(currentMethodKey);
+      }
+      const rawText = meta && meta.rawCode ? meta.rawCode : document.getElementById('codeEditorBody').innerText;
+      navigator.clipboard.writeText(rawText).then(() => {
+        const btn = document.querySelector('.btn-copy-code');
+        const orig = btn.textContent;
+        btn.textContent = 'COPIADO COM SUCESSO!';
+        setTimeout(() => { btn.textContent = orig; }, 1800);
+      });
+    }
+
+    // ALTERNADORES CRT SCANLINES & GLOW
+    function toggleCRT() {
+      document.body.classList.toggle('crt-off');
+      const btn = document.getElementById('btnToggleCRT');
+      btn.classList.toggle('active', !document.body.classList.contains('crt-off'));
+    }
+
+    function toggleGlow() {
+      document.body.classList.toggle('glow-off');
+      const btn = document.getElementById('btnToggleGlow');
+      btn.classList.toggle('active', !document.body.classList.contains('glow-off'));
+    }
+
+    // MODAIS DE VITRINE E ÁRVORE DE DECISÃO
+    function toggleCoverModal() {
+      document.getElementById('modalCover').classList.toggle('open');
+    }
+
+    function toggleDecisionModal() {
+      const modal = document.getElementById('modalDecision');
+      modal.classList.toggle('open');
+      if (modal.classList.contains('open') && decisionTreeInstance) {
+        setTimeout(() => {
+          if (decisionTreeInstance.renderTree) decisionTreeInstance.renderTree();
+        }, 100);
+      }
+    }
+
+    let isAltCover = false;
+    function toggleAlternativeCover() {
+      const img = document.querySelector('.cover-image-frame img');
+      const sub = document.getElementById('coverSubtitleText');
+      const btn = document.getElementById('btnAltCoverText');
+      if (!isAltCover) {
+        img.src = "./assets/capa-v2-ab-sintese-arcana.png";
+        sub.textContent = "CÓDICE ARCANO-COMPUTACIONAL // VARIAÇÃO AB (SÍNTESE ARCANA)";
+        btn.textContent = "VER CÓDICE DA VINCI (VARIAÇÃO B2 OFICIAL)";
+        isAltCover = true;
+      } else {
+        img.src = "./assets/capa.png";
+        sub.textContent = "CÓDICE ARCANO-COMPUTACIONAL // VARIAÇÃO B2 OFICIAL";
+        btn.textContent = "VER SÍNTESE ARCANA (VARIAÇÃO AB)";
+        isAltCover = false;
+      }
+    }
+
+    // ATALHOS DE TECLADO TÁTICOS
+    window.addEventListener('keydown', (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        handlePlayPause();
+      } else if (e.key === '[' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handleStepBack();
+      } else if (e.key === ']' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleStepForward();
+      } else if (e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+        handleReset();
+      } else if (e.key === 's' || e.key === 'S') {
+        toggleCRT();
+      } else if (e.key === 'g' || e.key === 'G') {
+        toggleGlow();
+      } else if (e.key === 'c' || e.key === 'C') {
+        toggleCoverModal();
+      } else if (e.key === 'd' || e.key === 'D') {
+        toggleDecisionModal();
+      } else if (e.key >= '1' && e.key <= '9') {
+        const hotkeySlugs = [
+          'newton-raphson', 'bissecao', 'secante', 'falsa-posicao', 'ponto-fixo',
+          'gauss-pivoteamento', 'gauss-jordan', 'trapezio-composto', 'simpson-13-composto'
+        ];
+        const idx = parseInt(e.key, 10) - 1;
+        if (hotkeySlugs[idx]) selectMethod(hotkeySlugs[idx]);
+      } else if (e.key === 'Escape') {
+        document.getElementById('modalCover').classList.remove('open');
+        document.getElementById('modalDecision').classList.remove('open');
+      }
+    });
+
+    // RENDERIZADOR KaTeX
+    function renderMathNotation() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+  </script>
 </body>
 </html>

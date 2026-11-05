@@ -1,0 +1,1003 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-11-05T00:00:00Z",
+  "repository": "/home/davi/repos/MetodosNumericos",
+  "totalRoutines": 25,
+  "totalCoreAlgorithms": 23,
+  "categories": [
+    {
+      "id": "raizes_equacoes",
+      "slug": "raizes_equacoes",
+      "label": "Raízes de Equações Não Lineares",
+      "description": "Algoritmos para localização e refino de raízes reais de equações não lineares f(x) = 0."
+    },
+    {
+      "id": "sistemas_lineares",
+      "slug": "sistemas_lineares",
+      "label": "Sistemas de Equações Lineares",
+      "description": "Métodos diretos para solução de sistemas lineares determinados Ax = b com pivoteamento e escalonamento."
+    },
+    {
+      "id": "integracao_numerica",
+      "slug": "integracao_numerica",
+      "label": "Integração Numérica",
+      "description": "Fórmulas de quadratura fechada de Newton-Cotes para avaliação de integrais definidas."
+    },
+    {
+      "id": "diferenciacao_numerica",
+      "slug": "diferenciacao_numerica",
+      "label": "Diferenciação Numérica",
+      "description": "Aproximação de derivadas por esquemas de diferenças finitas progressivas de alta ordem."
+    },
+    {
+      "id": "equacoes_diferenciais",
+      "slug": "equacoes_diferenciais",
+      "label": "Equações Diferenciais Ordinárias",
+      "description": "Integração temporal de Problemas de Valor Inicial (PVI) escalares, rígidos e sistemas acoplados."
+    },
+    {
+      "id": "series_aproximacoes",
+      "slug": "series_aproximacoes",
+      "label": "Séries e Aproximações Polinomiais",
+      "description": "Expansões analíticas em série de Taylor/Maclaurin para funções trigonométricas e transcendentais."
+    },
+    {
+      "id": "processamento_sinais",
+      "slug": "processamento_sinais",
+      "label": "Processamento de Sinais",
+      "description": "Síntese temporal de formas de onda periódicas e cálculo computacional de valores médios e eficazes (RMS)."
+    },
+    {
+      "id": "fisico_quimica",
+      "slug": "fisico_quimica",
+      "label": "Físico-Química e Magnetoquímica",
+      "description": "Modelagem quântica e termodinâmica de energia de rede cristalina e susceptibilidade magnética molar."
+    },
+    {
+      "id": "farmacocinetica",
+      "slug": "farmacocinetica",
+      "label": "Farmacocinética e Modelagem Compartimental",
+      "description": "Simulação computacional de regimes posológicos repetidos com e sem absorção e fatores de acúmulo."
+    },
+    {
+      "id": "utilitarios",
+      "slug": "utilitarios",
+      "label": "Utilitários e Operações Auxiliares",
+      "description": "Ferramentas de conversão de unidades físicas, análise espectral de matrizes e visualizadores gráficos."
+    }
+  ],
+  "algorithms": [
+    {
+      "id": "bissecao",
+      "slug": "bissecao",
+      "title": "Método da Bisseção",
+      "category": "raizes_equacoes",
+      "categoryLabel": "Raízes de Equações Não Lineares",
+      "filePath": "raizes_equacoes/bissecao.m",
+      "visualizerType": "scalar-root",
+      "isCoreAlgorithm": true,
+      "formulaTex": "x_{k+1} = \\frac{a_k + b_k}{2}, \\quad |e_k| \\le \\frac{b - a}{2^{k+1}}",
+      "order": "O(h) — Linear (fator assintótico de contração 1/2 por iteração)",
+      "stability": "Global no intervalo [a, b] se f(a) · f(b) < 0 (Teorema de Bolzano)",
+      "inputs": "Função contínua f(x), limites de intervalo inicial [a, b] com troca de sinal f(a)·f(b) < 0, tolerância de erro tolerância > 0, número máximo de iterações max_iter",
+      "outputs": "Tabela iterativa passo a passo (iteração, a, b, ponto médio x_k, f(x_k), limitante de erro), raiz aproximada final, resíduo pontual |f(x_k)|, contagem de ciclos",
+      "example": {
+        "problem": "f(x) = x^2 - e^{-x} = 0",
+        "interval": [
+          0.0,
+          1.0
+        ],
+        "tolerance": 0.0001,
+        "expectedRoot": 0.703491,
+        "iterations": 14,
+        "details": "Com f(0) = -1 < 0 e f(1) = 1 - 1/e ≈ 0.6321 > 0, atinge a raiz x ≈ 0.703491 em 14 iterações com erro <= 6.10e-5."
+      },
+      "defaultInputs": {
+        "f": "x^2 - exp(-x)",
+        "a": 0.0,
+        "b": 1.0,
+        "tol": 0.0001,
+        "maxIter": 50
+      },
+      "presetParams": {
+        "fLabel": "f(x) = x² - e^{-x}",
+        "target": 0.703491,
+        "xMin": -0.2,
+        "xMax": 1.2,
+        "yMin": -1.2,
+        "yMax": 1.0
+      },
+      "lineCount": 180
+    },
+    {
+      "id": "falsa-posicao",
+      "slug": "falsa-posicao",
+      "title": "Método da Falsa Posição (Regula Falsi)",
+      "category": "raizes_equacoes",
+      "categoryLabel": "Raízes de Equações Não Lineares",
+      "filePath": "raizes_equacoes/falsa_posicao.m",
+      "visualizerType": "scalar-root",
+      "isCoreAlgorithm": true,
+      "formulaTex": "x_k = \\frac{a_k f(b_k) - b_k f(a_k)}{f(b_k) - f(a_k)} = b_k - f(b_k) \\frac{b_k - a_k}{f(b_k) - f(a_k)}",
+      "order": "Linear / Superlinear assintótica (geralmente mais veloz que a bisseção)",
+      "stability": "Global no intervalo [a, b] garantida sob f(a) · f(b) < 0",
+      "inputs": "Função contínua f(x), intervalo inicial [a, b] com troca de sinal f(a)·f(b) < 0, tolerância de erro tolerância > 0, máximo de iterações permitidas",
+      "outputs": "Tabela de convergência com iteração, a, b, secante x_k, f(x_k), erro relativo entre passos sucessivos, raiz estimada e resíduo",
+      "example": {
+        "problem": "f(x) = x^2 - e^{-x} = 0",
+        "interval": [
+          0.0,
+          1.0
+        ],
+        "tolerance": 0.0001,
+        "expectedRoot": 0.703455,
+        "iterations": 5,
+        "details": "Interpolação linear que preserva a troca de sinal de Bolzano. Converge em 5 iterações para x ≈ 0.703455."
+      },
+      "defaultInputs": {
+        "f": "x^2 - exp(-x)",
+        "a": 0.0,
+        "b": 1.0,
+        "tol": 0.0001,
+        "maxIter": 50
+      },
+      "presetParams": {
+        "fLabel": "f(x) = x² - e^{-x}",
+        "target": 0.703455,
+        "xMin": -0.2,
+        "xMax": 1.2,
+        "yMin": -1.2,
+        "yMax": 1.0
+      },
+      "lineCount": 218
+    },
+    {
+      "id": "newton-raphson",
+      "slug": "newton-raphson",
+      "title": "Método de Newton-Raphson",
+      "category": "raizes_equacoes",
+      "categoryLabel": "Raízes de Equações Não Lineares",
+      "filePath": "raizes_equacoes/newton_raphson.m",
+      "visualizerType": "scalar-root",
+      "isCoreAlgorithm": true,
+      "formulaTex": "x_{k+1} = x_k - \\frac{f(x_k)}{f'(x_k)}",
+      "order": "O(h²) — Quadrática (dobra o número de dígitos significativos por iteração para raízes simples)",
+      "stability": "Local: requer chute inicial x_0 em bacia de atração favorável e |f'(x)| >= eps > 0; diverge se a tangente for quase horizontal",
+      "inputs": "Função f(x), derivada analítica f'(x), estimativa inicial x_0, tolerância de convergência tolerância, número máximo de iterações",
+      "outputs": "Tabela passo a passo (iteração, x_k, f(x_k), f'(x_k), x_{k+1}, erro absoluto e relativo), raiz final refinada, resíduo |f(x)|",
+      "example": {
+        "problem": "f(x) = x^3 + 3.8x^2 - 8.6x - 24.4 = 0",
+        "initialGuess": 4.0,
+        "tolerance": 1e-06,
+        "expectedRoot": 2.706938,
+        "iterations": 5,
+        "details": "Com f'(x) = 3x^2 + 7.6x - 8.6 e estimativa x_0 = 4.0, atinge precisão de 1e-6 na raiz x ≈ 2.706938 em apenas 5 ciclos."
+      },
+      "defaultInputs": {
+        "f": "x^3 + 3.8*x^2 - 8.6*x - 24.4",
+        "df": "3*x^2 + 7.6*x - 8.6",
+        "x0": 4.0,
+        "tol": 1e-06,
+        "maxIter": 50
+      },
+      "presetParams": {
+        "fLabel": "f(x) = x³ + 3.8x² - 8.6x - 24.4",
+        "target": 2.706938,
+        "xMin": 0.0,
+        "xMax": 5.0,
+        "yMin": -30.0,
+        "yMax": 70.0
+      },
+      "lineCount": 179
+    },
+    {
+      "id": "secante",
+      "slug": "secante",
+      "title": "Método da Secante",
+      "category": "raizes_equacoes",
+      "categoryLabel": "Raízes de Equações Não Lineares",
+      "filePath": "raizes_equacoes/secante.m",
+      "visualizerType": "scalar-root",
+      "isCoreAlgorithm": true,
+      "formulaTex": "x_{k+1} = x_k - f(x_k) \\frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}",
+      "order": "Superlinear: taxa de convergência α = (1 + √5)/2 ≈ 1.618 (Proporção Áurea)",
+      "stability": "Local: requer duas aproximações iniciais distintas x_0, x_1; dispensa derivada analítica mas falha se f(x_k) ≈ f(x_{k-1})",
+      "inputs": "Função contínua f(x), duas estimativas iniciais x_0 e x_1 (x_0 ≠ x_1), tolerância de erro tolerância, máximo de iterações permitidas",
+      "outputs": "Tabela de convergência com k, x_{k-1}, x_k, f(x_k), x_{k+1}, erro relativo, raiz aproximada final, resíduo |f(x)|",
+      "example": {
+        "problem": "f(x) = 2x^3 - 11.7x^2 + 17.7x - 5 = 0",
+        "initialGuesses": [
+          0.0,
+          1.0
+        ],
+        "tolerance": 1e-05,
+        "expectedRoot": 0.365099,
+        "iterations": 7,
+        "details": "Substitui a derivada analítica pelo quociente de diferenças finitas entre dois pontos. Converge para x ≈ 0.365099 em 7 iterações."
+      },
+      "defaultInputs": {
+        "f": "2*x^3 - 11.7*x^2 + 17.7*x - 5",
+        "x0": 0.0,
+        "x1": 1.0,
+        "tol": 1e-05,
+        "maxIter": 50
+      },
+      "presetParams": {
+        "fLabel": "f(x) = 2x³ - 11.7x² + 17.7x - 5",
+        "target": 0.365099,
+        "xMin": -0.5,
+        "xMax": 2.0,
+        "yMin": -10.0,
+        "yMax": 10.0
+      },
+      "lineCount": 181
+    },
+    {
+      "id": "ponto-fixo",
+      "slug": "ponto-fixo",
+      "title": "Método do Ponto Fixo (Picard-Banach)",
+      "category": "raizes_equacoes",
+      "categoryLabel": "Raízes de Equações Não Lineares",
+      "filePath": "raizes_equacoes/ponto_fixo.m",
+      "visualizerType": "scalar-root",
+      "isCoreAlgorithm": true,
+      "formulaTex": "x_{k+1} = g(x_k), \\quad \\text{onde } f(x) = 0 \\iff x = g(x)",
+      "order": "O(h) — Linear com fator assintótico de contração dado por |g'(x*)|",
+      "stability": "Convergência estritamente garantida se |g'(x)| <= k < 1 na vizinhança da raiz x* (Teorema da Contração de Banach)",
+      "inputs": "Função de iteração g(x), função de resíduo f(x), chute inicial x_0, tolerância de convergência, número máximo de iterações",
+      "outputs": "Tabela iterativa com k, x_k, g(x_k), f(x_k), erro relativo entre passos consecutivos, ponto fixo final x*, verificação de resíduo",
+      "example": {
+        "problem": "f(x) = e^x - 4x^2 = 0 => g(x) = 0.5 * e^{0.5x}",
+        "initialGuess": 0.5,
+        "tolerance": 0.0001,
+        "expectedRoot": 0.714393,
+        "iterations": 6,
+        "details": "Com g'(x) = 0.25*e^{0.5x} ≈ 0.357 < 1 no intervalo de interesse, a aplicação é contrativa e atinge x ≈ 0.714393 em 6 iterações."
+      },
+      "defaultInputs": {
+        "f": "exp(x) - 4*x^2",
+        "g": "0.5*exp(0.5*x)",
+        "x0": 0.5,
+        "tol": 0.0001,
+        "maxIter": 50
+      },
+      "presetParams": {
+        "fLabel": "f(x) = e^x - 4x² // g(x) = 0.5e^{0.5x}",
+        "target": 0.714393,
+        "xMin": 0.0,
+        "xMax": 1.5,
+        "yMin": -2.0,
+        "yMax": 3.0
+      },
+      "lineCount": 173
+    },
+    {
+      "id": "gauss-pivoteamento",
+      "slug": "gauss-pivoteamento",
+      "title": "Eliminação de Gauss com Pivoteamento Parcial",
+      "category": "sistemas_lineares",
+      "categoryLabel": "Sistemas de Equações Lineares",
+      "filePath": "sistemas_lineares/gauss_pivoteamento.m",
+      "visualizerType": "matrix-elimination",
+      "isCoreAlgorithm": true,
+      "formulaTex": "m_{ik} = \\frac{a_{ik}^{(k)}}{a_{kk}^{(k)}}, \\quad L_i \\leftarrow L_i - m_{ik} L_k, \\quad x_i = \\frac{b_i - \\sum_{j=i+1}^n u_{ij} x_j}{u_{ii}}",
+      "order": "Complexidade computacional O(n³/3) flops no escalonamento triangular; retro-substituição O(n²/2) flops",
+      "stability": "Estabilidade numérica estrita garantida por pivoteamento parcial em módulo: |m_{ik}| <= 1, mitigando o acúmulo de erro de arredondamento IEEE 754",
+      "inputs": "Matriz de coeficientes A (n x n) não singular, vetor coluna de termos independentes b (n x 1)",
+      "outputs": "Matriz aumentada escalonada triangular superior [U|c], vetor solução x (n x 1), norma euclidiana do resíduo ||Ax - b||₂",
+      "example": {
+        "matrixA": "[[4, 3, 2], [1, 3, 1], [2, 1, 3]]",
+        "vectorB": "[960, 510, 610]",
+        "expectedSolution": "[120, 100, 90]",
+        "residualNorm": "< 1e-12",
+        "details": "Sistema linear 3x3 bem condicionado. O pivoteamento parcial em magnitude seleciona o maior elemento da coluna, fornecendo x = [120; 100; 90] com resíduo nulo de máquina."
+      },
+      "defaultInputs": {
+        "A": [
+          [
+            4,
+            3,
+            2
+          ],
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            1,
+            3
+          ]
+        ],
+        "b": [
+          960,
+          510,
+          610
+        ]
+      },
+      "presetParams": {
+        "size": 3,
+        "matrixA": "[[4,3,2],[1,3,1],[2,1,3]]",
+        "vectorB": "[960,510,610]"
+      },
+      "lineCount": 243
+    },
+    {
+      "id": "gauss-jordan",
+      "slug": "gauss-jordan",
+      "title": "Método de Gauss-Jordan com Normalização Unitária",
+      "category": "sistemas_lineares",
+      "categoryLabel": "Sistemas de Equações Lineares",
+      "filePath": "sistemas_lineares/gauss_jordan.m",
+      "visualizerType": "matrix-elimination",
+      "isCoreAlgorithm": true,
+      "formulaTex": "[A \\mid \\mathbf{b}] \\xrightarrow{\\text{eliminação bidirecional}} [I \\mid \\mathbf{x}], \\quad \\mathbf{x} = A^{-1}\\mathbf{b}",
+      "order": "Complexidade computacional O(n³/2) flops (dispensa retro-substituição separada ao diagonalizar diretamente em I)",
+      "stability": "Requer matriz inversível (det(A) ≠ 0); normalização pelo pivô associada a pivoteamento evita divisões instáveis",
+      "inputs": "Matriz de coeficientes A (n x n) inversível, vetor coluna de termos independentes b (n x 1)",
+      "outputs": "Matriz aumentada diagonalizada na forma canônica [I|x], vetor solução desacoplado x lido diretamente na última coluna, resíduo ||Ax - b||₂",
+      "example": {
+        "matrixA": "[[55, 0, 1], [75, 1, -1], [60, -1, 0]]",
+        "vectorB": "[499.55, 687.75, 528.60]",
+        "expectedSolution": "[9.0311, 13.2632, 2.8421]",
+        "details": "Eliminação simultânea em todas as linhas acima e abaixo do pivô, resultando diretamente na matriz identidade desacoplada com solução lida sem substituição."
+      },
+      "defaultInputs": {
+        "A": [
+          [
+            55,
+            0,
+            1
+          ],
+          [
+            75,
+            1,
+            -1
+          ],
+          [
+            60,
+            -1,
+            0
+          ]
+        ],
+        "b": [
+          499.55,
+          687.75,
+          528.6
+        ]
+      },
+      "presetParams": {
+        "size": 3,
+        "matrixA": "[[55,0,1],[75,1,-1],[60,-1,0]]",
+        "vectorB": "[499.55,687.75,528.60]"
+      },
+      "lineCount": 282
+    },
+    {
+      "id": "trapezio-composto",
+      "slug": "trapezio-composto",
+      "title": "Regra do Trapézio Composta",
+      "category": "integracao_numerica",
+      "categoryLabel": "Integração Numérica",
+      "filePath": "integracao_numerica/trapezio_composto.m",
+      "visualizerType": "quadrature",
+      "isCoreAlgorithm": true,
+      "formulaTex": "I \\approx \\frac{h}{2} \\left[ f(a) + 2 \\sum_{i=1}^{n-1} f(x_i) + f(b) \\right], \\quad E_T = -\\frac{(b-a)h^2}{12} f''(\\xi)",
+      "order": "O(h²) — Erro de truncamento global quadrático (exata para polinômios de grau <= 1)",
+      "stability": "Incondicionalmente estável para integrando contínuo; convergência monótona à medida que h -> 0",
+      "inputs": "Função contínua f(x), limite inferior a, limite superior b, número de subintervalos n >= 1",
+      "outputs": "Valor numérico aproximado da integral definida I, tamanho do passo uniforme h = (b-a)/n, representação visual da partição",
+      "example": {
+        "problem": "∫_{-91.21}^{91.21} [ 211.5 - 20.97 * cosh(x / 30.38) ] dx",
+        "intervals": 4000,
+        "expectedIntegral": 467.6651,
+        "details": "Cálculo de comprimento e flecha de cabo de catenária suspensa em vão de 182.42 m. Com n = 4000 trapézios, obtém I ≈ 467.6651 m."
+      },
+      "defaultInputs": {
+        "f": "211.5 - 20.97*cosh(x/30.38)",
+        "a": -91.21,
+        "b": 91.21,
+        "n": 4000
+      },
+      "presetParams": {
+        "fLabel": "f(x) = 211.5 - 20.97*cosh(x/30.38)",
+        "a": -91.21,
+        "b": 91.21,
+        "n": 20
+      },
+      "lineCount": 175
+    },
+    {
+      "id": "simpson-13-composto",
+      "slug": "simpson-13-composto",
+      "title": "Regra de Simpson 1/3 Composta",
+      "category": "integracao_numerica",
+      "categoryLabel": "Integração Numérica",
+      "filePath": "integracao_numerica/simpson_13_composto.m",
+      "visualizerType": "quadrature",
+      "isCoreAlgorithm": true,
+      "formulaTex": "I \\approx \\frac{h}{3} \\left[ f(x_0) + 4 \\sum_{i=1,3,\\dots}^{n-1} f(x_i) + 2 \\sum_{j=2,4,\\dots}^{n-2} f(x_j) + f(x_n) \\right], \\quad E_S = -\\frac{(b-a)h^4}{180} f^{(4)}(\\xi)",
+      "order": "O(h⁴) — Alta ordem de exatidão (exata para polinômios de grau até 3 devido ao cancelamento simétrico do termo cúbico)",
+      "stability": "Incondicionalmente estável; requer que o número de subintervalos n seja estritamente par (número ímpar de nós)",
+      "inputs": "Função f(x), limites de integração a e b, número de subintervalos n (obrigatoriamente par)",
+      "outputs": "Valor da quadratura numérica I, tamanho do passo uniforme h, conversão opcional para unidades imperiais (pés)",
+      "example": {
+        "problem": "∫_{-91.21}^{91.21} [ 211.5 - 20.97 * cosh(x / 30.38) ] dx",
+        "intervals": 20,
+        "expectedIntegral": 451.4159,
+        "convertedImperial": 1480.6443,
+        "details": "Com apenas n = 20 subintervalos parabólicos, atinge exatidão de 4ª ordem superando centenas de nós da regra trapezoidal (I ≈ 451.4159 m = 1480.6443 ft)."
+      },
+      "defaultInputs": {
+        "f": "211.5 - 20.97*cosh(x/30.38)",
+        "a": -91.21,
+        "b": 91.21,
+        "n": 20
+      },
+      "presetParams": {
+        "fLabel": "Catenária suspensa (Simpson 1/3, n=20)",
+        "a": -91.21,
+        "b": 91.21,
+        "n": 20
+      },
+      "lineCount": 214
+    },
+    {
+      "id": "diferenca-progressiva-3pontos",
+      "slug": "diferenca-progressiva-3pontos",
+      "title": "Fórmula Progressiva de Três Pontos para Derivadas",
+      "category": "diferenciacao_numerica",
+      "categoryLabel": "Diferenciação Numérica",
+      "filePath": "diferenciacao_numerica/diferenca_progressiva_3pontos.m",
+      "visualizerType": "differentiation",
+      "isCoreAlgorithm": true,
+      "formulaTex": "f'(x_0) = \\frac{-3 f(x_0) + 4 f(x_0 + h) - f(x_0 + 2h)}{2h} + \\frac{h^2}{3} f'''(\\xi)",
+      "order": "O(h²) — Erro de truncamento quadrático de segunda ordem",
+      "stability": "Sensível ao erro de cancelamento subtrativo em passos excessivamente diminutos; ótimo para h entre 1e-4 e 1e-2",
+      "inputs": "Vetor amostral y com passo uniforme h, ou função analítica f(x) e vetor de coordenadas da malha x",
+      "outputs": "Vetor de derivadas estimadas dy/dx, tabela de resíduos pontuais, erro absoluto máximo e médio, gráficos de convergência",
+      "example": {
+        "function": "f(x) = sin(2x) => f'(x) = 2cos(2x)",
+        "stepH": 0.05,
+        "domain": "[0, 2π]",
+        "expectedMaxError": "< 0.007",
+        "details": "Validação com f(x) = sin(2x) e h = 0.05: o erro máximo pontual é estritamente inferior a 0.007, em consonância com a cota teórica (h²/3)|f'''(ξ)|."
+      },
+      "defaultInputs": {
+        "f": "sin(2*x)",
+        "df": "2*cos(2*x)",
+        "h": 0.05,
+        "xMin": 0.0,
+        "xMax": 6.283185
+      },
+      "presetParams": {
+        "fLabel": "f(x) = sin(2x) // Derivada: 2cos(2x)",
+        "h": 0.05,
+        "xMin": 0.0,
+        "xMax": 6.28
+      },
+      "lineCount": 240
+    },
+    {
+      "id": "euler-explicito",
+      "slug": "euler-explicito",
+      "title": "Método de Euler Explícito para EDOs",
+      "category": "equacoes_diferenciais",
+      "categoryLabel": "Equações Diferenciais Ordinárias",
+      "filePath": "equacoes_diferenciais/euler_explicito.m",
+      "visualizerType": "ode-stepper",
+      "isCoreAlgorithm": true,
+      "formulaTex": "y_{i+1} = y_i + h \\cdot f(x_i, y_i), \\quad E_{global} = O(h)",
+      "order": "O(h) — Primeira ordem global (erro de truncamento local O(h²))",
+      "stability": "Condicionalmente estável: para o problema teste y' = λy (λ < 0), requer |1 + hλ| <= 1 => h <= 2 / |λ|",
+      "inputs": "Função da EDO f(x, y), intervalo de integração [x_0, x_f], condição inicial y(x_0) = y_0, tamanho do passo h",
+      "outputs": "Malha temporal/espacial discreta x, vetor de solução aproximada y, tabela comparativa com solução exata e erro relativo",
+      "example": {
+        "ode": "y' = -2x^3 + 12x^2 - 20x + 8.5",
+        "initialCondition": "y(0) = 1.0",
+        "stepH": 0.1,
+        "interval": [
+          0.0,
+          4.0
+        ],
+        "expectedFinalY": 7.0,
+        "details": "EDO polinomial com solução analítica exata y(x) = -0.5x^4 + 4x^3 - 10x^2 + 8.5x + 1. O método de Euler gera a trajetória linear por partes ilustrando o desvio acumulado."
+      },
+      "defaultInputs": {
+        "f": "-2*x^3 + 12*x^2 - 20*x + 8.5",
+        "x0": 0.0,
+        "xf": 4.0,
+        "y0": 1.0,
+        "h": 0.1
+      },
+      "presetParams": {
+        "fLabel": "y' = -2x³ + 12x² - 20x + 8.5",
+        "x0": 0.0,
+        "xf": 4.0,
+        "y0": 1.0,
+        "h": 0.1
+      },
+      "lineCount": 234
+    },
+    {
+      "id": "euler-implicito-newton",
+      "slug": "euler-implicito-newton",
+      "title": "Método de Euler Implícito com Newton-Raphson",
+      "category": "equacoes_diferenciais",
+      "categoryLabel": "Equações Diferenciais Ordinárias",
+      "filePath": "equacoes_diferenciais/euler_implicito_newton.m",
+      "visualizerType": "ode-stepper",
+      "isCoreAlgorithm": true,
+      "formulaTex": "y_{i+1} = y_i + h \\cdot f(x_{i+1}, y_{i+1}) \\implies G(y_{i+1}) = y_{i+1} - y_i - h f(x_{i+1}, y_{i+1}) = 0",
+      "order": "O(h) — Primeira ordem global com propriedade de A-estabilidade incondicional",
+      "stability": "Incondicionalmente A-estável e L-estável (suporta problemas rígidos/stiff sem restrição de estabilidade no passo h)",
+      "inputs": "EDO f(x, y), derivada parcial/jacobiana ∂f/∂y, limites de tempo [x_0, x_f], condição inicial y_0, passo h, tolerância interna de Newton",
+      "outputs": "Solução numérica estável y imune a explosões, número de iterações do resolvedor não linear de Newton por nó da malha, resíduos de convergência",
+      "example": {
+        "ode": "y' = 5(1 - y^2), \\quad ∂f/∂y = -10y",
+        "initialCondition": "y(0) = 0",
+        "stepH": 0.05,
+        "expectedBehavior": "Convergência assintótica estável para o platô y = 1 (solução exata: tanh(5x))",
+        "details": "Resolve a equação algébrica não linear implícita em cada nó temporal via iterações de Newton-Raphson, eliminando oscilações espúrias."
+      },
+      "defaultInputs": {
+        "f": "5*(1 - y^2)",
+        "df_dy": "-10*y",
+        "x0": 0.0,
+        "xf": 2.0,
+        "y0": 0.0,
+        "h": 0.05,
+        "tol": 1e-06
+      },
+      "presetParams": {
+        "fLabel": "y' = 5(1 - y²) [Euler Implícito]",
+        "x0": 0.0,
+        "xf": 2.0,
+        "y0": 0.0,
+        "h": 0.05
+      },
+      "lineCount": 319
+    },
+    {
+      "id": "rk2-individual",
+      "slug": "rk2-individual",
+      "title": "Runge-Kutta de 2ª Ordem (Heun Escalar)",
+      "category": "equacoes_diferenciais",
+      "categoryLabel": "Equações Diferenciais Ordinárias",
+      "filePath": "equacoes_diferenciais/rk2_individual.m",
+      "visualizerType": "ode-stepper",
+      "isCoreAlgorithm": true,
+      "formulaTex": "k_1 = f(x_i, y_i), \\quad k_2 = f(x_i + h, y_i + h k_1), \\quad y_{i+1} = y_i + \\frac{h}{2}(k_1 + k_2)",
+      "order": "O(h²) — Segunda ordem de exatidão global (método preditor-corretor trapezoidal)",
+      "stability": "Condicionalmente estável: região de estabilidade dada por |1 + hλ + (hλ)²/2| <= 1",
+      "inputs": "Equação diferencial f(x, y), intervalo [x_0, x_f], condição inicial y(x_0) = y_0, tamanho do passo h",
+      "outputs": "Malha temporal x, estimativas da solução numérica y de 2ª ordem, tabela comparativa com solução analítica exata e erro percentual",
+      "example": {
+        "ode": "y' = -2y + 4x",
+        "initialCondition": "y(0) = 1.0",
+        "stepH": 0.1,
+        "exactSolution": "y(x) = 2x - 1 + 2e^{-2x}",
+        "details": "Problema clássico de decaimento com fonte linear. A média ponderada das inclinações k_1 e k_2 cancela o erro de 1ª ordem."
+      },
+      "defaultInputs": {
+        "f": "-2*y + 4*x",
+        "x0": 0.0,
+        "xf": 3.0,
+        "y0": 1.0,
+        "h": 0.1
+      },
+      "presetParams": {
+        "fLabel": "y' = -2y + 4x (Heun Escalar)",
+        "x0": 0.0,
+        "xf": 3.0,
+        "y0": 1.0,
+        "h": 0.1
+      },
+      "lineCount": 246
+    },
+    {
+      "id": "rk2-heun-sistema",
+      "slug": "rk2-heun-sistema",
+      "title": "Runge-Kutta de 2ª Ordem para Sistemas Acoplados",
+      "category": "equacoes_diferenciais",
+      "categoryLabel": "Equações Diferenciais Ordinárias",
+      "filePath": "equacoes_diferenciais/rk2_heun_sistema.m",
+      "visualizerType": "ode-stepper",
+      "isCoreAlgorithm": true,
+      "formulaTex": "\\begin{cases} k_{1y} = f(x_i, y_i, z_i), & k_{1z} = g(x_i, y_i, z_i) \\\\ k_{2y} = f(x_i + h, y_i + h k_{1y}, z_i + h k_{1z}), & k_{2z} = g(x_i + h, y_i + h k_{1y}, z_i + h k_{1z}) \\\\ y_{i+1} = y_i + \\frac{h}{2}(k_{1y} + k_{2y}), & z_{i+1} = z_i + \\frac{h}{2}(k_{1z} + k_{2z}) \\end{cases}",
+      "order": "O(h²) — Segunda ordem global simultânea para sistemas vetoriais",
+      "stability": "Determinada pelos autovalores do jacobiano acoplado no semiplano esquerdo do plano complexo",
+      "inputs": "Duas equações acopladas y' = f(x, y, z) e z' = g(x, y, z), condições iniciais y_0 e z_0, limites de integração, passo h",
+      "outputs": "Séries temporais y(x) e z(x), diagrama de plano de fase (retrato de fase y vs z) ilustrando órbitas e ciclos-limite",
+      "example": {
+        "odeSystem": "y' = z, \\quad z' = -y",
+        "initialConditions": "y(0) = 1.0, \\quad z(0) = 0.0",
+        "stepH": 0.05,
+        "expectedBehavior": "Oscilador harmônico não amortecido com trajetória circular fechada no plano de fase (y = cos(x), z = -sin(x))",
+        "details": "Avanço simultâneo de predição e correção em múltiplas dimensões preservando o acoplamento dinâmico."
+      },
+      "defaultInputs": {
+        "f": "z",
+        "g": "-y",
+        "x0": 0.0,
+        "xf": 6.283185,
+        "y0": 1.0,
+        "z0": 0.0,
+        "h": 0.05
+      },
+      "presetParams": {
+        "fLabel": "y' = z, z' = -y [Oscilador]",
+        "x0": 0.0,
+        "xf": 6.28,
+        "y0": 1.0,
+        "z0": 0.0,
+        "h": 0.05
+      },
+      "lineCount": 248
+    },
+    {
+      "id": "taylor-cosseno",
+      "slug": "taylor-cosseno",
+      "title": "Série de Taylor / Maclaurin para Função Cosseno",
+      "category": "series_aproximacoes",
+      "categoryLabel": "Séries e Aproximações Polinomiais",
+      "filePath": "series_aproximacoes/taylor_cosseno.m",
+      "visualizerType": "taylor-series",
+      "isCoreAlgorithm": true,
+      "formulaTex": "\\cos(x) = \\sum_{k=0}^{N} \\frac{(-1)^k}{(2k)!} x^{2k} = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\frac{x^6}{6!} + \\dots + R_{2N+1}(x)",
+      "order": "Convergência assintótica com taxa fatorial O(x^{2N+2}/(2N+2)!)",
+      "stability": "Global para todo x real (raio de convergência R = ∞). Limite numérico IEEE 754 de N <= 85 termos para prevenir estouro de overflow de (2N)!",
+      "inputs": "Ângulo de entrada x (em radianos), número de termos polinomiais acumulados N <= 85",
+      "outputs": "Valor numérico aproximado em precisão dupla format long, valor analítico de referência cos(x), erro relativo percentual",
+      "example": {
+        "angle": "x = π / 3 ≈ 1.047197551 rad",
+        "terms": 6,
+        "expectedValue": 0.499999996390943,
+        "percentageError": "7.2e-7 %",
+        "details": "Com N = 6 termos da expansão alternada, atinge erro inferior a 1e-6% em relação ao valor analítico exato 0.5."
+      },
+      "defaultInputs": {
+        "x": "pi/3",
+        "N": 6
+      },
+      "presetParams": {
+        "fLabel": "cos(x) Maclaurin",
+        "x": 1.04719755,
+        "N": 6
+      },
+      "lineCount": 244
+    },
+    {
+      "id": "gerador-sinais-rms",
+      "slug": "gerador-sinais-rms",
+      "title": "Gerador de Sinais e Cálculo de Tensão Média e RMS",
+      "category": "processamento_sinais",
+      "categoryLabel": "Processamento de Sinais",
+      "filePath": "processamento_sinais/gerador_sinais_rms.m",
+      "visualizerType": "signal-scope",
+      "isCoreAlgorithm": true,
+      "formulaTex": "V_{rms} = \\sqrt{\\frac{1}{T} \\int_0^T v^2(t) dt} \\approx \\sqrt{\\frac{1}{N} \\sum_{k=1}^N v_k^2}, \\quad V_{dc} = \\frac{1}{N}\\sum_{k=1}^N v_k",
+      "order": "Integração discreta temporal retangular; sobredimensão de amostragem fs >= 200 * f_max",
+      "stability": "Critério de Nyquist-Shannon rigorosamente atendido com superamostragem, prevenindo artefatos de aliasing espectral",
+      "inputs": "Frequências, amplitudes de pico e offsets contínuos (senoide, onda quadrada e triangular), duração temporal",
+      "outputs": "Formas de onda sintetizadas no tempo, tensão contínua V_dc, tensão eficaz V_rms calculada numericamente vs dedução teórica",
+      "example": {
+        "signals": "Senoide (1 kHz, 10 Vp, 2 Vdc), Quadrada (15 kHz, 5 Vp, 0 Vdc), Triangular (4 kHz, 8 Vp, 1 Vdc)",
+        "samplingRate": "fs = 3.0 MHz (200 * f_max)",
+        "expectedSenoideRMS": 7.348469,
+        "details": "Para onda senoidal com offset: V_rms = √(V_dc² + V_p²/2) = √(4 + 50) = √54 ≈ 7.3485 V. O valor medido converge com exatidão."
+      },
+      "defaultInputs": {
+        "f_sine": 1000,
+        "amp_sine": 10,
+        "vdc_sine": 2,
+        "fs_mult": 200
+      },
+      "presetParams": {
+        "fLabel": "Senoide 1 kHz (Vp=10V, Vdc=2V)",
+        "fs": 200000,
+        "duration": 0.003
+      },
+      "lineCount": 333
+    },
+    {
+      "id": "born-mayer-energia-reticular",
+      "slug": "born-mayer-energia-reticular",
+      "title": "Equação de Born-Mayer para Energia Reticular",
+      "category": "fisico_quimica",
+      "categoryLabel": "Físico-Química e Magnetoquímica",
+      "filePath": "fisico_quimica/born_mayer_energia_reticular.m",
+      "visualizerType": "molecular-model",
+      "isCoreAlgorithm": true,
+      "formulaTex": "U = -\\frac{N_A M z_+ z_- e^2}{4\\pi \\varepsilon_0 r_0} \\left( 1 - \\frac{\\rho}{r_0} \\right)",
+      "order": "Potencial termodinâmico fenomenológico de 1ª ordem combinando atração eletrostática e repulsão de Pauli",
+      "stability": "Fisicamente consistente para distâncias de equilíbrio r_0 > ρ com constantes universais CODATA",
+      "inputs": "Cargas iônicas z_+, z_-, constante geométrica de Madelung M, distância interiônica r_0 = r_+ + r_-, parâmetro de compressibilidade ρ",
+      "outputs": "Energia reticular cristalina U (kJ/mol e J por par iônico), parcelas separadas do potencial coulombiano atrativo e repulsivo quântico",
+      "example": {
+        "compound": "NaCl (Cloreto de Sódio)",
+        "parameters": "M = 1.74756, r_0 = 283 pm, ρ = 34.5 pm, z_+ = 1, z_- = -1",
+        "expectedEnergy": -753.35,
+        "details": "Cálculo exato da estabilidade do retículo do sal-gema NaCl: atração de Madelung = -858.2 kJ/mol; termo repulsivo = +104.8 kJ/mol; saldo = -753.35 kJ/mol."
+      },
+      "defaultInputs": {
+        "z_cat": 1,
+        "z_an": -1,
+        "M": 1.74756,
+        "r0_pm": 283.0,
+        "rho_pm": 34.5
+      },
+      "presetParams": {
+        "compound": "NaCl",
+        "M": 1.74756,
+        "r0": 2.83e-10,
+        "rho": 3.45e-11
+      },
+      "lineCount": 167
+    },
+    {
+      "id": "susceptibilidade-magnetica",
+      "slug": "susceptibilidade-magnetica",
+      "title": "Momento Magnético Spin-Only e Susceptibilidade Molar",
+      "category": "fisico_quimica",
+      "categoryLabel": "Físico-Química e Magnetoquímica",
+      "filePath": "fisico_quimica/susceptibilidade_magnetica.m",
+      "visualizerType": "molecular-model",
+      "isCoreAlgorithm": true,
+      "formulaTex": "\\mu_{so} = \\sqrt{n(n+2)} \\cdot \\mu_B = 2\\sqrt{S(S+1)}\\cdot \\mu_B, \\quad \\chi_M = \\frac{N_A \\mu_0 \\mu_{eff}^2}{3 k_B T} = \\frac{C}{T}",
+      "order": "Lei de Curie para paramagnetismo térmico linear O(1/T)",
+      "stability": "Válido para temperaturas absolutas T > 0 K sob campos magnéticos onde a saturação quântica de Brillouin não ocorre",
+      "inputs": "Número de elétrons desemparelhados n (inteiro >= 1), temperatura absoluta de ensaio T (em Kelvin)",
+      "outputs": "Momento magnético de spin puro μ_so (Magnetons de Bohr μ_B), constante de Curie C, susceptibilidade molar χ_M em unidades CGS e SI",
+      "example": {
+        "electrons": 4,
+        "temperature": 298.15,
+        "expectedMoment": 4.898979,
+        "expectedChiM_cgs": 0.00998,
+        "details": "Íon metálico com n = 4 elétrons desemparelhados (ex: Fe²⁺ high-spin d⁶): μ_so = √24 ≈ 4.899 μ_B; χ_M a 298.15 K ≈ 9.98e-3 cm³/mol."
+      },
+      "defaultInputs": {
+        "n": 4,
+        "T_kelvin": 298.15
+      },
+      "presetParams": {
+        "ion": "Fe(II) High-Spin",
+        "n": 4,
+        "T": 298.15
+      },
+      "lineCount": 118
+    },
+    {
+      "id": "eletrons-desemparelhados",
+      "slug": "eletrons-desemparelhados",
+      "title": "Determinação Inversa de Elétrons Desemparelhados",
+      "category": "fisico_quimica",
+      "categoryLabel": "Físico-Química e Magnetoquímica",
+      "filePath": "fisico_quimica/eletrons_desemparelhados.m",
+      "visualizerType": "molecular-model",
+      "isCoreAlgorithm": true,
+      "formulaTex": "n^2 + 2n - \\frac{3 k_B T \\chi_M}{N_A \\mu_0 \\mu_B^2} = 0 \\implies n = -1 + \\sqrt{1 + \\frac{\\mu_{eff}^2}{\\mu_B^2}}",
+      "order": "Inversão quadrática determinística exata com descarte analítico da raiz espúria negativa",
+      "stability": "Incondicional para dados experimentais χ_M >= 0; arredondamento para o autoestado de spin inteiro mais próximo",
+      "inputs": "Susceptibilidade magnética molar experimental χ_M (cm³/mol), temperatura de medição T (Kelvin)",
+      "outputs": "Número quântico de spin total S, quantidade quantizada de elétrons desemparelhados n, multiplicidade espectroscópica 2S+1, desvio residual",
+      "example": {
+        "chiM": 0.0333,
+        "temperature": 298.15,
+        "expectedN": 8,
+        "spinState": 4.0,
+        "multiplicity": 9,
+        "details": "A partir de medição experimental de χ_M = 0.0333 cm³/mol a 298.15 K, deduz com precisão n = 8 elétrons desemparelhados (S = 4.0, noneto)."
+      },
+      "defaultInputs": {
+        "chi_m": 0.0333,
+        "T_kelvin": 298.15
+      },
+      "presetParams": {
+        "chiM": 0.0333,
+        "T": 298.15
+      },
+      "lineCount": 151
+    },
+    {
+      "id": "concentracao-dose-instantanea",
+      "slug": "concentracao-dose-instantanea",
+      "title": "Cinética de Fármacos em Bolus Instantâneo (Sem Absorção)",
+      "category": "farmacocinetica",
+      "categoryLabel": "Farmacocinética e Modelagem Compartimental",
+      "filePath": "farmacocinetica/concentracao_dose_instantanea.m",
+      "visualizerType": "pk-compartment",
+      "isCoreAlgorithm": true,
+      "formulaTex": "C(t) = C_0 e^{-k_e t}, \\quad k_e = \\frac{\\ln 2}{t_{1/2}}, \\quad R = \\frac{1}{1 - e^{-k_e \\tau}} \\approx \\frac{2}{\\tau / t_{1/2}}",
+      "order": "Modelo linear monocompartimental de eliminação de 1ª ordem sob pulsos periódicos de dosagem",
+      "stability": "Incondicionalmente estável; converge assintoticamente para o platô estacionário de regime permanente (steady-state)",
+      "inputs": "Dose intravenosa D (mg), intervalo de administração posológico τ (horas), meia-vida plasmática t_{1/2} (horas), horizonte de simulação",
+      "outputs": "Curva temporal dente de serra C(t), concentração média no equilíbrio C_ss, concentrações de pico e vale, fator de acúmulo R",
+      "example": {
+        "dose": 250,
+        "tau": 48,
+        "t_half": 168,
+        "expectedCssMean": 1749.5,
+        "accumulationFactor": 7.0,
+        "details": "Dose de 250 mg administrada a cada 48 h para fármaco com t_{1/2} de 168 h (7 dias): acúmulo R ≈ 7.00 com concentração média de platô ≈ 1749.5 mg/L."
+      },
+      "defaultInputs": {
+        "dose": 250,
+        "tau": 48,
+        "t_half": 168,
+        "total_hours": 1500
+      },
+      "presetParams": {
+        "dose": 250,
+        "tau": 48,
+        "t_half": 168
+      },
+      "lineCount": 226
+    },
+    {
+      "id": "concentracao-com-absorcao",
+      "slug": "concentracao-com-absorcao",
+      "title": "Modelo Bicompartimental com Absorção Gradual e Eliminação",
+      "category": "farmacocinetica",
+      "categoryLabel": "Farmacocinética e Modelagem Compartimental",
+      "filePath": "farmacocinetica/concentracao_com_absorcao.m",
+      "visualizerType": "pk-compartment",
+      "isCoreAlgorithm": true,
+      "formulaTex": "\\begin{cases} \\frac{dM_{dep}}{dt} = -k_a M_{dep} \\\\ \\frac{dC}{dt} = k_a M_{dep} - k_e C \\end{cases} \\implies C(t) = \\frac{D k_a}{k_a - k_e}(e^{-k_e t} - e^{-k_a t})",
+      "order": "Sistema dinâmico acoplado de 1ª ordem (função de Bateman) com taxa contínua de influxo extravascular",
+      "stability": "Incondicional para ka ≠ ke; para ka >> ke, colapsa suavemente no comportamento monocompartimental de bolus",
+      "inputs": "Dose D (mg), intervalo de administração τ (horas), meia-vida t_{1/2} (horas), taxa de absorção k_a (h⁻¹), janela de tempo",
+      "outputs": "Massa no compartimento de depósito M_{dep}(t), concentração no plasma C(t), tempo de pico t_{max}, média móvel no platô",
+      "example": {
+        "dose": 100,
+        "tau": 96,
+        "t_half": 168,
+        "k_a": 0.041667,
+        "expectedCssMean": 349.96,
+        "accumulationFactor": 3.5,
+        "details": "Dose oral de 100 mg a cada 96 h com t_{1/2} de 168 h e absorção com meia-vida de 24 h (k_a = 1/24 h⁻¹): platô médio estabiliza em ≈ 349.96 mg/L (R ≈ 3.50)."
+      },
+      "defaultInputs": {
+        "dose": 100,
+        "tau": 96,
+        "t_half": 168,
+        "ka": 0.041667,
+        "total_hours": 1500
+      },
+      "presetParams": {
+        "dose": 100,
+        "tau": 96,
+        "t_half": 168,
+        "ka": 0.04167
+      },
+      "lineCount": 238
+    },
+    {
+      "id": "estudo-intervalo-meia-vida",
+      "slug": "estudo-intervalo-meia-vida",
+      "title": "Estudo Paramétrico do Fator de Acúmulo Intervalo / Meia-Vida",
+      "category": "farmacocinetica",
+      "categoryLabel": "Farmacocinética e Modelagem Compartimental",
+      "filePath": "farmacocinetica/estudo_intervalo_meia_vida.m",
+      "visualizerType": "pk-compartment",
+      "isCoreAlgorithm": true,
+      "formulaTex": "r = \\frac{\\tau}{t_{1/2}}, \\quad R(r) = \\frac{1}{1 - 2^{-r}} \\approx \\frac{2}{r} \\quad (\\text{para } r \\ll 1)",
+      "order": "Varredura paramétrica multivariada com confronto entre integração numérica e aproximação assintótica hiperbólica",
+      "stability": "Assíntota em r -> 0 (acúmulo infinito); estável e monótona em toda a faixa de interesse farmacológico [0.25, 2.50]",
+      "inputs": "Faixa de razões adimensionais r = τ / t_{1/2} (ex: 0.25 a 2.50), dose de referência, meia-vida de eliminação",
+      "outputs": "Curva comparativa paramétrica R versus r, confronto direto entre a simulação de dosagem contínua e a curva teórica R = 2/r",
+      "example": {
+        "ratioRange": [
+          0.25,
+          2.5
+        ],
+        "halfLife": 168,
+        "validationPoints": "r = 0.25 => R ≈ 8.0; r = 1.0 => R ≈ 2.0; r = 2.0 => R ≈ 1.33",
+        "details": "Demonstração quantitativa da relação inversa entre intervalo relativo e empilhamento plasmático de fármacos."
+      },
+      "defaultInputs": {
+        "r_min": 0.25,
+        "r_max": 2.5,
+        "steps": 50,
+        "dose": 100
+      },
+      "presetParams": {
+        "rMin": 0.25,
+        "rMax": 2.5,
+        "t_half": 168
+      },
+      "lineCount": 215
+    },
+    {
+      "id": "operacoes-matrizes",
+      "slug": "operacoes-matrizes",
+      "title": "Álgebra Linear, Inversão e Condicionamento Matricial",
+      "category": "utilitarios",
+      "categoryLabel": "Utilitários e Operações Auxiliares",
+      "filePath": "utilitarios/operacoes_matrizes.m",
+      "visualizerType": "utility-math",
+      "isCoreAlgorithm": true,
+      "formulaTex": "M \\cdot M^{-1} = I, \\quad \\kappa(M) = \\|M\\|_2 \\|M^{-1}\\|_2, \\quad \\text{Resíduo} = \\|M M^{-1} - I\\|_\\infty < 10^{-14}",
+      "order": "Decomposição e inversão O(n³) flops; cálculo de determinante e teste de resíduo em norma matricial infinita",
+      "stability": "Diagnóstico de estabilidade pelo número de condicionamento κ(M) e preservação estrita de precedência de operadores",
+      "inputs": "Dimensão n da matriz quadrada, matriz de teste pré-definida ou gerador pseudoaleatório reprodutível",
+      "outputs": "Matriz transposta M^T, determinante det(M), traço tr(M), inversa M⁻¹, número de condicionamento κ(M), verificação de resíduo ||M·M⁻¹ - I||_∞",
+      "example": {
+        "matrixSize": 6,
+        "expectedResidual": "< 1e-14",
+        "details": "Inversão matricial de ordem 6 validada formalmente com resíduo ||M * M⁻¹ - I||_∞ < 1e-14, confirmando ortogonalidade e estabilidade."
+      },
+      "defaultInputs": {
+        "n": 6
+      },
+      "presetParams": {
+        "n": 6
+      },
+      "lineCount": 207
+    },
+    {
+      "id": "conversao-si-imperial",
+      "slug": "conversao-si-imperial",
+      "title": "Conversor de Unidades Físicas SI ↔ Imperial",
+      "category": "utilitarios",
+      "categoryLabel": "Utilitários e Operações Auxiliares",
+      "filePath": "utilitarios/conversao_si_imperial.m",
+      "visualizerType": "utility-math",
+      "isCoreAlgorithm": false,
+      "formulaTex": "1\\text{ lb} = 0.45359237\\text{ kg}, \\quad 1\\text{ in} = 0.0254\\text{ m}, \\quad 1\\text{ ft} = 12\\text{ in}, \\quad 1\\text{ yd} = 3\\text{ ft}",
+      "order": "Mapeamento afim linear exato conforme o Acordo Internacional de Jardas e Libras de 1959",
+      "stability": "Incondicional; precisão de ponto flutuante IEEE 754 de 64 bits sem derivação de arredondamento",
+      "inputs": "Massa expressa em quilogramas [kg] >= 0, comprimento expresso em metros [m] >= 0",
+      "outputs": "Estrutura de dados com massa em libras [lb] e onças [oz], e comprimento em polegadas [pol], pés [ft] e jardas [yd]",
+      "example": {
+        "massKg": 80.0,
+        "lengthM": 1.8,
+        "expectedMassLb": 176.3698,
+        "expectedLengthIn": 70.8661,
+        "expectedLengthFt": 5.9055,
+        "details": "Conversão oficial de peso corporal de 80 kg para 176.37 lb e altura de 1.80 m para 70.87 polegadas (5.91 pés)."
+      },
+      "defaultInputs": {
+        "massa_kg": 80.0,
+        "comprimento_m": 1.8
+      },
+      "presetParams": {
+        "massa_kg": 80.0,
+        "comprimento_m": 1.8
+      },
+      "lineCount": 149
+    },
+    {
+      "id": "plotar-funcao",
+      "slug": "plotar-funcao",
+      "title": "Visualizador Gráfico e Análise de Funções Didáticas",
+      "category": "utilitarios",
+      "categoryLabel": "Utilitários e Operações Auxiliares",
+      "filePath": "utilitarios/plotar_funcao.m",
+      "visualizerType": "utility-math",
+      "isCoreAlgorithm": false,
+      "formulaTex": "f_1(x) = 211.5 - 20.97 \\cosh\\left(\\frac{x}{30.38}\\right), \\quad P_5(x) = \\frac{1}{8}(63x^5 - 70x^3 + 15x)",
+      "order": "Amostragem densa em malha contínua (N >= 1000 nós) com interpolação de alta fidelidade",
+      "stability": "Traçado vetorial suave sem singularidades com identificação visual do vértice e das raízes reais",
+      "inputs": "Funções matemáticas analíticas f(x), intervalos de domínio [x_min, x_max], número de pontos da malha",
+      "outputs": "Figuras gráficas formatadas com curvas de função, derivadas, eixos de coordenadas, retículos táticos e anotações de raízes",
+      "example": {
+        "cases": "Caso 1: Catenária de vão 182.42 m (vértice em x=0, y=190.53 m); Caso 2: Polinômio de Legendre P_5(x) com 5 raízes reais",
+        "rootsP5": "0.0, ±0.5385, ±0.9062",
+        "details": "Rotina didática de renderização para análise de geometria de cabos e zeros de polinômios ortogonais de quadratura gaussiana."
+      },
+      "defaultInputs": {
+        "xMin": -91.21,
+        "xMax": 91.21,
+        "points": 1000
+      },
+      "presetParams": {
+        "xMin": -91.21,
+        "xMax": 91.21,
+        "points": 1000
+      },
+      "lineCount": 204
+    }
+  ]
+}
