@@ -1152,6 +1152,13 @@ pre.code-view .var { color: var(--gold-bright); font-weight: 600; }
   background: radial-gradient(circle at center, #0a1b2d 0%, #020407 90%);
 }
 
+/* A árvore pode ser mais alta que a janela: mantenha seu início acessível
+   ao rolar, em vez de centralizar conteúdo que transborda pelo topo. */
+.modal-decision-card .decision-tree-body {
+  display: block;
+  min-height: 0;
+}
+
 .decision-tree-body img,
 .decision-tree-body svg {
   max-width: 100%;
@@ -1174,3 +1181,101 @@ button:focus-visible, a:focus-visible, .tree-node:focus-visible {
   outline-offset: 2px !important;
   box-shadow: 0 0 12px rgba(0, 255, 102, 0.5) !important;
 }
+
+/* Seletor de algoritmos: moldura metálica e tela de fósforo. */
+.sidebar-taxonomy {
+  min-width: 0;
+  padding: 18px;
+  color: #d5e8b1;
+  background: linear-gradient(135deg, #493923, #181914 28%, #322b1d 70%, #111713);
+  border: 3px ridge #a7874f;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 3px #161711, 0 8px 22px #0009;
+}
+.sidebar-header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; color: #ebc879; padding: 0 4px 10px; }
+.sidebar-title { font-weight: 800; letter-spacing: .08em; }
+.sidebar-subtitle { font-size: .75rem; }
+.search-box input { box-sizing: border-box; width: 100%; padding: 10px; color: #d5e8b1; background: #07130e; border: 1px solid #8b794e; font: inherit; }
+.search-box input:focus-visible { outline: 2px solid #e4c478; outline-offset: 2px; }
+.terminal-help { margin: 8px 2px; font-size: .75rem; color: #d7ca9c; }
+.taxonomy-scroll {
+  max-height: 65vh;
+  overflow-y: auto;
+  padding: 12px;
+  border: 5px inset #74613a;
+  border-radius: 8px;
+  background: repeating-linear-gradient(0deg, #07140f 0, #07140f 3px, #0a1b13 4px);
+  box-shadow: inset 0 0 25px #000, inset 0 0 45px #1d46204d;
+  scrollbar-color: #957a43 #101810;
+}
+.sidebar-taxonomy .tree-label { color: #e3bd70; font-size: .82rem; }
+.sidebar-taxonomy .tree-node { color: #c9dfb0; background: transparent; font-size: .9rem; }
+.sidebar-taxonomy .tree-node:hover, .sidebar-taxonomy .tree-node:focus-visible { color: #efffce; background: #274831; transform: none; }
+.sidebar-taxonomy .tree-node.active { color: #dfffaf; background: #31572b; border-left-color: #b2da78; }
+.sidebar-taxonomy .tree-tag { color: #c5d5a5; border-color: #526948; }
+.tree-group[hidden] { display: none; }
+
+/* Área principal centralizada e explicação do motor numérico. */
+.term-header, .tui-container {
+  width: 90%;
+  margin-inline: auto;
+}
+.term-header { flex-wrap: wrap; gap: 12px; }
+.source-repository { text-decoration: none; }
+.source-repository:focus-visible, .telemetry-pill:focus-visible { outline: 2px solid #e4c478; outline-offset: 3px; }
+
+.guide-modal {
+  display: flex;
+  flex-direction: column;
+  width: min(1400px, 96vw);
+  height: 90vh;
+  background: #0b0f19;
+  border: 2px solid var(--gold-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.guide-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  color: var(--gold-bright);
+}
+.guide-modal iframe { width: 100%; min-height: 0; flex: 1; border: 0; background: #0b0f19; }
+
+.guide-modal-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.guide-modal-actions a { text-decoration: none; }
+
+.formula-equation { max-width: 100%; overflow-x: auto; }
+
+
+/* Mantém a tela de execução dentro da largura da página, inclusive com código longo. */
+.tui-main { display: block; min-width: 0; overflow: visible; }
+.tui-container, .method-strip, .method-name-cluster, .formula-strip,
+.vector-station, .crt-bezel-frame, .hud-telemetry-deck, .lower-split, .split-card { min-width: 0; }
+.method-name-cluster { flex-wrap: wrap; }
+.method-file-link, .method-meta-chips, .formula-caption, .crt-channel-badge { overflow-wrap: anywhere; }
+.crt-bezel-frame { overflow: hidden; }
+#crtCanvas { width: 100%; height: auto; min-height: 0; max-height: 460px; object-fit: contain; aspect-ratio: 880 / 460; }
+.lower-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.split-card { overflow: hidden; }
+.code-view-body, .telemetry-table-wrap { max-height: 420px; overflow: auto; }
+pre.code-view-body { white-space: pre; margin: 0; padding: 16px; }
+.telemetry-table-wrap { padding: 12px; }
+.tui-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.tui-table th, .tui-table td { padding: 8px; text-align: left; border-bottom: 1px solid var(--border-tactical); }
+.tui-table th { color: var(--cyan-mana); }
+.tui-table .active-step { color: var(--green-phosphor); background: rgba(0,255,102,.12); }
+.player-tui-bar button:disabled, .player-tui-bar input:disabled { opacity: .5; cursor: default; }
+@media (max-width: 1100px) { .lower-split { grid-template-columns: minmax(0, 1fr); } }
+
+/* Espaçamento dos painéis, sem alterar a disposição da simulação. */
+.hud-telemetry-deck { padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+.hud-gauge-val, .hud-active-code-line { overflow-wrap: anywhere; }
+.split-card-header { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border-tactical); }
+.btn-copy-code { margin-left: auto; flex-shrink: 0; }
+pre.code-view-body { font-size: 15px; }
+.crt-channel-badge { padding: 8px 12px; }
+.crt-channel-badge.is-empty { position: absolute; inset: 0; display: grid; place-content: center; padding: 24px; text-align: center; }
+.animation-icon { vertical-align: -3px; margin-right: 8px; }
