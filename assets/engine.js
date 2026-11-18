@@ -898,6 +898,33 @@
   // 6. FAMÍLIA 4: EQUAÇÕES DIFERENCIAIS ORDINÁRIAS (PVI)
   // =========================================================================
   const ODESolvers = {
+    // Mesmo sistema e condições iniciais de rk2_heun_sistema.m.
+    solveRK2Sistema(params = {}) {
+      const f = params.f || ((x, y, z) => z * x - y);
+      const g = params.g || ((x, y, z) => y * x + z);
+      const x0 = params.x0 ?? 0, xf = params.xf ?? 1.2, h = params.h ?? 0.1;
+      let x = x0, y = params.y0 ?? 0.5, z = params.z0 ?? 1;
+      if (!(h > 0 && xf > x0)) throw new Error('O passo e o intervalo devem ser positivos.');
+      const steps = [];
+      const count = Math.round((xf - x0) / h);
+      for (let i = 0; i < count; i++) {
+        const ky1 = f(x, y, z), kz1 = g(x, y, z);
+        const yPred = y + h * ky1, zPred = z + h * kz1, xNext = x + h;
+        const ky2 = f(xNext, yPred, zPred), kz2 = g(xNext, yPred, zPred);
+        const yNext = y + h * (ky1 + ky2) / 2, zNext = z + h * (kz1 + kz2) / 2;
+        steps.push({ i, x, y, z, ky1, kz1, ky2, kz2, yPred, zPred, xNext, yNext, zNext,
+          status: i === count - 1 ? 'COMPLETED' : 'STEPPING',
+          line: 'y(i+1) = y(i) + (h/2)*(ky1+ky2); z(i+1) = z(i) + (h/2)*(kz1+kz2);' });
+        x = xNext; y = yNext; z = zNext;
+      }
+      const values = steps.flatMap(step => [step.y, step.z, step.yNext, step.zNext]);
+      const lo = Math.min(0, ...values), hi = Math.max(...values), padding = Math.max(0.1, (hi-lo)*0.12);
+      return { key: 'rk2_sistema', title: 'HEUN PARA SISTEMAS ACOPLADOS',
+        file: 'equacoes_diferenciais/rk2_heun_sistema.m',
+        funcLabel: "y′ = xz − y; z′ = xy + z // y(0) = 0.5; z(0) = 1; h = 0.1",
+        xRange: [x0, xf], yRange: [lo-padding, hi+padding], h, steps };
+    },
+
     /**
      * Euler Explícito: y_{i+1} = y_i + h * f(x_i, y_i)
      */
@@ -1221,6 +1248,11 @@
       family: 'ode',
       file: 'equacoes_diferenciais/euler_implicito_newton.m',
       solver: ODESolvers.solveEulerImplicito
+    },
+    rk2_sistema: {
+      key: 'rk2_sistema', code: 'ALG.14', name: 'HEUN PARA SISTEMAS',
+      family: 'ode_system', file: 'equacoes_diferenciais/rk2_heun_sistema.m',
+      solver: ODESolvers.solveRK2Sistema
     },
     rk2_heun: {
       key: 'rk2_heun',
@@ -1858,6 +1890,32 @@
     // -----------------------------------------------------------------------
     // RENDERIZAÇÃO: EQUAÇÕES DIFERENCIAIS ORDINÁRIAS (PVI)
     // -----------------------------------------------------------------------
+    renderODESystem(ctx, data, stepIndex, progress, width, height) {
+      this.drawGrid(ctx, width, height);
+      const margin = 55;
+      const px = x => MathUtils.mapRange(x, ...data.xRange, margin, width-margin);
+      const py = y => MathUtils.mapRange(y, ...data.yRange, height-margin, margin);
+      this.drawAxes(ctx, px(0), py(0), width, height);
+      ctx.save();
+      for (const [field, nextField, color] of [['y','yNext',CRTTheme.green], ['z','zNext',CRTTheme.amber]]) {
+        ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.shadowColor = color; ctx.shadowBlur = 8;
+        ctx.beginPath(); ctx.moveTo(px(data.steps[0].x), py(data.steps[0][field]));
+        for (let i=0; i<=stepIndex; i++) {
+          const step = data.steps[i], t = i === stepIndex ? progress : 1;
+          ctx.lineTo(px(step.x + t*(step.xNext-step.x)), py(step[field]+t*(step[nextField]-step[field])));
+        }
+        ctx.stroke(); ctx.shadowBlur = 0;
+        const step=data.steps[stepIndex];
+        ctx.fillStyle=color;ctx.beginPath();ctx.arc(px(step.x),py(step[field]),4,0,2*Math.PI);ctx.fill();
+        ctx.font='bold 15px monospace';
+        ctx.fillText(field+'(x)',width-margin-100,margin+(field==='y'?0:24));
+      }
+      const step=data.steps[stepIndex];
+      ctx.fillStyle=CRTTheme.cyan;ctx.font='bold 15px monospace';
+      ctx.fillText('HEUN: x = '+step.x.toFixed(2)+' // y = '+step.y.toFixed(6)+' // z = '+step.z.toFixed(6),margin,margin-20);
+      ctx.restore();this.drawScanlines(ctx,width,height);
+    },
+
     renderODEStepper(ctx, methodData, stepIndex, animProgress, canvasWidth, canvasHeight) {
       this.drawGrid(ctx, canvasWidth, canvasHeight);
 
@@ -2008,6 +2066,14 @@
     /**
      * Carrega e resolve a família matemática do método selecionado
      */
+    unload() {
+      this.isPlaying = false;
+      this.activeMethodData = null;
+      this.activeMethodKey = null;
+      this.currentStep = 0;
+      if (this.ctx && this.canvas) CRTRenderer.drawGrid(this.ctx, this.canvas.width, this.canvas.height);
+    }
+
     loadMethod(methodKey) {
       const entry = MethodsManifest[methodKey];
       if (!entry) {
@@ -2078,6 +2144,9 @@
           break;
         case 'quadrature':
           CRTRenderer.renderQuadrature(this.ctx, this.activeMethodData, this.currentStep, this.animProgress, w, h);
+          break;
+        case 'ode_system':
+          CRTRenderer.renderODESystem(this.ctx, this.activeMethodData, this.currentStep, this.animProgress, w, h);
           break;
         case 'ode':
           CRTRenderer.renderODEStepper(this.ctx, this.activeMethodData, this.currentStep, this.animProgress, w, h);
@@ -2268,6 +2337,7 @@
     MethodsManifest,
     CRTRenderer,
     NumericalEngine,
+    getMethodKeyByFile: file => Object.keys(MethodsManifest).find(key => MethodsManifest[key].file === file) || null,
     createEngine: (canvas, initialMethod) => new NumericalEngine().init(canvas, initialMethod)
   };
 

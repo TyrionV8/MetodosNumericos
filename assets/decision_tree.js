@@ -15,7 +15,7 @@
     // ------------------------------------------------------------------------
     {
       id: '11-metodo-da-bissecao',
-      slug: '11-metodo-da-bissecao',
+      slug: 'bissecao',
       catalogId: 'bissecao',
       engineKey: 'bissecao',
       shortTitle: 'Bisseção',
@@ -37,7 +37,7 @@
     },
     {
       id: '12-metodo-da-falsa-posicao-regula-falsi',
-      slug: '12-metodo-da-falsa-posicao-regula-falsi',
+      slug: 'falsa-posicao',
       catalogId: 'falsa-posicao',
       engineKey: 'falsa_posicao',
       shortTitle: 'Falsa Posição',
@@ -59,7 +59,7 @@
     },
     {
       id: '13-metodo-de-newton-raphson-metodo-das-tangentes',
-      slug: '13-metodo-de-newton-raphson-metodo-das-tangentes',
+      slug: 'newton-raphson',
       catalogId: 'newton-raphson',
       engineKey: 'newton',
       shortTitle: 'Newton-Raphson',
@@ -81,7 +81,7 @@
     },
     {
       id: '14-metodo-da-secante',
-      slug: '14-metodo-da-secante',
+      slug: 'secante',
       catalogId: 'secante',
       engineKey: 'secante',
       shortTitle: 'Secante',
@@ -103,7 +103,7 @@
     },
     {
       id: '15-metodo-do-ponto-fixo-iteracao-linear-de-picard-banach',
-      slug: '15-metodo-do-ponto-fixo-iteracao-linear-de-picard-banach',
+      slug: 'ponto-fixo',
       catalogId: 'ponto-fixo',
       engineKey: 'ponto_fixo',
       shortTitle: 'Ponto Fixo',
@@ -129,7 +129,7 @@
     // ------------------------------------------------------------------------
     {
       id: '21-eliminacao-gaussiana-com-pivoteamento-parcial-e-retrossubstituicao',
-      slug: '21-eliminacao-gaussiana-com-pivoteamento-parcial-e-retrossubstituicao',
+      slug: 'gauss-pivoteamento',
       catalogId: 'gauss-pivoteamento',
       engineKey: 'gauss_pivoteamento',
       shortTitle: 'Gauss Pivoteamento',
@@ -151,7 +151,7 @@
     },
     {
       id: '22-metodo-de-gauss-jordan-com-normalizacao-unitaria',
-      slug: '22-metodo-de-gauss-jordan-com-normalizacao-unitaria',
+      slug: 'gauss-jordan',
       catalogId: 'gauss-jordan',
       engineKey: 'gauss_jordan',
       shortTitle: 'Gauss-Jordan',
@@ -173,7 +173,7 @@
     },
     {
       id: '10-utilitarios-conversoes-e-visualizacao-grafica',
-      slug: '10-utilitarios-conversoes-e-visualizacao-grafica',
+      slug: 'operacoes-matrizes',
       catalogId: 'operacoes-matrizes',
       engineKey: null,
       shortTitle: 'Álgebra & Matrizes',
@@ -199,7 +199,7 @@
     // ------------------------------------------------------------------------
     {
       id: '31-regra-do-trapezio-composta',
-      slug: '31-regra-do-trapezio-composta',
+      slug: 'trapezio-composto',
       catalogId: 'trapezio-composto',
       engineKey: 'trapezio_composto',
       shortTitle: 'Trapézio Composto',
@@ -221,7 +221,7 @@
     },
     {
       id: '32-regra-de-simpson-13-composta',
-      slug: '32-regra-de-simpson-13-composta',
+      slug: 'simpson-13-composto',
       catalogId: 'simpson-13-composto',
       engineKey: 'simpson_13_composto',
       shortTitle: 'Simpson 1/3 Composto',
@@ -243,7 +243,7 @@
     },
     {
       id: '4-diferenciacao-numerica-e-diferencas-finitas',
-      slug: '4-diferenciacao-numerica-e-diferencas-finitas',
+      slug: 'diferenca-progressiva-3pontos',
       catalogId: 'diferenca-progressiva-3pontos',
       engineKey: null,
       shortTitle: 'Dif. Progressiva 3P',
@@ -269,7 +269,7 @@
     // ------------------------------------------------------------------------
     {
       id: '51-euler-explicito-primeira-ordem',
-      slug: '51-euler-explicito-primeira-ordem',
+      slug: 'euler-explicito',
       catalogId: 'euler-explicito',
       engineKey: 'euler_explicito',
       shortTitle: 'Euler Explícito',
@@ -291,7 +291,7 @@
     },
     {
       id: '52-euler-implicito-com-solucao-nao-linear-via-newton-raphson',
-      slug: '52-euler-implicito-com-solucao-nao-linear-via-newton-raphson',
+      slug: 'euler-implicito-newton',
       catalogId: 'euler-implicito-newton',
       engineKey: 'euler_implicito',
       shortTitle: 'Euler Implícito + Newton',
@@ -313,7 +313,7 @@
     },
     {
       id: '53-runge-kutta-de-2a-ordem-metodo-de-heun-escalar',
-      slug: '53-runge-kutta-de-2a-ordem-metodo-de-heun-escalar',
+      slug: 'rk2-individual',
       catalogId: 'rk2-individual',
       engineKey: 'rk2_heun',
       shortTitle: 'Heun RK2 Escalar',
@@ -335,9 +335,9 @@
     },
     {
       id: '54-runge-kutta-2-heun-para-sistema-acoplado-de-2-edos',
-      slug: '54-runge-kutta-2-heun-para-sistema-acoplado-de-2-edos',
+      slug: 'rk2-heun-sistema',
       catalogId: 'rk2-heun-sistema',
-      engineKey: null,
+      engineKey: 'rk2_sistema',
       shortTitle: 'Heun RK2 Sistemas',
       title: 'Runge-Kutta 2 (Heun) para Sistema Acoplado de 2 EDOs',
       category: 'edos',
@@ -361,7 +361,7 @@
     // ------------------------------------------------------------------------
     {
       id: '6-series-de-funcoes-e-aproximacoes-polinomiais',
-      slug: '6-series-de-funcoes-e-aproximacoes-polinomiais',
+      slug: 'taylor-cosseno',
       shortTitle: 'Taylor cos(x)',
       title: 'Série de Taylor / Maclaurin para Cosseno',
       category: 'series_sinais',
@@ -381,7 +381,7 @@
     },
     {
       id: '7-processamento-de-sinais-e-metricas-estatisticas',
-      slug: '7-processamento-de-sinais-e-metricas-estatisticas',
+      slug: 'gerador-sinais-rms',
       shortTitle: 'Síntese & RMS',
       title: 'Gerador de Formas de Onda e Cálculo de RMS',
       category: 'series_sinais',
@@ -401,7 +401,7 @@
     },
     {
       id: '10-utilitarios-conversoes-e-visualizacao-grafica-si',
-      slug: '10-utilitarios-conversoes-e-visualizacao-grafica',
+      slug: 'conversao-si-imperial',
       shortTitle: 'Conversor SI / Imperial',
       title: 'Conversão Precisa de Unidades Físicas SI ↔ Imperial',
       category: 'series_sinais',
@@ -421,7 +421,7 @@
     },
     {
       id: '10-utilitarios-conversoes-e-visualizacao-grafica-plot',
-      slug: '10-utilitarios-conversoes-e-visualizacao-grafica',
+      slug: 'plotar-funcao',
       shortTitle: 'Visualizador Gráfico',
       title: 'Visualizador Gráfico de Catenárias e Polinômios',
       category: 'series_sinais',
@@ -445,7 +445,7 @@
     // ------------------------------------------------------------------------
     {
       id: '81-equacao-de-born-mayer-para-energia-reticular',
-      slug: '81-equacao-de-born-mayer-para-energia-reticular',
+      slug: 'born-mayer-energia-reticular',
       shortTitle: 'Born-Mayer Reticular',
       title: 'Equação de Born-Mayer para Energia Reticular Iônica',
       category: 'aplicacoes',
@@ -465,7 +465,7 @@
     },
     {
       id: '82-momento-magnetico-e-susceptibilidade-molar',
-      slug: '82-momento-magnetico-e-susceptibilidade-molar',
+      slug: 'susceptibilidade-magnetica',
       shortTitle: 'Curie / Magnetismo',
       title: 'Momento Magnético Spin-Only e Susceptibilidade Molar',
       category: 'aplicacoes',
@@ -485,7 +485,7 @@
     },
     {
       id: '83-determinacao-do-numero-de-eletrons-desemparelhados',
-      slug: '83-determinacao-do-numero-de-eletrons-desemparelhados',
+      slug: 'eletrons-desemparelhados',
       shortTitle: 'Elétrons Desemparelhados',
       title: 'Resolução Inversa: Determinação de Elétrons via χ_M',
       category: 'aplicacoes',
@@ -505,7 +505,7 @@
     },
     {
       id: '91-doses-repetidas-em-bolus-instantaneo',
-      slug: '91-doses-repetidas-em-bolus-instantaneo',
+      slug: 'concentracao-dose-instantanea',
       shortTitle: 'Farma: Bolus IV',
       title: 'Cinética Monocompartimental em Doses de Bolus IV',
       category: 'aplicacoes',
@@ -525,7 +525,7 @@
     },
     {
       id: '92-doses-multiplas-com-cinetica-de-absorcao',
-      slug: '92-doses-multiplas-com-cinetica-de-absorcao',
+      slug: 'concentracao-com-absorcao',
       shortTitle: 'Farma: Com Absorção',
       title: 'Cinética Monocompartimental com Absorção Contínua',
       category: 'aplicacoes',
@@ -545,7 +545,7 @@
     },
     {
       id: '93-estudo-parametrico-intervalo-meia-vida',
-      slug: '93-estudo-parametrico-intervalo-meia-vida',
+      slug: 'estudo-intervalo-meia-vida',
       shortTitle: 'Farma: Razão τ / t₁/₂',
       title: 'Estudo Paramétrico: Razão Intervalo Posológico / Meia-Vida',
       category: 'aplicacoes',
@@ -678,6 +678,7 @@
 
       this.currentFilter = this.options.initialFilter;
       this.currentCategory = this.options.initialCategory;
+      this.hoveredCategory = null;
       this.selectedSlug = null;
       this.isCompact = this.options.isCompact;
 
@@ -698,10 +699,9 @@
           <!-- Barra de Controle e Filtros Holográfica -->
           <div class="dt-control-bar">
             <div class="dt-brand">
-              <span class="dt-rune">⚡</span>
               <div class="dt-brand-text">
                 <span class="dt-title">Árvore de Decisão Interativa</span>
-                <span class="dt-subtitle">Qual arquivo e algoritmo usar? Selecione para navegar instantaneamente</span>
+                <span class="dt-subtitle">Passe o cursor para destacar; clique na coluna para fixar ou limpar.</span>
               </div>
             </div>
 
@@ -720,18 +720,6 @@
             </div>
           </div>
 
-          <!-- Pílulas de Categoria -->
-          <div class="dt-category-pills">
-            <button class="dt-pill ${this.currentCategory === 'all' ? 'active' : ''}" data-category="all">
-              Todas as 6 Áreas (25 Algoritmos)
-            </button>
-            ${CATEGORIES.map(cat => `
-              <button class="dt-pill ${this.currentCategory === cat.id ? 'active' : ''}" data-category="${cat.id}" style="--pill-color: ${cat.accentColor};">
-                ${cat.title.split(' ')[0]} ${cat.title.split(' ').slice(1).join(' ')} (${cat.countLabel.split(' ')[0]})
-              </button>
-            `).join('')}
-          </div>
-
           <!-- Área do Diagrama SVG -->
           <div class="dt-canvas-area">
             ${this.buildSVGString()}
@@ -741,7 +729,7 @@
           <div class="dt-inspector-drawer" id="dtInspectorDrawer">
             <div class="dt-inspector-empty">
               <span class="dt-inspector-icon">⬡</span>
-              <p>Passe o mouse para inspecionar ou clique em qualquer nó para abrir os parâmetros detalhados e navegar na Wiki.</p>
+              <p>Passe o cursor pelos algoritmos para inspecionar. Use o botão dos detalhes para abrir o método.</p>
             </div>
             <div class="dt-inspector-content hidden" id="dtInspectorContent"></div>
           </div>
@@ -834,29 +822,29 @@
           <!-- 2. Linhas de Silício e Barramento Elétrico Principal (Silicon Bus) -->
           <g class="silicon-tracks" opacity="0.85">
             <!-- Linha Tronco Vertical que sai do Nó Raiz -->
-            <line x1="800" y1="${g.rootY + g.rootHeight}" x2="800" y2="${g.busY}" stroke="#38bdf8" stroke-width="2.5"/>
+            <line x1="800" y1="${g.rootY + g.rootHeight}" x2="800" y2="${g.busY}" stroke="#38bdf8" stroke-width="3.5"/>
             <circle cx="800" cy="${g.busY}" r="4" fill="#38bdf8" filter="url(#glowSky)"/>
 
             <!-- Barramento Horizontal Superior Interligando as 6 Categorias -->
-            <path d="M ${colCenters[0]} ${g.busY} L ${colCenters[5]} ${g.busY}" stroke="#1e3a5f" stroke-width="3"/>
-            <path d="M ${colCenters[0]} ${g.busY} L ${colCenters[5]} ${g.busY}" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="12 6" opacity="0.7" class="silicon-bus-glow"/>
+            <path d="M ${colCenters[0]} ${g.busY} L ${colCenters[5]} ${g.busY}" stroke="#1e3a5f" stroke-width="4.5"/>
+            <path d="M ${colCenters[0]} ${g.busY} L ${colCenters[5]} ${g.busY}" stroke="#38bdf8" stroke-width="3" stroke-dasharray="12 6" opacity="0.7" class="silicon-bus-glow"/>
 
             <!-- Derivações e Vias para Cada Coluna -->
             ${colCenters.map((cx, i) => `
               <g class="bus-branch" data-category="${CATEGORIES[i].id}">
                 <!-- Linha Vertical até o Cabeçalho da Categoria -->
-                <line x1="${cx}" y1="${g.busY}" x2="${cx}" y2="${g.categoryY}" stroke="${CATEGORIES[i].accentColor}" stroke-width="2"/>
+                <line x1="${cx}" y1="${g.busY}" x2="${cx}" y2="${g.categoryY}" stroke="${CATEGORIES[i].accentColor}" stroke-width="3"/>
                 <!-- Nó de Conexão (Via de Silício) -->
-                <circle cx="${cx}" cy="${g.busY}" r="4.5" fill="#060b14" stroke="${CATEGORIES[i].accentColor}" stroke-width="2"/>
+                <circle cx="${cx}" cy="${g.busY}" r="4.5" fill="#060b14" stroke="${CATEGORIES[i].accentColor}" stroke-width="3"/>
                 <circle cx="${cx}" cy="${g.busY}" r="2" fill="${CATEGORIES[i].accentColor}"/>
                 <!-- Linha Tronco que sai da Categoria e vai para os Cards -->
-                <line x1="${cx}" y1="${g.categoryY + g.categoryHeight}" x2="${cx}" y2="${g.trunkBottomY}" stroke="${CATEGORIES[i].accentColor}" stroke-width="1.8" stroke-dasharray="4 3"/>
+                <line x1="${cx}" y1="${g.categoryY + g.categoryHeight}" x2="${cx}" y2="${g.trunkBottomY}" stroke="${CATEGORIES[i].accentColor}" stroke-width="2.8" stroke-dasharray="4 3"/>
               </g>
             `).join('')}
           </g>
 
           <!-- 3. Nó Raiz Central: Núcleo de Decisão Taxonômica -->
-          <g class="dt-root-node" filter="url(#glowRoot)">
+          <g class="dt-root-node" role="button" tabindex="0" aria-label="Limpar destaque de categoria" filter="url(#glowRoot)">
             <!-- Borda Externa Tecnológica com Chanfros -->
             <rect x="${g.rootX}" y="${g.rootY}" width="${g.rootWidth}" height="${g.rootHeight}" rx="10" fill="url(#gradRoot)" stroke="#38bdf8" stroke-width="1.8"/>
             <!-- Runa e Decorações nos Cantos -->
@@ -866,40 +854,29 @@
             <path d="M ${g.rootX + g.rootWidth - 6} ${g.rootY + g.rootHeight - 16} L ${g.rootX + g.rootWidth - 6} ${g.rootY + g.rootHeight - 6} L ${g.rootX + g.rootWidth - 16} ${g.rootY + g.rootHeight - 6}" fill="none" stroke="#38bdf8" stroke-width="2"/>
             <!-- Título do Nó Raiz -->
             <text x="800" y="${g.rootY + 23}" fill="#ffffff" font-family="'JetBrains Mono', monospace, system-ui" font-weight="700" font-size="13" text-anchor="middle" letter-spacing="0.5">
-              ⚡ NÚCLEO DE DECISÃO COMPUTACIONAL
+              NÚCLEO DE DECISÃO COMPUTACIONAL
             </text>
             <text x="800" y="${g.rootY + 41}" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="11" text-anchor="middle">
               Qual é a classe do seu problema? Selecione a rota ótima
             </text>
           </g>
 
-          <!-- 4. Cabeçalhos de Cada Categoria (Nós Mestre de Coluna) -->
-          <g class="category-headers">
-            ${CATEGORIES.map((cat, i) => {
-              const x = g.marginX + i * (g.colWidth + g.colGap);
-              const cx = x + g.colWidth / 2;
-              return `
-                <g class="cat-header-group" data-category="${cat.id}">
+          <!-- Cada grupo abrange toda a coluna, incluindo os espaços entre cartões. -->
+          ${CATEGORIES.map((cat, i) => {
+            const x = g.marginX + i * (g.colWidth + g.colGap);
+            const cx = x + g.colWidth / 2;
+            return `
+              <g class="dt-category-column" data-category="${cat.id}" style="--column-color: ${cat.accentColor};">
+                <rect class="dt-column-background" x="${x-6}" y="${g.categoryY-8}" width="${g.colWidth+12}" height="${g.viewBoxHeight-g.categoryY}" rx="10" fill="transparent" pointer-events="all"/>
+                <g class="cat-header-group" data-category="${cat.id}" role="button" tabindex="0" aria-label="Destacar categoria: ${cat.title}" aria-pressed="false">
                   <rect x="${x}" y="${g.categoryY}" width="${g.colWidth}" height="${g.categoryHeight}" rx="8" fill="#0d182b" stroke="${cat.accentColor}" stroke-width="1.6" filter="url(#cardShadow)"/>
-                  <!-- Faixa Superior Neon -->
-                  <rect x="${x + 8}" y="${g.categoryY}" width="${g.colWidth - 16}" height="2.5" fill="url(#${cat.gradientId})"/>
-                  <!-- Título da Categoria -->
-                  <text x="${cx}" y="${g.categoryY + 22}" fill="${cat.accentColor}" font-family="'JetBrains Mono', monospace, system-ui" font-weight="700" font-size="12" text-anchor="middle">
-                    ${cat.title}
-                  </text>
-                  <!-- Subtítulo e Contagem -->
-                  <text x="${cx}" y="${g.categoryY + 38}" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">
-                    ${cat.subtitle}
-                  </text>
+                  <rect x="${x+8}" y="${g.categoryY}" width="${g.colWidth-16}" height="2.5" fill="url(#${cat.gradientId})"/>
+                  <text x="${cx}" y="${g.categoryY+22}" fill="${cat.accentColor}" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" text-anchor="middle">${cat.title}</text>
+                  <text x="${cx}" y="${g.categoryY+38}" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">${cat.subtitle}</text>
                 </g>
-              `;
-            }).join('')}
-          </g>
-
-          <!-- 5. Cartões Interativos dos Algoritmos (Nós Folha Clicáveis) -->
-          <g class="algorithm-leaf-nodes">
-            ${ALGORITHMS_DATABASE.map(algo => this.buildCardSVG(algo)).join('')}
-          </g>
+                ${ALGORITHMS_DATABASE.filter(algo => algo.category === cat.id).map(algo => this.buildCardSVG(algo)).join('')}
+              </g>`;
+          }).join('')}
         </svg>
       `;
     }
@@ -913,10 +890,11 @@
       const cardX = g.marginX + algo.colIndex * (g.colWidth + g.colGap);
       const cardY = g.cardsStartY + algo.rowIndex * (g.cardHeight + g.cardGapY);
       const isSelected = this.selectedSlug === algo.slug;
+      const hasAnimation = Boolean(this.options.hasAnimation?.(algo.slug));
 
       // Trilha de conexão que liga o nó anterior a este card
       const connectionLine = `
-        <line x1="${cardX + g.colWidth / 2}" y1="${cardY - g.cardGapY}" x2="${cardX + g.colWidth / 2}" y2="${cardY}" stroke="${cat.accentColor}" stroke-width="1" stroke-dasharray="2 3" opacity="0.4"/>
+        <line class="dt-card-connection" x1="${cardX + g.colWidth / 2}" y1="${cardY - g.cardGapY}" x2="${cardX + g.colWidth / 2}" y2="${cardY}" stroke="${cat.accentColor}" stroke-width="2.5" stroke-dasharray="4 3" opacity="0.75"/>
       `;
 
       return `
@@ -926,7 +904,8 @@
            data-category="${algo.category}"
            tabindex="0"
            role="button"
-           aria-label="${algo.title}">
+           aria-label="${algo.title}${hasAnimation ? ' — animação disponível' : ''}"
+           data-animation="${hasAnimation}">
           ${connectionLine}
 
           <!-- Retângulo de Fundo do Card -->
@@ -937,9 +916,7 @@
           <rect class="card-edge" x="${cardX}" y="${cardY + 7}" width="3.5" height="${g.cardHeight - 14}" rx="1.5" fill="${cat.accentColor}"/>
 
           <!-- 1. Critério de Escolha / Pré-condição -->
-          <text class="card-criterion" x="${cardX + 12}" y="${cardY + 17}" fill="#a5b4fc" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600">
-            ${this.truncateText(algo.criterion, 23)}
-          </text>
+          <text class="card-criterion" data-full-text="${this.escapeHtml(algo.criterion)}" data-max-width="${g.colWidth - 94}" x="${cardX + 12}" y="${cardY + 17}" fill="#a5b4fc" font-family="system-ui, sans-serif" font-size="9.1" font-weight="600"><title>${this.escapeHtml(algo.criterion)}</title><tspan>${this.escapeHtml(this.truncateText(algo.criterion, 32))}</tspan></text>
 
           <!-- 2. Badge de Complexidade / Ordem de Convergência -->
           <g class="card-badge" transform="translate(${cardX + g.colWidth - 76}, ${cardY + 7})">
@@ -950,7 +927,8 @@
           </g>
 
           <!-- 3. Nome do Algoritmo -->
-          <text class="card-title" x="${cardX + 12}" y="${cardY + 36}" fill="#f8fafc" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">
+          ${hasAnimation ? `<g class="card-animation-icon"><title>Animação disponível</title><image href="./assets/animation-icon.svg" x="${cardX+12}" y="${cardY+23}" width="16" height="16"/></g>` : ''}
+          <text class="card-title" x="${cardX + (hasAnimation ? 34 : 12)}" y="${cardY + 36}" fill="#f8fafc" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700">
             ${algo.shortTitle}
           </text>
 
@@ -970,6 +948,21 @@
           </text>
         </g>
       `;
+    }
+
+    // Usa a largura real das letras, preservando o espaço da indicação de ordem.
+    fitCriterionText() {
+      this.container.querySelectorAll('.card-criterion').forEach(text => {
+        const span = text.querySelector('tspan');
+        const full = text.getAttribute('data-full-text');
+        const limit = Number(text.getAttribute('data-max-width'));
+        span.textContent = full;
+        let length = full.length;
+        while (length > 0 && span.getComputedTextLength() > limit) {
+          length--;
+          span.textContent = full.slice(0, length).trimEnd() + '…';
+        }
+      });
     }
 
     /**
@@ -1020,15 +1013,31 @@
         });
       }
 
-      // 3. Botões de filtro por categoria
-      const pills = this.container.querySelectorAll('.dt-pill');
-      pills.forEach(pill => {
-        pill.addEventListener('click', () => {
-          pills.forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-          this.setCategory(pill.getAttribute('data-category'));
+      // O movimento do cursor mostra uma prévia; o clique fixa ou limpa a coluna.
+      this.container.querySelectorAll('.dt-category-column').forEach(column => {
+        const category = column.getAttribute('data-category');
+        column.addEventListener('mouseenter', () => this.previewCategory(category));
+        column.addEventListener('mouseleave', () => this.previewCategory(null));
+        column.addEventListener('focusin', () => this.previewCategory(category));
+        column.addEventListener('focusout', event => {
+          if (!column.contains(event.relatedTarget)) this.previewCategory(null);
+        });
+        column.addEventListener('click', () => this.toggleCategory(category));
+        const header = column.querySelector('.cat-header-group');
+        header.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); event.stopPropagation(); this.toggleCategory(category);
+          }
         });
       });
+      const root = this.container.querySelector('.dt-root-node');
+      root.addEventListener('click', () => this.clearCategory());
+      root.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault(); event.stopPropagation(); this.clearCategory();
+        }
+      });
+      this.applyVisibilityFilters();
 
       // 4. Botão de alternância modo compacto / expandido
       const toggleBtn = this.container.querySelector('.dt-btn-compact');
@@ -1061,11 +1070,6 @@
 
       // Renderizar o Inspector Drawer com o algoritmo selecionado
       this.displayInspectorDetails(algo);
-
-      // Disparar o Callback de Opção
-      if (typeof this.options.onSelectAlgorithm === 'function') {
-        this.options.onSelectAlgorithm(slug, algo);
-      }
 
       // Disparar Evento Customizado no Window para integração com a Wiki
       const event = new CustomEvent('select-algorithm', {
@@ -1107,33 +1111,34 @@
             <span class="dt-insp-badge">${algo.badge} &bull; ${algo.convergence.split(':')[0]}</span>
           </div>
 
-          <h3 class="dt-insp-title">${algo.title}</h3>
-          
-          <div class="dt-insp-file-bar">
-            <span class="dt-insp-path"><code>${algo.file}</code></span>
-            <button class="dt-btn-copy" data-copy="${algo.file}" title="Copiar caminho">📋 Copiar Caminho</button>
+          <div class="dt-insp-heading">
+            <h3 class="dt-insp-title">${algo.title}</h3>
+            <div class="dt-insp-file-bar">
+              <span class="dt-insp-path"><code>${algo.file}</code></span>
+              <button class="dt-btn-copy" data-copy="${algo.file}" title="Copiar caminho">Copiar caminho</button>
+            </div>
           </div>
 
           <p class="dt-insp-desc">${algo.description}</p>
 
           <div class="dt-insp-formula-box">
-            <div class="dt-formula-label">📐 Modelo Matemático:</div>
+            <div class="dt-formula-label">Modelo matemático:</div>
             <div class="dt-formula-math">$$${algo.formula}$$</div>
           </div>
 
           <div class="dt-insp-grid">
             <div class="dt-insp-col">
-              <span class="dt-label">📥 Entradas Necessárias:</span>
+              <span class="dt-label">Entradas necessárias:</span>
               <p class="dt-val">${algo.inputs}</p>
             </div>
             <div class="dt-insp-col">
-              <span class="dt-label">📤 Saídas Entregues:</span>
+              <span class="dt-label">Saídas entregues:</span>
               <p class="dt-val">${algo.outputs}</p>
             </div>
           </div>
 
           <div class="dt-insp-cmd-bar">
-            <div class="dt-cmd-title">⚡ Executar no Terminal (Octave CLI):</div>
+            <div class="dt-cmd-title">Executar no terminal (Octave):</div>
             <div class="dt-cmd-content">
               <code>${algo.terminalCmd}</code>
               <button class="dt-btn-copy" data-copy="${algo.terminalCmd}" title="Copiar comando">Copiar</button>
@@ -1180,13 +1185,9 @@
       const navBtn = contentEl.querySelector('.dt-btn-navigate');
       if (navBtn) {
         navBtn.addEventListener('click', (e) => {
-          const targetSlug = navBtn.getAttribute('data-slug');
-          const targetElement = document.getElementById(targetSlug);
-          if (targetElement) {
+          if (typeof this.options.onSelectAlgorithm === 'function') {
             e.preventDefault();
-            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            targetElement.classList.add('highlight-section');
-            setTimeout(() => targetElement.classList.remove('highlight-section'), 2500);
+            this.options.onSelectAlgorithm(algo.slug, algo);
           }
         });
       }
@@ -1205,13 +1206,29 @@
      */
     setCategory(categoryId) {
       this.currentCategory = categoryId;
+      this.hoveredCategory = null;
       this.applyVisibilityFilters();
+    }
+
+    previewCategory(categoryId) {
+      this.hoveredCategory = categoryId;
+      this.applyVisibilityFilters();
+    }
+
+    toggleCategory(categoryId) {
+      this.setCategory(this.currentCategory === categoryId ? 'all' : categoryId);
+    }
+
+    clearCategory() {
+      this.setCategory('all');
     }
 
     /**
      * Aplica os estados visuais (ativo/esmaecido) nos cartões de acordo com filtros ativos
      */
     applyVisibilityFilters() {
+      const activeCategory = this.currentCategory !== 'all'
+        ? this.currentCategory : this.hoveredCategory || 'all';
       const cards = this.container.querySelectorAll('.dt-algorithm-card');
       const headers = this.container.querySelectorAll('.cat-header-group');
       const branches = this.container.querySelectorAll('.bus-branch');
@@ -1221,7 +1238,7 @@
         const cat = card.getAttribute('data-category');
         const algo = ALGORITHMS_DATABASE.find(a => a.slug === slug);
 
-        let matchesCategory = (this.currentCategory === 'all' || cat === this.currentCategory);
+        let matchesCategory = (activeCategory === 'all' || cat === activeCategory);
         let matchesQuery = true;
 
         if (this.currentFilter && algo) {
@@ -1247,14 +1264,21 @@
       // Ajustar opacidade dos cabeçalhos das colunas
       headers.forEach(h => {
         const cat = h.getAttribute('data-category');
-        const isCatVisible = (this.currentCategory === 'all' || cat === this.currentCategory);
+        const isCatVisible = (activeCategory === 'all' || cat === activeCategory);
         h.classList.toggle('dimmed', !isCatVisible);
       });
 
       branches.forEach(b => {
         const cat = b.getAttribute('data-category');
-        const isCatVisible = (this.currentCategory === 'all' || cat === this.currentCategory);
+        const isCatVisible = (activeCategory === 'all' || cat === activeCategory);
         b.classList.toggle('dimmed', !isCatVisible);
+      });
+      this.container.querySelectorAll('.dt-category-column').forEach(column => {
+        const category = column.getAttribute('data-category');
+        const pinned = category === this.currentCategory;
+        column.classList.toggle('category-highlight', activeCategory === category);
+        column.classList.toggle('category-pinned', pinned);
+        column.querySelector('.cat-header-group').setAttribute('aria-pressed', String(pinned));
       });
     }
 
@@ -1327,18 +1351,6 @@
       display: flex;
       align-items: center;
       gap: 12px;
-    }
-
-    .dt-rune {
-      font-size: 24px;
-      color: #00f0ff;
-      filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.7));
-      animation: dtPulse 2.5s infinite ease-in-out;
-    }
-
-    @keyframes dtPulse {
-      0%, 100% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 12px rgba(0, 240, 255, 1)); }
     }
 
     .dt-brand-text {
@@ -1431,39 +1443,22 @@
       color: #38bdf8;
     }
 
-    /* Pílulas de Categoria */
-    .dt-category-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 10px 20px;
-      background: #080e1b;
-      border-bottom: 1px solid #132036;
+    .dt-category-column, .dt-root-node { cursor: pointer; }
+    .dt-category-column.category-highlight .dt-column-background {
+      fill: var(--column-color); fill-opacity: .07;
     }
-
-    .dt-pill {
-      background: #0f1c31;
-      border: 1px solid #1e3355;
-      color: #94a3b8;
-      border-radius: 20px;
-      padding: 5px 12px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
+    .dt-category-column.category-pinned .cat-header-group > rect:first-child {
+      stroke-width: 3;
     }
-
-    .dt-pill:hover {
-      background: #162846;
-      color: #f8fafc;
-      border-color: var(--pill-color, #38bdf8);
+    .dt-svg-element g:focus { outline: none; }
+    .cat-header-group:focus-visible > rect:first-child {
+      stroke: var(--column-color); stroke-width: 3;
+      filter: drop-shadow(0 0 5px var(--column-color));
     }
-
-    .dt-pill.active {
-      background: #162e52;
-      color: #ffffff;
-      border-color: var(--pill-color, #00f0ff);
-      box-shadow: 0 0 8px rgba(0, 240, 255, 0.25);
+    .dt-root-node:focus-visible > rect:first-child,
+    .dt-algorithm-card:focus-visible .card-bg {
+      stroke: #38bdf8; stroke-width: 3;
+      filter: drop-shadow(0 0 5px #38bdf8);
     }
 
     /* Área do SVG */
@@ -1583,6 +1578,12 @@
       font-size: 11px;
       font-weight: 700;
     }
+
+    .dt-insp-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; }
+    .dt-insp-heading .dt-insp-title { flex: 0 1 auto; }
+    .dt-insp-heading .dt-insp-file-bar { gap: 12px; min-width: 0; flex: 0 1 auto; }
+    .dt-insp-path { min-width: 0; overflow-wrap: anywhere; }
+    .dt-insp-file-bar .dt-btn-copy { flex-shrink: 0; }
 
     .dt-insp-title {
       font-family: 'JetBrains Mono', monospace;
